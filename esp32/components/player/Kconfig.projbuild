@@ -1,0 +1,9 @@
+menu "Example Configuration"
+
+    config AUDIO_SAMPLE_RATE
+        int "The audio sample rate (Unit: Hz)"
+        default 31250
+        help
+            The audio sample rate
+
+endmenu

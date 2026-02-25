@@ -3,7 +3,7 @@
 #include "vm.h"
 #include "slot.h"
 
-#define INSTRUCTIONS_PER_TICK 1
+#define INSTRUCTIONS_PER_TICK 100
 
 static Slot slots[VM_SLOTS];
 static uint8_t memory[VAR_GLOBAL_SIZE];

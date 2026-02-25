@@ -25,4 +25,7 @@ bool slot_step(Slot *slot);
 void slot_set_var(Slot *slot, uint16_t addr, uint8_t val);
 uint8_t slot_get_var(Slot *slot, uint16_t addr);
 
+void slot_started_sound(Slot *slot);
+void slot_finished_sound(Slot *slot);
+
 #endif

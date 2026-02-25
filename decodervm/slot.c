@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
+#include <inttypes.h>
 #include "slot.h"
 #include "schedule.h"
 #include "bytecode.h"
@@ -75,6 +76,15 @@ static void slot_next_state(Slot *slot, uint16_t addr)
     slot_set_var(slot, F_DRIVELOCK, 0);
     /* Reset sound-related variables */
     slot_set_var(slot, F_RESTORE, 0);
+}
+
+void slot_started_sound(Slot *slot)
+{
+    slot_set_var(slot, F_PLAYING, 1);
+}
+
+void slot_finished_sound(Slot *slot)
+{
     slot_set_var(slot, F_PLAYING, 0);
 }
 
@@ -98,7 +108,7 @@ bool slot_step(Slot *slot)
     uint8_t arg8;
     uint16_t arg16;
     uint32_t arg32;
-    DPRINTF("%d:\t0x%x\t", first, op);
+    DPRINTF("%"PRId32":\t0x%x\t", first, op);
     switch (op) {
     case I_TEST0...I_TEST7:
         oparg = op - I_TEST0;
@@ -169,7 +179,7 @@ bool slot_step(Slot *slot)
         break;
     case I_NEXT:
         arg32 = read_dword(slot->schedule, &slot->pc);
-        DPRINTF("NEXT %d\n", arg32);
+        DPRINTF("NEXT %"PRId32"\n", arg32);
         slot_next_state(slot, arg32);
         break;
     case I_WAIT:

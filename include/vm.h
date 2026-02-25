@@ -9,6 +9,9 @@
 typedef struct Slot Slot;
 typedef struct Schedule Schedule;
 
+/* Setup required hardware features (e.g., timers) */
+void vm_init(void);
+
 uint8_t vm_get_var(uint16_t addr);
 void vm_set_var(uint16_t addr, uint8_t val);
 

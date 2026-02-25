@@ -5,7 +5,7 @@
 
 typedef struct Slot Slot;
 
-void player_init(void *opaque);
+void player_init(void);
 void player_clear(void);
 
 void player_abort_slot(Slot *slot);

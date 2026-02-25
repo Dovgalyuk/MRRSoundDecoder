@@ -9,18 +9,16 @@
 #include "variables.h"
 #include "vm.h"
 #include "player.h"
+#include "audio.h"
 
 extern Schedule sch;
 
 int main(int argc, char **argv)
 {
-    if (argc < 2) {
-        printf("Usage: %s <output.wav>\n", argv[0]);
-        return 1;
-    }
     srand(time(NULL));
 
-    player_init(argv[1]);
+    wave_init("wave.pack");
+    player_init();
 
     // vm_set_var(V_SPEED, 50);
     vm_set_var(V_SPEED_REQUEST, 50);
