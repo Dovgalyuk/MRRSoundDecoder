@@ -65,8 +65,11 @@ static void slot_write_mem(Slot *slot, uint16_t addr, uint8_t val)
     }
 }
 
-static void slot_next_state(Slot *slot, uint16_t addr)
+static void slot_next_state(Slot *slot, uint32_t addr)
 {
+    printf("Next %d\n", (int)addr);
+    slot->nextstack[slot->nextsp] = slot->pc;
+    slot->nextsp = (slot->nextsp + 1) % NEXT_STACK_SIZE;
     slot->pc = addr;
     /* Stop sound if state switch was caused by immediate transition */
     if (slot_get_var(slot, F_PLAYING)) {
@@ -90,11 +93,9 @@ void slot_finished_sound(Slot *slot)
 
 void slot_init(Slot *slot, const Schedule *schedule)
 {
+    memset(slot, 0, sizeof(*slot));
     slot->schedule = schedule;
     slot->pc = schedule->start;
-    slot->sp = 0;
-    slot->flag = false;
-    memset(slot->locals, 0, sizeof(slot->locals));
 }
 
 bool slot_step(Slot *slot)
@@ -147,10 +148,10 @@ bool slot_step(Slot *slot)
         break;
     case I_CONDEQ...I_CONDLE:
         oparg = op - I_COND;
-        DPRINTF("COND%d\n", oparg);
         {
             int16_t op1 = slot->stack[--slot->sp];
             int16_t op2 = slot->stack[--slot->sp];
+            DPRINTF("COND%d %d %d\n", oparg, op1, op2);
             switch (oparg) {
             case C_EQ:
                 slot->flag = op1 == op2;
@@ -259,6 +260,12 @@ bool slot_step(Slot *slot)
             int16_t off = read_word(slot->schedule, &pc);
             slot->pc = first + off;
         }
+        break;
+    case I_RET:
+        DPRINTF("RET\n");
+        slot->nextsp = (NEXT_STACK_SIZE + slot->nextsp - 1) % NEXT_STACK_SIZE;
+        slot->pc = slot->nextstack[slot->nextsp];
+        //printf("return to %d\n", (int)slot->pc);
         break;
     default:
         /* Error */

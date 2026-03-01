@@ -34,10 +34,8 @@ void sd_init(const char *mount_point)
     // Options for mounting the filesystem.
     esp_vfs_fat_sdmmc_mount_config_t mount_config = {
         .format_if_mount_failed = false,
-        /* TODO: should be number of slots + number of sound channels */
-        /* !!!! Can't get more than 16 files */
-        .max_files = 16,
-        .allocation_unit_size = 16 * 1024
+        .max_files = 3,
+        .allocation_unit_size = 8 * 1024
     };
     sdmmc_card_t *card;
     ESP_LOGI(TAG, "Initializing SD card");

@@ -8,15 +8,18 @@
 typedef struct Schedule Schedule;
 
 #define SLOT_STACK_SIZE 8
+#define NEXT_STACK_SIZE 8
 
 typedef struct Slot {
     const Schedule *schedule;
     uint32_t pc;
     uint8_t sp;
+    uint8_t nextsp;
     bool flag;
     /* 16-bit to allow signed values */
     int16_t stack[SLOT_STACK_SIZE];
     uint8_t locals[VAR_LOCAL_SIZE];
+    uint32_t nextstack[NEXT_STACK_SIZE];
 } Slot;
 
 void slot_init(Slot *slot, const Schedule *schedule);

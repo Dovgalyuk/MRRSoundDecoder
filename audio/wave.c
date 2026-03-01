@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "audio.h"
 
-#define BUFFER_SIZE 128
+#define BUFFER_SIZE 10240
 
 typedef struct WaveInfo {
     uint32_t offset;
@@ -20,8 +20,8 @@ typedef struct WaveFile {
         uint8_t buffer[BUFFER_SIZE];
         uint16_t samples[BUFFER_SIZE / 2];
     };
-    uint8_t first;
-    uint8_t sample_count;
+    uint16_t first;
+    uint16_t sample_count;
     uint16_t prev_sample;
 } WaveFile;
 
@@ -53,6 +53,7 @@ WaveFile *wave_open(uint16_t num)
     w->sample_count = 0;
     w->prev_sample = 0;
     w->first = 0;
+    //printf("WAVE %d %x %d %d %d\n", num, (int)w->last_offset, (int)w->size, w->info->bits, w->info->samplerate);
     return w;
 }
 
@@ -103,10 +104,11 @@ static void wave_fetch_sample(WaveFile *w)
         }
         count *= 2;
         for (int i = count - 2 ; i > 0 ; i -= 2) {
-            w->samples[i] = ((uint32_t)w->samples[i - 1] + w->samples[i + 1]) / 2;
+            w->samples[i] = ((int32_t)(int16_t)w->samples[i - 1] + (int16_t)w->samples[i + 1]) / 2;
         }
-        w->samples[0] = ((uint32_t)w->prev_sample + w->samples[1]) / 2;
+        w->samples[0] = ((int32_t)(int16_t)w->prev_sample + (int16_t)w->samples[1]) / 2;
     }
+    //printf("%x %x %x %x\n", w->samples[0], w->samples[1], w->samples[2], w->samples[3]);
     w->first = 0;
     w->sample_count = count;
 }

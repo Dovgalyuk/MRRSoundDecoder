@@ -12,15 +12,13 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     add_link_options(-fsanitize=address,undefined,leak)
 endif()
 
-add_compile_definitions(EMULATOR)
-
 # add_subdirectory(../decodervm)
-add_library(SoundDecoderVMLib STATIC ../decodervm/slot.c ../decodervm/vm.c ../audio/wave.c)
+add_library(SoundDecoderVMLib STATIC ../decodervm/slot.c ../decodervm/vm.c
+    ../decodervm/engine.c
+    ../audio/wave.c)
 target_include_directories(SoundDecoderVMLib PUBLIC ../include)
 
-if (NOT DEFINED ENV{CI})
-    add_executable(sample sample.c player.c script.c)
+add_executable(sample sample.c player.c)
 
-    target_include_directories(sample PUBLIC ../include)
-    target_link_libraries(sample SoundDecoderVMLib)
-endif()
+target_include_directories(sample PUBLIC ../include)
+target_link_libraries(sample SoundDecoderVMLib)

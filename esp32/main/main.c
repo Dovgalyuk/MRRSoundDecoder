@@ -12,6 +12,7 @@
 #include "esp_chip_info.h"
 #include "esp_flash.h"
 #include "esp_system.h"
+#include "esp_timer.h"
 #include "esp_log.h"
 /* Components */
 #include "wifi.h"
@@ -24,16 +25,27 @@
 #include "vm.h"
 #include "player.h"
 #include "audio.h"
+#include "engine.h"
 
 #define TAG "main"
 #define MOUNT_POINT "/sdcard"
 
 extern Schedule sch;
 
+uint64_t clock_read_ms(void)
+{
+    return esp_timer_get_time() / 1000;
+}
+
 static void vm_task(void *args)
 {
+    uint64_t last_clock = clock_read_ms();
     while (true) {
-        vm_tick();
+        uint64_t cur_clock = clock_read_ms();
+        uint32_t t = cur_clock - last_clock;
+        engine_tick(t);
+        vm_tick(t);
+        last_clock = cur_clock;
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
@@ -68,24 +80,23 @@ void app_main(void)
     wifi_init();
     web_init();
     sd_init(MOUNT_POINT);
-    wave_init(MOUNT_POINT"/wave.pack");
+    wave_init(MOUNT_POINT"/wave.pkg");
     player_init();
     vm_init();
+    vm_load(MOUNT_POINT"/sound.prj");
+    engine_init();
 
     printf("Free heap size after init: %" PRIu32 " bytes\n", esp_get_free_heap_size());
 
-    //srand(time(NULL));
+    engine_set_throttle(255);
 
-    //player_init(argv[1]);
-
-    // vm_set_var(V_SPEED, 50);
-    vm_set_var(V_SPEED_REQUEST, 50);
-    // vm_set_var(V_ACCEL, 30);
-    // vm_set_var(F_TRIGGER, 1);
-
-    vm_load_slot(1, &sch);
     /* Start playing */
     vm_set_slot_var(1, F_FUNCTION, 1);
+    vm_set_var(V_SV_1, 32);
+    vm_set_var(V_SV_2, 64);
+    vm_set_var(V_SV_3, 128);
+    vm_set_var(V_SV_4, 192);
+    vm_set_var(V_SV_5, 250);
 
     xTaskCreatePinnedToCore(vm_task, "vm_task", 2560, NULL, 5, NULL, 1);
 }

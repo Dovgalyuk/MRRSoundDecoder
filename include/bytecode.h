@@ -55,6 +55,7 @@
 #define I_ADD       0x28
 #define I_SUB       0x29
 #define I_SWITCH    0x2a
+#define I_RET       0x2b
 
 #define FUNC_RAND   0x00
 

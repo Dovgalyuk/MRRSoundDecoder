@@ -4,11 +4,8 @@
 #include <stdint.h>
 
 typedef struct Schedule {
-#ifdef EMULATOR
-    const char *name;
-#endif
-    uint32_t script_size;
     uint32_t start;
+    uint32_t script_size;
     uint8_t script[];
 } Schedule;
 
