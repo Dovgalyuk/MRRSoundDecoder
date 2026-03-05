@@ -78,21 +78,13 @@ void app_main(void)
     wifi_init();
     web_init();
     sd_init(MOUNT_POINT);
-    wave_init(MOUNT_POINT"/wave.pkg");
-    player_init();
     vm_init();
     vm_load(MOUNT_POINT"/sound.prj");
+    wave_init(MOUNT_POINT"/sound.prj");
+    player_init();
     engine_init();
 
     printf("Free heap size after init: %" PRIu32 " bytes\n", esp_get_free_heap_size());
 
-    /* Start playing */
-    // engine sound
-    vm_set_slot_var(1, F_FUNCTION, 1);
-    // hiss sound
-    //vm_set_slot_var(32, F_FUNCTION, 1);
-    // bell
-    vm_set_slot_var(4, F_FUNCTION, 1);
-
-    xTaskCreatePinnedToCore(vm_task, "vm_task", 2560, NULL, 5, NULL, 1);
+    xTaskCreatePinnedToCore(vm_task, "vm_task", 2560, NULL, 5, NULL, 0);
 }

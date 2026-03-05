@@ -14,7 +14,7 @@ endif()
 
 # add_subdirectory(../decodervm)
 add_library(SoundDecoderVMLib STATIC ../decodervm/slot.c ../decodervm/vm.c
-    ../decodervm/engine.c
+    ../decodervm/engine.c ../decodervm/utils.c
     ../audio/wave.c)
 target_include_directories(SoundDecoderVMLib PUBLIC ../include)
 

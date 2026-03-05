@@ -19,20 +19,15 @@ int main(int argc, char **argv)
 {
     srand(time(NULL));
 
-    wave_init("wave.pkg");
     vm_load("sound.prj");
+    wave_init("sound.prj");
     player_init();
 
     engine_set_throttle(255);
 
     /* Start playing */
     vm_set_slot_var(1, F_FUNCTION, 1);
-    vm_set_slot_var(32, F_FUNCTION, 1);
-    vm_set_var(V_SV_1, 32);
-    vm_set_var(V_SV_2, 64);
-    vm_set_var(V_SV_3, 128);
-    vm_set_var(V_SV_4, 192);
-    vm_set_var(V_SV_5, 250);
+    // vm_set_slot_var(32, F_FUNCTION, 1);
     //vm_set_slot_var(4, F_FUNCTION, 1);
 
     for (int i = 0 ; i < 10000 ; ++i) {

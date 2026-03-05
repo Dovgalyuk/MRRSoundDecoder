@@ -1,64 +1,257 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>LocoRemote</title>
+  <title>OpenSourceSoundDecoder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, height=device-height">
   <style>
+    :root {
+        --bg-color: #121212;
+        --card-bg: #1e1e1e;
+        --text-color: #e0e0e0;
+        --primary-color: #bb86fc;
+        --secondary-color: #03dac6;
+        --danger-color: #cf6679;
+        --success-color: #4caf50;
+        --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: var(--font-family);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+    }
+
     .container {
-      display: grid;
-      grid-template-areas:
-        "header header"
-        "function throttle"
-        "footer footer";
-      grid-template-columns: 2fr 1fr;
-      gap: 5px;
-      padding: 5px;
+        max-width: 800px;
+        width: 100%;
+        padding: 20px;
     }
-    .container > div.header {
-      grid-area: header;
-      text-align: center;
+
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #333;
+        padding-bottom: 10px;
     }
-    .container > div.function {
-      grid-area: function;
+
+    h1, h2, h3 { margin: 0 0 10px 0; }
+
+    .status-indicator {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background-color: #555;
+        transition: background-color 0.3s;
     }
-    .container > div.throttle {
-      grid-area: throttle;
+    .status-indicator.connected { background-color: var(--success-color); box-shadow: 0 0 10px var(--success-color); }
+    .status-indicator.disconnected { background-color: var(--danger-color); }
+
+/* Navigation */
+    nav {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #333;
     }
-    .container > div.footer {
-      grid-area: footer;
+
+    .nav-btn {
+        background: none;
+        border: none;
+        color: #888;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 1rem;
+        border-bottom: 2px solid transparent;
     }
+
+    .nav-btn:hover { color: #fff; }
+    .nav-btn.active {
+        color: var(--primary-color);
+        border-bottom-color: var(--primary-color);
+    }
+
+/* Tabs */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Cards */
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background-color: var(--card-bg);
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .card .value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+/* Controls */
+    .button-group {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #000;
+        transition: filter 0.2s;
+    }
+    .btn:hover { filter: brightness(1.1); }
+    .btn.primary { background-color: var(--primary-color); }
+    .btn.warning { background-color: #ff9800; }
+    .btn.danger { background-color: var(--danger-color); color: #fff; }
+    .btn.small { padding: 5px 10px; font-size: 0.8rem; background-color: #444; color: #fff; }
+
+/* File Table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+    th, td { text-align: left; padding: 10px; border-bottom: 1px solid #333; }
+    th { color: #888; }
   </style>
 </head>
 <body>
 <div class="container">
-<div class="header">
-<div>
-Speed: <output id="speed-output"></output>
-</div>
-<div>
-Throttle: <output id="throttle-output"></output>
-</div>
-</div>
-<div class="function">
-</div>
-<div class="throttle">
-<input id="throttle-slider" type="range" style="writing-mode: vertical-lr; direction: rtl; width: 16px;" min=-255 max=255>
-<input disabled id="speed-slider" type="range" style="writing-mode: vertical-lr; direction: rtl; width: 16px;" min=-255 max=255>
-</div>
+    <header>
+        <h3 id="locomotive-name">Locomotive</h3>
+        <div id="connection-status" class="status-indicator disconnected"></div>
+    </header>
+
+    <nav>
+        <button class="nav-btn active" onclick="showTab('dashboard')">Dashboard</button>
+        <button class="nav-btn" onclick="showTab('files')">Files</button>
+    </nav>
+
+    <main>
+        <!-- Dashboard Tab -->
+        <section id="dashboard" class="tab-content active">
+            <div class="control-panel">
+                <h3>Controls</h3>
+                <div class="button-group">
+                    <button class="btn danger" onclick="sendAction('stop')">STOP</button>
+                    <button class="btn primary" onclick="sendAction('break')">Break</button>
+                </div>
+                <br>
+                <div class="card" style="margin-top: 10px;">
+                    <h3>Throttle / Speed</h3>
+                    <input type="range" id="throttle-slider" min="-255" max="255" value="0" style="width:100%" onchange="setThrottle(this.value)">
+                    <input type="range" id="speed-slider" min="-255" max="255" value="0" style="width:100%" disabled>
+                </div>
+
+                <div class="card" style="margin-top: 10px;">
+                    <h3>Functions</h3>
+                    <div id="func-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px;">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- File Manager Tab -->
+        <section id="files" class="tab-content">
+            <div class="file-upload">
+                <h3>Upload Sound Project</h3>
+                <form id="upload-project-form">
+                    <input type="file" id="project-file-input" required accept=".prj">
+                    <button type="submit" class="btn primary">Upload</button>
+                </form>
+                <h3>Upload Firmware</h3>
+                <div id="upload-status"></div>
+            </div>
+        </section>
+    </main>
 </div>
 <script type="text/javascript">
+let currentTab = 'dashboard';
+let function_info = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Determine initial tab
+    showTab('dashboard');
+
+    loadInfo();
+
+    // Start polling status
+    statusInterval = setInterval(pollStatus, 1000);
+
+    // Setup File Upload
+    document.getElementById('upload-project-form').addEventListener('submit', handleProjectUpload);
+});
+
+function renderFunctions() {
+    const grid = document.getElementById('func-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    // TODO: remove old ones on project update
+    function_info.forEach((info) => {
+        let i = info.slot;
+        const btn = document.createElement('button');
+        btn.className = 'btn small';
+        btn.id = `f${i}-btn`;
+        btn.innerText = `F${i}: ${info.name}`;
+        btn.style.backgroundColor = '#444';
+        btn.onclick = () => toggleFunc(i);
+        grid.appendChild(btn);
+    });
+}
+
+function loadInfo() {
+    fetch('/api/info')
+        .then(r => r.json())
+        .then(data => {
+            document.getElementById('locomotive-name').innerText = data.name;
+            if (data.functions) {
+                function_info = data.functions;
+            }
+            renderFunctions();
+            pollStatus();
+        })
+        .catch(e => {
+        });
+}
+
 function pollStatus() {
     fetch('/api/status')
         .then(r => r.json())
         .then(data => {
-            document.getElementById('speed-output').innerText = data.speed;
-            document.querySelector("#speed-slider").value = data.speed;
+            const indicator = document.getElementById('connection-status');
+            indicator.classList.remove('disconnected');
+            indicator.classList.add('connected');
+
+            document.getElementById('speed-slider').value = data.speed;
+
             // Sync Functions
-            /*if (data.functions) {
+            if (data.functions) {
                 data.functions.forEach((state, idx) => {
                     updateFuncBtn(idx, state);
                 });
-            }*/
+            }
         })
         .catch(e => {
             const indicator = document.getElementById('connection-status');
@@ -70,6 +263,7 @@ function pollStatus() {
 function sendAction(action, value, index) {
     const payload = { action };
     if (value !== undefined) payload.value = value;
+    if (index !== undefined) payload.index = index;
 
     fetch('/api/control', {
         method: 'POST',
@@ -86,22 +280,71 @@ function setThrottle(val) {
     sendAction('set_throttle', parseInt(val));
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    pollStatus();
-    setInterval(pollStatus, 1000);
-});
+function updateFuncBtn(i, active) {
+    const btn = document.getElementById(`f${i}-btn`);
+    if (!btn) return;
+    if (active) {
+        btn.classList.add('active-func');
+        btn.style.backgroundColor = 'var(--primary-color)';
+        btn.style.color = '#000';
+    } else {
+        btn.classList.remove('active-func');
+        btn.style.backgroundColor = '#444';
+        btn.style.color = '#fff';
+    }
+}
 
-const throttleSlider = document.querySelector("#throttle-slider");
-const outputValue = document.querySelector("#throttle-output");
-const reflectValue = (event) => {
-  outputValue.value = event.target.value;
-  setThrottle(event.target.value);
-};
+function toggleFunc(i) {
+    const btn = document.getElementById(`f${i}-btn`);
+    const newState = !btn.classList.contains('active-func');
+    sendAction('function', newState, i);
+}
 
-throttleSlider.addEventListener("input", reflectValue);
-throttleSlider.addEventListener("change", reflectValue);
+function showTab(tabId) {
+    // Update Nav
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    const navBtn = document.querySelector(`.nav-btn[onclick="showTab('${tabId}')"]`);
+    if (navBtn) navBtn.classList.add('active');
 
-outputValue.value = throttleSlider.value;
+    // Update Content
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    const tabEl = document.getElementById(tabId);
+    if (tabEl) tabEl.classList.add('active');
+
+    currentTab = tabId;
+}
+
+async function handleProjectUpload(e) {
+    e.preventDefault();
+    const input = document.getElementById('project-file-input');
+    const files = input.files;
+    if (files.length != 1) return;
+
+    const statusDiv = document.getElementById('upload-status');
+    statusDiv.innerText = "Starting upload...";
+
+    let project = files[0];
+    let filename = project.name;
+
+    statusDiv.innerText = `Uploading ${filename}...`;
+    const formData = new FormData();
+    formData.append("file", project);
+    try {
+        const r = await fetch('/api/project/upload', {
+            method: 'POST',
+            body: formData
+        });
+        if (!r.ok) throw new Error(r.statusText);
+    } catch (err) {
+        statusDiv.innerText = `Error uploading ${filename}: ${err}`;
+        return;
+    }
+    statusDiv.innerText = "All uploads complete!";
+    input.value = '';
+    // refresh the page
+    window.location = window.location.href;
+}
+
 </script>
 
 </body>

@@ -57,9 +57,13 @@ static esp_err_t web_control_handler(httpd_req_t *req)
     cJSON *root = cJSON_Parse(scratch);
     cJSON *act = cJSON_GetObjectItem(root, "action");
     cJSON *val = cJSON_GetObjectItem(root, "value");
+    cJSON *index = cJSON_GetObjectItem(root, "index");
     if (act && act->valuestring && val) {
         if (!strcmp(act->valuestring, "set_throttle")) {
             engine_set_throttle(val->valueint);
+        }
+        if (!strcmp(act->valuestring, "function") && index) {
+            engine_set_function(index->valueint, val->valueint);
         }
     }
     cJSON_Delete(root);
@@ -72,6 +76,36 @@ static esp_err_t web_status_handler(httpd_req_t *req)
     httpd_resp_set_type(req, "application/json");
     cJSON *root = cJSON_CreateObject();
     cJSON_AddNumberToObject(root, "speed", engine_get_speed());
+    cJSON *arr = cJSON_AddArrayToObject(root, "functions");
+    for (int i = 0 ; i < ENGINE_FUNCTIONS ; ++i) {
+        cJSON *item = cJSON_CreateBool(engine_get_function(i));
+        cJSON_AddItemToArray(arr, item);
+    }
+    if (cJSON_PrintPreallocated(root, scratch, SCRATCH_BUFSIZE - 10, false)) {
+        httpd_resp_sendstr(req, scratch);
+    } else {
+        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "JSON formatting error");
+        return ESP_FAIL;
+    }
+    cJSON_Delete(root);
+    return ESP_OK;
+}
+
+static esp_err_t web_info_handler(httpd_req_t *req)
+{
+    httpd_resp_set_type(req, "application/json");
+    cJSON *root = cJSON_CreateObject();
+    cJSON_AddStringToObject(root, "name", vm_get_name());
+    cJSON *arr = cJSON_AddArrayToObject(root, "functions");
+    for (int i = 0 ; i < ENGINE_FUNCTIONS ; ++i) {
+        const char *name = vm_get_slot_name(i);
+        if (name) {
+            cJSON *item = cJSON_CreateObject();
+            cJSON_AddNumberToObject(item, "slot", i);
+            cJSON_AddStringToObject(item, "name", name);
+            cJSON_AddItemToArray(arr, item);
+        }
+    }
     if (cJSON_PrintPreallocated(root, scratch, SCRATCH_BUFSIZE - 10, false)) {
         httpd_resp_sendstr(req, scratch);
     } else {
@@ -116,4 +150,11 @@ void web_init(void)
         .handler   = web_status_handler,
     };
     httpd_register_uri_handler(server, &status_uri);
+
+    const httpd_uri_t info_uri = {
+        .uri       = "/api/info",
+        .method    = HTTP_GET,
+        .handler   = web_info_handler,
+    };
+    httpd_register_uri_handler(server, &info_uri);
 }

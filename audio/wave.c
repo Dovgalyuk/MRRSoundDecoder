@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "audio.h"
+#include "utils.h"
 
 #define BUFFER_SIZE 4096
 
@@ -26,7 +27,7 @@ typedef struct WaveFile {
 } WaveFile;
 
 static FILE *wavepack;
-uint16_t wavecount;
+static uint16_t wavecount;
 static WaveInfo *waves;
 
 WaveFile *wave_open(uint16_t num)
@@ -126,43 +127,43 @@ bool wave_next_sample(WaveFile *w, uint16_t *sample)
 void wave_init(const char *name)
 {
     wavepack = fopen(name, "rb");
-    if (!wavepack) {
-        return;
+}
+
+bool wave_load_info(FILE *f)
+{
+    uint16_t num;
+    if (!file_read_uint16(f, &num)) {
+        return false;
     }
-    uint16_t filecount;
-    if (fread(&filecount, 2, 1, wavepack) != 1) {
-        goto error;
+    uint32_t length;
+    if (!file_read_uint32(f, &length)) {
+        return false;
     }
-    if (fread(&wavecount, 2, 1, wavepack) != 1) {
-        goto error;
+    uint16_t samplerate;
+    if (!file_read_uint16(f, &samplerate)) {
+        return false;
     }
-    waves = calloc(wavecount, sizeof(WaveInfo));
-    if (!waves) {
-        goto error;
+    uint8_t bits;
+    if (!file_read_uint8(f, &bits)) {
+        return false;
     }
-    while (filecount--) {
-        uint16_t num;
-        if (fread(&num, 2, 1, wavepack) != 1) {
-            goto error;
-        }
-        WaveInfo *w = &waves[num];
-        if (fread(&w->offset, 4, 1, wavepack) != 1) {
-            goto error;
-        }
-        if (fread(&w->length, 4, 1, wavepack) != 1) {
-            goto error;
-        }
-        if (fread(&w->samplerate, 2, 1, wavepack) != 1) {
-            goto error;
-        }
-        if (fread(&w->bits, 1, 1, wavepack) != 1) {
-            goto error;
-        }
+    uint32_t offset = ftell(f);
+    if (fseek(f, length, SEEK_CUR)) {
+        return false;
     }
-    return;
-error:
-    fclose(wavepack);
-    free(waves);
-    wavepack = NULL;
-    waves = NULL;
+    if (num >= wavecount) {
+        void *new_waves = realloc(waves, (num + 1) * sizeof(WaveInfo));
+        if (!new_waves) {
+            return false;
+        }
+        waves = new_waves;
+        wavecount = num + 1;
+    }
+    WaveInfo *w = &waves[num];
+    // printf("loaded wave %d offset=0x%x len=0x%x bits=%d samplerate=%d\n", num, offset, length, bits, samplerate);
+    w->bits = bits;
+    w->length = length;
+    w->offset = offset;
+    w->samplerate = samplerate;
+    return true;
 }

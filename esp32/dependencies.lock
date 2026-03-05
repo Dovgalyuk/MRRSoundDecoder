@@ -4,5 +4,5 @@ dependencies:
       type: idf
     version: 5.5.3
 manifest_hash: 981b32c1e5e21c21f5f7b71a81a50b5039f2e5e5a67cdae045551701d0256c3e
-target: esp32
+target: esp32s3
 version: 2.0.0

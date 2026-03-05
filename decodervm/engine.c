@@ -23,6 +23,21 @@ int16_t engine_get_speed(void)
     return speed;
 }
 
+void engine_set_function(uint8_t f, int16_t v)
+{
+    if (f < VM_SLOTS) {
+        vm_set_slot_var(f, F_FUNCTION, v);
+    }
+}
+
+uint8_t engine_get_function(uint8_t f)
+{
+    if (f < VM_SLOTS) {
+        return vm_get_slot_var(f, F_FUNCTION);
+    }
+    return 0;
+}
+
 void engine_tick(uint32_t t)
 {
     static uint32_t dt;
