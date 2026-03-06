@@ -1,6 +1,0 @@
-Command: /home/pasha/.espressif/python_env/idf5.5_py3.12_env/bin/python -m esp_idf_diag create --no-hints --force-terminal --project-dir /home/pasha/railroad/SoundDecoderLib/esp32 --build-dir /home/pasha/railroad/SoundDecoderLib/esp32/build --output idf-diag-bfebb818-5c7a-444e-bcb5-681bbd280a2f
-Creating report in "idf-diag-bfebb818-5c7a-444e-bcb5-681bbd280a2f" directory.
-Searching for device serial port ...
-Serial port: /dev/ttyUSB1
-warning: Exec command "esptool.py --port /dev/ttyUSB1 get_security_info" failed with exit code 2
-The report has been created in the "idf-diag-bfebb818-5c7a-444e-bcb5-681bbd280a2f" directory.

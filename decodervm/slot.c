@@ -91,11 +91,20 @@ void slot_finished_sound(Slot *slot)
     slot_set_var(slot, F_PLAYING, 0);
 }
 
-void slot_init(Slot *slot, const Schedule *schedule)
+void slot_init(Slot *slot, Schedule *schedule)
 {
     memset(slot, 0, sizeof(*slot));
     slot->schedule = schedule;
     slot->pc = schedule->start;
+}
+
+void slot_clear(Slot *slot)
+{
+    if (slot->schedule) {
+        free(slot->schedule->name);
+    }
+    free(slot->schedule);
+    slot->schedule = NULL;
 }
 
 bool slot_step(Slot *slot)

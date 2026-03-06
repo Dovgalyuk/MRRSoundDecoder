@@ -12,13 +12,16 @@
 #include <esp_log.h>
 #include <esp_system.h>
 #include <sys/param.h>
+#include <sys/unistd.h>
 #include <esp_http_server.h>
 #include "cJSON.h"
 
 #include "engine.h"
+#include "project.h"
 
 static const char *TAG = "http";
 
+#define MAX_FILE_SIZE   (14*1024*1024)
 #define SCRATCH_BUFSIZE 4096
 static char scratch[SCRATCH_BUFSIZE];
 
@@ -116,6 +119,77 @@ static esp_err_t web_info_handler(httpd_req_t *req)
     return ESP_OK;
 }
 
+static esp_err_t web_project_upload_handler(httpd_req_t *req)
+{
+    /* File cannot be larger than a limit */
+    if (req->content_len > MAX_FILE_SIZE) {
+        ESP_LOGE(TAG, "File too large : %d bytes", req->content_len);
+        httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST,
+                            "File too large");
+        return ESP_FAIL;
+    }
+
+    int received;
+    while ((received = httpd_req_recv(req, scratch, 4)) <= 0) {
+        if (received == HTTPD_SOCK_ERR_TIMEOUT) {
+            /* Retry if timeout occurred */
+            continue;
+        }
+        ESP_LOGE(TAG, "File reception failed!");
+        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Failed to receive file");
+        return ESP_FAIL;
+    }
+
+    /* Check signature */
+    if (received != 4) {
+        ESP_LOGE(TAG, "Signature check failed!");
+        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Failed to check signature");
+        return ESP_FAIL;
+    }
+
+    project_close();
+
+    FILE *f = fopen(PROJECT_FILENAME, "wb");
+    if (!f) {
+        ESP_LOGE(TAG, "Failed to create file : %s", PROJECT_FILENAME);
+        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Failed to create file");
+        return ESP_FAIL;
+    }
+    if (fwrite(scratch, 1, 4, f) != 4) {
+        goto error;
+    }
+
+    int remaining = req->content_len - received;
+    while (remaining > 0) {
+        if ((received = httpd_req_recv(req, scratch, MIN(remaining, SCRATCH_BUFSIZE))) <= 0) {
+            if (received == HTTPD_SOCK_ERR_TIMEOUT) {
+                /* Retry if timeout occurred */
+                continue;
+            }
+            goto error;
+        }
+        if (received && (received != fwrite(scratch, 1, received, f))) {
+            goto error;
+        }
+        remaining -= received;
+    }
+//ok:
+    fclose(f);
+    project_open();
+    /* Redirect onto root */
+    httpd_resp_set_status(req, "303 See Other");
+    httpd_resp_set_hdr(req, "Location", "/");
+    httpd_resp_sendstr(req, "File uploaded successfully");
+    return ESP_OK;
+error:
+    /* In case of unrecoverable error, close and delete the unfinished file*/
+    fclose(f);
+    unlink(PROJECT_FILENAME);
+    ESP_LOGE(TAG, "File reception failed!");
+    httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Failed to receive file");
+    return ESP_FAIL;
+}
+
 void web_init(void)
 {
     httpd_handle_t server = NULL;
@@ -157,4 +231,11 @@ void web_init(void)
         .handler   = web_info_handler,
     };
     httpd_register_uri_handler(server, &info_uri);
+
+    httpd_uri_t project_upload_post_uri = {
+        .uri = "/api/project/upload",
+        .method = HTTP_POST,
+        .handler = web_project_upload_handler,
+    };
+    httpd_register_uri_handler(server, &project_upload_post_uri);
 }

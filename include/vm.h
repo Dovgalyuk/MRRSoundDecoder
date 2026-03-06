@@ -17,6 +17,8 @@ typedef struct Schedule Schedule;
 void vm_init(void);
 /* Loads schedules and other stuff */
 void vm_load(const char *name);
+void vm_clear(void);
+
 /* Provide VM information */
 const char *vm_get_name(void);
 const char *vm_get_slot_name(uint8_t id);

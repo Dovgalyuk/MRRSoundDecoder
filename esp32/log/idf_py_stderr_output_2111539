@@ -1,5 +1,0 @@
-Command: /home/pasha/.espressif/python_env/idf5.5_py3.12_env/bin/python -m esp_idf_diag create --no-hints --force-terminal --project-dir /home/pasha/railroad/SoundDecoderLib/esp32 --build-dir /home/pasha/railroad/SoundDecoderLib/esp32/build --output idf-diag-0915fe85-362a-4956-bf5f-1f2b358c072e
-Creating report in "idf-diag-0915fe85-362a-4956-bf5f-1f2b358c072e" directory.
-Searching for device serial port ...
-Serial port: /dev/ttyACM0
-The report has been created in the "idf-diag-0915fe85-362a-4956-bf5f-1f2b358c072e" directory.

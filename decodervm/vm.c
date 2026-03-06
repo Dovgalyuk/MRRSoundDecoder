@@ -119,7 +119,7 @@ void vm_tick(uint32_t t)
         while (trigger_time >= period) {
             trigger_time -= period;
         }
-        if (vm_get_var(V_SPEED) && trigger_time <= period / 2) {
+        if (vm_get_var(V_SPEED) && trigger_time <= 3 * period / 4) {
             vm_set_var(F_TRIGGER, 1);
         } else {
             vm_set_var(F_TRIGGER, 0);
@@ -164,7 +164,7 @@ void vm_load(const char *name)
     if (!file_read_uint32(f, &magic)) {
         goto ret;
     }
-    if (magic != 0x4453534f) {
+    if (magic != 0x4452524d) {
         goto ret;
     }
     uint8_t version;
@@ -210,4 +210,13 @@ const char *vm_get_slot_name(uint8_t id)
         return slots[id].schedule->name;
     }
     return NULL;
+}
+
+void vm_clear(void)
+{
+    free(vm_name);
+    vm_name = NULL;
+    for (int i = 0 ; i < VM_SLOTS ; ++i) {
+        slot_clear(&slots[i]);
+    }
 }

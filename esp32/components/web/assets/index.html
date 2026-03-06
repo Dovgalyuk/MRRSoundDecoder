@@ -327,12 +327,13 @@ async function handleProjectUpload(e) {
     let filename = project.name;
 
     statusDiv.innerText = `Uploading ${filename}...`;
-    const formData = new FormData();
-    formData.append("file", project);
     try {
         const r = await fetch('/api/project/upload', {
             method: 'POST',
-            body: formData
+            headers: {
+                "Content-Type": 'application/octet-stream',
+            },
+            body: project
         });
         if (!r.ok) throw new Error(r.statusText);
     } catch (err) {

@@ -17,7 +17,7 @@
 /* Components */
 #include "wifi.h"
 #include "web.h"
-#include "sd.h"
+#include "storage.h"
 /* Decoder VM */
 #include "schedule.h"
 #include "slot.h"
@@ -26,9 +26,9 @@
 #include "player.h"
 #include "audio.h"
 #include "engine.h"
+#include "project.h"
 
 #define TAG "main"
-#define MOUNT_POINT "/sdcard"
 
 uint64_t clock_read_ms(void)
 {
@@ -46,6 +46,21 @@ static void vm_task(void *args)
         last_clock = cur_clock;
         vTaskDelay(pdMS_TO_TICKS(10));
     }
+}
+
+void project_open(void)
+{
+    vm_load(PROJECT_FILENAME);
+    wave_init(PROJECT_FILENAME);
+}
+
+void project_close(void)
+{
+    /* Stop the engine */
+    // engine_stop();
+    vm_clear();
+    player_clear();
+    wave_clear();
 }
 
 void app_main(void)
@@ -77,10 +92,9 @@ void app_main(void)
 
     wifi_init();
     web_init();
-    sd_init(MOUNT_POINT);
+    storage_init();
     vm_init();
-    vm_load(MOUNT_POINT"/sound.prj");
-    wave_init(MOUNT_POINT"/sound.prj");
+    project_open();
     player_init();
     engine_init();
 

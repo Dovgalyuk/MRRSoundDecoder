@@ -167,3 +167,14 @@ bool wave_load_info(FILE *f)
     w->samplerate = samplerate;
     return true;
 }
+
+void wave_clear(void)
+{
+    if (wavepack) {
+        fclose(wavepack);
+        wavepack = NULL;
+    }
+    wavecount = 0;
+    free(waves);
+    waves = NULL;
+}
