@@ -72,18 +72,28 @@ static void slot_next_state(Slot *slot, uint32_t addr)
     slot->nextsp = (slot->nextsp + 1) % NEXT_STACK_SIZE;
     slot->pc = addr;
     /* Stop sound if state switch was caused by immediate transition */
+    // TODO: maybe will return from that state
+    // if (slot_get_var(slot, F_PLAYING)) {
+    //     player_abort_slot(slot);
+    // }
+    /* Reset drive-related variables */
+    // slot_set_var(slot, F_DRIVELOCK, 0);
+    /* Reset sound-related variables */
+    // slot_set_var(slot, F_RESTORE, 0);
+}
+
+static void slot_play(Slot *slot, uint16_t id, uint8_t priority)
+{
     if (slot_get_var(slot, F_PLAYING)) {
         player_abort_slot(slot);
     }
-    /* Reset drive-related variables */
-    slot_set_var(slot, F_DRIVELOCK, 0);
-    /* Reset sound-related variables */
-    slot_set_var(slot, F_RESTORE, 0);
+    play_slot_sound(slot, id, priority);
 }
 
 void slot_started_sound(Slot *slot)
 {
     slot_set_var(slot, F_PLAYING, 1);
+    vm_reset_trigger();
 }
 
 void slot_finished_sound(Slot *slot)
@@ -199,7 +209,7 @@ bool slot_step(Slot *slot)
         arg16 = read_word(slot->schedule, &slot->pc);
         arg8 = slot->schedule->script[slot->pc++];
         DPRINTF("PLAY %d %d\n", arg16, arg8);
-        play_slot_sound(slot, arg16, arg8);
+        slot_play(slot, arg16, arg8);
         break;
     case I_FUNC:
         arg8 = slot->schedule->script[slot->pc++];

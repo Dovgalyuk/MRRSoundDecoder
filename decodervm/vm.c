@@ -8,12 +8,11 @@
 #include "audio.h"
 #include "utils.h"
 
-#define INSTRUCTIONS_PER_TICK 128
+#define INSTRUCTIONS_PER_TICK 100
 
-static uint8_t vm_type;
-static char *vm_name;
 static Slot slots[VM_SLOTS];
 static uint8_t memory[VAR_GLOBAL_SIZE];
+static bool trigger_set;
 
 void vm_set_var(uint16_t addr, uint8_t val)
 {
@@ -30,7 +29,7 @@ uint8_t vm_get_var(uint16_t addr)
     return res;
 }
 
-static bool vm_load_slot(FILE *f)
+bool vm_load_slot(FILE *f)
 {
     uint8_t slot;
     char *name = NULL;
@@ -92,7 +91,11 @@ void vm_tick(uint32_t t)
     static uint32_t trigger_time;
     /* Set trigger */
     //trigger_time += t;
+    // project mogul
+    // uint32_t period = 950 - vm_get_var(V_SPEED) * 3;
+    // project mogul2
     uint32_t period = 950 - vm_get_var(V_SPEED) * 3;
+    period *= INSTRUCTIONS_PER_TICK / 10;
 
     static uint32_t clock_time;
     clock_time += t;
@@ -115,11 +118,12 @@ void vm_tick(uint32_t t)
     }
     /* Run instructions */
     for (int j = 0 ; j < INSTRUCTIONS_PER_TICK ; ++j) {
-        ++trigger_time;
-        while (trigger_time >= period) {
+        trigger_time += 1;
+        if (trigger_time >= period) {
             trigger_time -= period;
+            trigger_set = true;
         }
-        if (vm_get_var(V_SPEED) && trigger_time <= 3 * period / 4) {
+        if (vm_get_var(V_SPEED) && trigger_set) {
             vm_set_var(F_TRIGGER, 1);
         } else {
             vm_set_var(F_TRIGGER, 0);
@@ -130,15 +134,16 @@ void vm_tick(uint32_t t)
             if (!slots[i].schedule) {
                 continue;
             }
-            /* TODO: Special condition for break slot */
-            if (i == 33) {
-                continue;
-            }
             if (slot_step(&slots[i])) {
                 break;
             }
         }
     }
+}
+
+void vm_reset_trigger(void)
+{
+    trigger_set = false;
 }
 
 bool vm_has_drivelock(void)
@@ -154,68 +159,8 @@ bool vm_has_drivelock(void)
     return false;
 }
 
-void vm_load(const char *name)
-{
-    FILE *f = fopen(name, "rb");
-    if (!f) {
-        return;
-    }
-    uint32_t magic;
-    if (!file_read_uint32(f, &magic)) {
-        goto ret;
-    }
-    if (magic != 0x4452524d) {
-        goto ret;
-    }
-    uint8_t version;
-    if (!file_read_uint8(f, &version)) {
-        goto ret;
-    }
-    if (version != 1) {
-        goto ret;
-    }
-    uint8_t record;
-    while (file_read_uint8(f, &record)) {
-        if (record == 1) {
-            if (!file_read_uint8(f, &vm_type)) {
-                goto ret;
-            }
-            if (!file_read_string(f, &vm_name)) {
-                goto ret;
-            }
-        } else if (record == 2) {
-            if (!vm_load_slot(f)) {
-                goto ret;
-            }
-        } else if (record == 3) {
-            if (!wave_load_info(f)) {
-                goto ret;
-            }
-        } else {
-            goto ret;
-        }
-    }
-ret:
-    fclose(f);
-}
-
-const char *vm_get_name(void)
-{
-    return vm_name;
-}
-
-const char *vm_get_slot_name(uint8_t id)
-{
-    if (id < VM_SLOTS && slots[id].schedule) {
-        return slots[id].schedule->name;
-    }
-    return NULL;
-}
-
 void vm_clear(void)
 {
-    free(vm_name);
-    vm_name = NULL;
     for (int i = 0 ; i < VM_SLOTS ; ++i) {
         slot_clear(&slots[i]);
     }

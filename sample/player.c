@@ -3,6 +3,7 @@
 #include "player.h"
 #include "audio.h"
 #include "slot.h"
+#include "engine.h"
 
 /*
     Dumps all the played files into the single WAV file.
@@ -39,7 +40,7 @@ void player_abort_slot(Slot *slot)
 
 void play_slot_sound(Slot *slot, uint16_t id, uint8_t priority)
 {
-    printf("play %d\n", id);
+    printf("play %d speed %d\n", id, engine_get_speed());
     WaveFile *w = wave_open(id);
     if (!w) {
         printf("Can't open file %d\n", id);

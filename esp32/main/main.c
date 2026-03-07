@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2010-2022 Espressif Systems (Shanghai) CO LTD
- *
- * SPDX-License-Identifier: CC0-1.0
- */
-
 #include <stdio.h>
 #include <inttypes.h>
 #include "sdkconfig.h"
@@ -46,21 +40,6 @@ static void vm_task(void *args)
         last_clock = cur_clock;
         vTaskDelay(pdMS_TO_TICKS(10));
     }
-}
-
-void project_open(void)
-{
-    vm_load(PROJECT_FILENAME);
-    wave_init(PROJECT_FILENAME);
-}
-
-void project_close(void)
-{
-    /* Stop the engine */
-    // engine_stop();
-    vm_clear();
-    player_clear();
-    wave_clear();
 }
 
 void app_main(void)

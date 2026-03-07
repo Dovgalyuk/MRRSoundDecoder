@@ -168,7 +168,7 @@ static void player_mixer_task(void *args)
                     uint16_t v;
                     if (wave_next_sample(channels[i].file, &v)) {
                         found = true;
-                        s += (int16_t)v;// * (int32_t)channels[i].volume;
+                        s += (int16_t)v * (int32_t)channels[i].volume;
                     } else {
                         player_clear_channel(&channels[i]);
                         /* Switch to other tasks to allow continuous playing
@@ -182,7 +182,7 @@ static void player_mixer_task(void *args)
                 break;
             }
             /* Divide by 100% volume */
-            //s /= 128;
+            s /= 128;
             /* Saturated overflow */
             if (s > 32767) {
                 s = 32767;

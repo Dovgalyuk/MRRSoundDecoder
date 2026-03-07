@@ -66,7 +66,7 @@ void storage_init(void)
     slot_config.host_id = host.slot;
 
     ESP_LOGI(TAG, "Mounting filesystem");
-    ret = esp_vfs_fat_sdspi_mount(MOUNT_POINT, &host, &slot_config, &mount_config, &card);
+    ret = esp_vfs_fat_sdspi_mount(CONFIG_MOUNT_POINT, &host, &slot_config, &mount_config, &card);
 
     if (ret != ESP_OK) {
         if (ret == ESP_FAIL) {

@@ -61,12 +61,17 @@ static esp_err_t web_control_handler(httpd_req_t *req)
     cJSON *act = cJSON_GetObjectItem(root, "action");
     cJSON *val = cJSON_GetObjectItem(root, "value");
     cJSON *index = cJSON_GetObjectItem(root, "index");
-    if (act && act->valuestring && val) {
-        if (!strcmp(act->valuestring, "set_throttle")) {
-            engine_set_throttle(val->valueint);
-        }
-        if (!strcmp(act->valuestring, "function") && index) {
-            engine_set_function(index->valueint, val->valueint);
+    if (act && act->valuestring) {
+        if (val) {
+            if (!strcmp(act->valuestring, "set_throttle")) {
+                engine_set_throttle(val->valueint);
+            } else if (!strcmp(act->valuestring, "function") && index) {
+                project_set_function(index->valueint, val->valueint);
+            }
+        } else if (!strcmp(act->valuestring, "stop")) {
+            engine_stop();
+        } else if (!strcmp(act->valuestring, "brake")) {
+            engine_brake();
         }
     }
     cJSON_Delete(root);
@@ -80,8 +85,8 @@ static esp_err_t web_status_handler(httpd_req_t *req)
     cJSON *root = cJSON_CreateObject();
     cJSON_AddNumberToObject(root, "speed", engine_get_speed());
     cJSON *arr = cJSON_AddArrayToObject(root, "functions");
-    for (int i = 0 ; i < ENGINE_FUNCTIONS ; ++i) {
-        cJSON *item = cJSON_CreateBool(engine_get_function(i));
+    for (int i = 0 ; i < PROJECT_FUNCTIONS ; ++i) {
+        cJSON *item = cJSON_CreateBool(project_get_function_status(i));
         cJSON_AddItemToArray(arr, item);
     }
     if (cJSON_PrintPreallocated(root, scratch, SCRATCH_BUFSIZE - 10, false)) {
@@ -98,13 +103,13 @@ static esp_err_t web_info_handler(httpd_req_t *req)
 {
     httpd_resp_set_type(req, "application/json");
     cJSON *root = cJSON_CreateObject();
-    cJSON_AddStringToObject(root, "name", vm_get_name());
+    cJSON_AddStringToObject(root, "name", project_get_name());
     cJSON *arr = cJSON_AddArrayToObject(root, "functions");
-    for (int i = 0 ; i < ENGINE_FUNCTIONS ; ++i) {
-        const char *name = vm_get_slot_name(i);
+    for (int i = 0 ; i < PROJECT_FUNCTIONS ; ++i) {
+        const char *name = project_get_function_name(i);
         if (name) {
             cJSON *item = cJSON_CreateObject();
-            cJSON_AddNumberToObject(item, "slot", i);
+            cJSON_AddNumberToObject(item, "function", i);
             cJSON_AddStringToObject(item, "name", name);
             cJSON_AddItemToArray(arr, item);
         }

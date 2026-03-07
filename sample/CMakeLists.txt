@@ -12,9 +12,11 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     add_link_options(-fsanitize=address,undefined,leak)
 endif()
 
+add_compile_options(-DCONFIG_MOUNT_POINT=".")
+
 # add_subdirectory(../decodervm)
 add_library(SoundDecoderVMLib STATIC ../decodervm/slot.c ../decodervm/vm.c
-    ../decodervm/engine.c ../decodervm/utils.c
+    ../decodervm/engine.c ../decodervm/utils.c ../decodervm/project.c
     ../audio/wave.c)
 target_include_directories(SoundDecoderVMLib PUBLIC ../include)
 

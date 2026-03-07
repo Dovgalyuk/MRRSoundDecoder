@@ -154,8 +154,8 @@
             <div class="control-panel">
                 <h3>Controls</h3>
                 <div class="button-group">
-                    <button class="btn danger" onclick="sendAction('stop')">STOP</button>
-                    <button class="btn primary" onclick="sendAction('break')">Break</button>
+                    <button class="btn danger" onclick="sendStop()">STOP</button>
+                    <button class="btn primary" onclick="sendBrake()">Brake</button>
                 </div>
                 <br>
                 <div class="card" style="margin-top: 10px;">
@@ -210,7 +210,7 @@ function renderFunctions() {
     grid.innerHTML = '';
     // TODO: remove old ones on project update
     function_info.forEach((info) => {
-        let i = info.slot;
+        let i = info.function;
         const btn = document.createElement('button');
         btn.className = 'btn small';
         btn.id = `f${i}-btn`;
@@ -278,6 +278,16 @@ function sendAction(action, value, index) {
 
 function setThrottle(val) {
     sendAction('set_throttle', parseInt(val));
+}
+
+function sendStop() {
+    document.getElementById('throttle-slider').value = 0;
+    sendAction('stop');
+}
+
+function sendBrake() {
+    document.getElementById('throttle-slider').value = 0;
+    sendAction('brake');
 }
 
 function updateFuncBtn(i, active) {

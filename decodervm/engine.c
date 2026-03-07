@@ -3,13 +3,14 @@
 #include "variables.h"
 #include "clock.h"
 
-#define TICK_DURATION 896
+#define TICK_DURATION (896 / 5)
 
 static int16_t throttle;
 static int16_t speed;
+static bool brake;
 
-static const int CV3 = 5;
-static const int CV4 = 5;
+static const int CV3 = 2;
+static const int CV4 = 2;
 
 void engine_set_throttle(int16_t v)
 {
@@ -38,6 +39,18 @@ uint8_t engine_get_function(uint8_t f)
     return 0;
 }
 
+void engine_stop(void)
+{
+    throttle = 0;
+    speed = 0;
+}
+
+void engine_brake(void)
+{
+    throttle = 0;
+    brake = true;
+}
+
 void engine_tick(uint32_t t)
 {
     static uint32_t dt;
@@ -47,20 +60,24 @@ void engine_tick(uint32_t t)
     }
     dt -= TICK_DURATION;
     int16_t accel = 0;
+    int mul = brake ? 5 : 1;
     /* calculate new speed */
     if (throttle != speed) {
         if (throttle < speed) {
-            speed -= CV4;
-            accel = -CV4;
+            speed -= CV4 * mul;
+            accel = -CV4 * mul;
             if (speed < throttle) {
                 speed = throttle;
             }
         } else {
-            speed += CV3;
-            accel = CV3;
+            speed += CV3 * mul;
+            accel = CV3 * mul;
             if (speed > throttle) {
                 speed = throttle;
             }
+        }
+        if (speed == 0) {
+            brake = false;
         }
     }
     /* update speed, reverse, and acceleration in VM */
@@ -80,4 +97,9 @@ void engine_tick(uint32_t t)
     } else {
         vm_set_var(V_SPEED_REQUEST, -throttle);
     }
+    /* TODO: figure out the difference */
+    vm_set_var(F_BRAKE1, brake);
+    vm_set_var(F_BRAKE2, brake);
+    vm_set_var(F_BRAKE3, brake);
+    vm_set_slot_var(VM_SLOT_BRAKE, F_FUNCTION, brake);
 }

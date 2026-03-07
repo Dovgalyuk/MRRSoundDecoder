@@ -1,5 +1,11 @@
 menu "Storage Configuration"
 
+    config MOUNT_POINT
+        string "Storage mount point"
+        default "/decoder"
+        help
+            Mount point for project storage media
+
     choice STORAGE_BACKEND
         prompt "Storage backend"
         default STORAGE_SD if IDF_TARGET_ESP32

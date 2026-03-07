@@ -1,13 +1,7 @@
 #ifndef VARIABLES_H
 #define VARIABLES_H
 
-#define VAR_LOCAL_START         0x00
-#define VAR_LOCAL_SIZE          0x40
-#define VAR_GLOBAL_START        0x40
-#define VAR_GLOBAL_SIZE         0xC0
-#define VAR_GLOBAL_SIGNED_START 0xE0
-#define VAR_END                 0x100
-
+#define VAR_LOCAL_START 0x00
 /* Local flags and variables */
 #define F_FUNCTION      0x00
 #define F_PLAYING       0x01
@@ -21,7 +15,9 @@
 #define F_DRIVELOCK     0x08
 /* Restore sound when re-enabling the slot in case of priority conflict */
 #define F_RESTORE       0x09
+#define VAR_LOCAL_SIZE  0x10
 
+#define VAR_GLOBAL_START 0x40
 /* Global flags and variables */
 #define F_REVERSE       0x40
 #define F_BRAKE1        0x41
@@ -41,7 +37,11 @@
 #define V_SHARE1        0x4f
 #define V_SHARE2        0x50
 
+#define VAR_GLOBAL_SIGNED_START 0xE0
 /* Signed global variables */
 #define V_ACCEL         0xE0
+
+#define VAR_END                 0x100
+#define VAR_GLOBAL_SIZE         (VAR_END - VAR_GLOBAL_START)
 
 #endif

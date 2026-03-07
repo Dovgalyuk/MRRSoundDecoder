@@ -12,25 +12,23 @@
 #include "audio.h"
 #include "engine.h"
 #include "clock.h"
-
-extern Schedule sch;
+#include "project.h"
 
 int main(int argc, char **argv)
 {
     srand(time(NULL));
 
-    vm_load("sound.prj");
-    wave_init("sound.prj");
+    project_open();
     player_init();
 
     engine_set_throttle(255);
 
     /* Start playing */
     vm_set_slot_var(1, F_FUNCTION, 1);
-    // vm_set_slot_var(32, F_FUNCTION, 1);
+    vm_set_slot_var(32, F_FUNCTION, 1);
     //vm_set_slot_var(4, F_FUNCTION, 1);
 
-    for (int i = 0 ; i < 10000 ; ++i) {
+    for (int i = 0 ; i < 1000 ; ++i) {
         //printf("%d : %d\n", i, slot.pc);
         //slot_step(&slot);
         engine_tick(10);
