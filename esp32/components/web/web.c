@@ -14,6 +14,7 @@
 #include <sys/param.h>
 #include <sys/unistd.h>
 #include <esp_http_server.h>
+#include "esp_ota_ops.h"
 #include "cJSON.h"
 
 #include "engine.h"
@@ -21,7 +22,7 @@
 
 static const char *TAG = "http";
 
-#define MAX_FILE_SIZE   (14*1024*1024)
+#define MAX_FILE_SIZE   (10*1024*1024)
 #define SCRATCH_BUFSIZE 4096
 static char scratch[SCRATCH_BUFSIZE];
 
@@ -89,13 +90,13 @@ static esp_err_t web_status_handler(httpd_req_t *req)
         cJSON *item = cJSON_CreateBool(project_get_function_status(i));
         cJSON_AddItemToArray(arr, item);
     }
-    if (cJSON_PrintPreallocated(root, scratch, SCRATCH_BUFSIZE - 10, false)) {
-        httpd_resp_sendstr(req, scratch);
-    } else {
+    bool ok = cJSON_PrintPreallocated(root, scratch, SCRATCH_BUFSIZE - 10, false);
+    cJSON_Delete(root);
+    if (!ok) {
         httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "JSON formatting error");
         return ESP_FAIL;
     }
-    cJSON_Delete(root);
+    httpd_resp_sendstr(req, scratch);
     return ESP_OK;
 }
 
@@ -146,7 +147,7 @@ static esp_err_t web_project_upload_handler(httpd_req_t *req)
     }
 
     /* Check signature */
-    if (received != 4) {
+    if (received != 4 || *(uint32_t*)scratch != PROJECT_MAGIC) {
         ESP_LOGE(TAG, "Signature check failed!");
         httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Failed to check signature");
         return ESP_FAIL;
@@ -191,6 +192,63 @@ error:
     fclose(f);
     unlink(PROJECT_FILENAME);
     ESP_LOGE(TAG, "File reception failed!");
+    httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Failed to receive file");
+    return ESP_FAIL;
+}
+
+static esp_err_t web_firmware_upload_handler(httpd_req_t *req)
+{
+    /* File cannot be larger than a limit */
+    if (req->content_len > 2 * 1024 * 1024) {
+        ESP_LOGE(TAG, "File too large : %d bytes", req->content_len);
+        httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST,
+                            "File too large");
+        return ESP_FAIL;
+    }
+
+    esp_ota_handle_t ota_handle = 0;
+    const esp_partition_t *partition = esp_ota_get_next_update_partition(NULL);
+    if (!partition) {
+        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Can't get update partition");
+        return ESP_FAIL;
+    }
+    if (esp_ota_begin(partition, req->content_len, &ota_handle) != ESP_OK) {
+        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Can't start OTA");
+        return ESP_FAIL;
+    }
+
+    int remaining = req->content_len;
+    while (remaining > 0) {
+        int received;
+        if ((received = httpd_req_recv(req, scratch, MIN(remaining, SCRATCH_BUFSIZE))) <= 0) {
+            if (received == HTTPD_SOCK_ERR_TIMEOUT) {
+                /* Retry if timeout occurred */
+                continue;
+            }
+            goto error;
+        }
+        if (received && esp_ota_write(ota_handle, scratch, received) != ESP_OK) {
+            goto error;
+        }
+        remaining -= received;
+    }
+    if (esp_ota_end(ota_handle) != ESP_OK) {
+        goto error;
+    }
+    if (esp_ota_set_boot_partition(partition) != ESP_OK) {
+        goto error;
+    }
+    /* Redirect onto root */
+    httpd_resp_set_status(req, "303 See Other");
+    httpd_resp_set_hdr(req, "Location", "/");
+    httpd_resp_sendstr(req, "File uploaded successfully");
+    esp_restart();
+    return ESP_OK;
+error:
+    if (ota_handle) {
+        esp_ota_abort(ota_handle);
+    }
+    /* In case of unrecoverable error, close and delete the unfinished file*/
     httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Failed to receive file");
     return ESP_FAIL;
 }
@@ -243,4 +301,11 @@ void web_init(void)
         .handler = web_project_upload_handler,
     };
     httpd_register_uri_handler(server, &project_upload_post_uri);
+
+    httpd_uri_t firmware_upload_post_uri = {
+        .uri = "/api/firmware/upload",
+        .method = HTTP_POST,
+        .handler = web_firmware_upload_handler,
+    };
+    httpd_register_uri_handler(server, &firmware_upload_post_uri);
 }

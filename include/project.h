@@ -6,6 +6,8 @@
 
 #define PROJECT_FILENAME CONFIG_MOUNT_POINT"/sound.prj"
 
+#define PROJECT_MAGIC 0x4452524d
+
 #define PROJECT_STANDARD   0
 #define PROJECT_STEAM1     1
 #define PROJECT_STEAM2     2

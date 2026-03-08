@@ -97,9 +97,5 @@ void engine_tick(uint32_t t)
     } else {
         vm_set_var(V_SPEED_REQUEST, -throttle);
     }
-    /* TODO: figure out the difference */
-    vm_set_var(F_BRAKE1, brake);
-    vm_set_var(F_BRAKE2, brake);
-    vm_set_var(F_BRAKE3, brake);
     vm_set_slot_var(VM_SLOT_BRAKE, F_FUNCTION, brake);
 }

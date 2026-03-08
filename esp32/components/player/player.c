@@ -109,8 +109,8 @@ static void player_clear_channel(SoundChannel *ch)
         return;
     }
     wave_close(ch->file);
-    ch->file = NULL;
     slot_finished_sound(ch->slot);
+    ch->file = NULL;
 }
 
 static void player_mixer_task(void *args)
@@ -174,7 +174,6 @@ static void player_mixer_task(void *args)
                         /* Switch to other tasks to allow continuous playing
                            by starting next sample. */
                         vTaskDelay(pdMS_TO_TICKS(10));
-                        // count = 0;
                     }
                 }
             }
@@ -189,7 +188,6 @@ static void player_mixer_task(void *args)
             } else if (s < -32767) {
                 s = -32767;
             }
-            s /= 5;
             buffer[last] = s;
         }
         if (last) {

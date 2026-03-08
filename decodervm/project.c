@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include "project.h"
 #include "vm.h"
 #include "engine.h"
@@ -30,7 +31,7 @@ void project_open(void)
     if (!file_read_uint32(f, &magic)) {
         goto ret;
     }
-    if (magic != 0x4452524d) {
+    if (magic != PROJECT_MAGIC) {
         goto ret;
     }
     uint8_t version;

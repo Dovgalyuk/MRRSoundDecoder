@@ -94,7 +94,7 @@ void vm_tick(uint32_t t)
     // project mogul
     // uint32_t period = 950 - vm_get_var(V_SPEED) * 3;
     // project mogul2
-    uint32_t period = 950 - vm_get_var(V_SPEED) * 3;
+    uint32_t period = 3500 - vm_get_var(V_SPEED) * 8;
     period *= INSTRUCTIONS_PER_TICK / 10;
 
     static uint32_t clock_time;
@@ -123,14 +123,10 @@ void vm_tick(uint32_t t)
             trigger_time -= period;
             trigger_set = true;
         }
-        if (vm_get_var(V_SPEED) && trigger_set) {
-            vm_set_var(F_TRIGGER, 1);
-        } else {
-            vm_set_var(F_TRIGGER, 0);
-        }
+        /* Trigger at any speed to allow correct emergency stop */
+        vm_set_var(F_TRIGGER, trigger_set);
 
         for (int i = 0 ; i < VM_SLOTS ; ++i) {
-        // for (int i = 0 ; i < 33 ; ++i) {
             if (!slots[i].schedule) {
                 continue;
             }
