@@ -35,6 +35,8 @@ static bool storage_try_littlefs(void)
     esp_err_t ret = esp_vfs_littlefs_register(&conf);
 
     if (ret != ESP_OK) {
+        logger_printf(TAG ": Can't register partition '%s' at '%s'",
+            conf.partition_label, conf.base_path);
         return false;
     }
 
@@ -42,7 +44,11 @@ static bool storage_try_littlefs(void)
     ret = esp_littlefs_info(conf.partition_label, &total, &used);
     if (ret != ESP_OK) {
         logger_printf(TAG ": Failed to get LittleFS partition information (%s)", esp_err_to_name(ret));
-        esp_littlefs_format(conf.partition_label);
+        ret = esp_littlefs_format(conf.partition_label);
+        if (ret != ESP_OK) {
+            logger_printf(TAG ": Can't format partition '%s'", conf.partition_label);
+            return false;
+        }
     } else {
         logger_printf(TAG ": Partition size: total: %d, used: %d", total, used);
     }

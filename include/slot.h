@@ -20,8 +20,8 @@ typedef struct Slot {
     uint8_t subslot;
     bool flag;
     bool error;
-    /* 16-bit to allow signed values */
-    int16_t stack[SLOT_STACK_SIZE];
+    /* 32-bit to allow signed 8-bit values and 32-bit addresses */
+    int32_t stack[SLOT_STACK_SIZE];
     uint8_t locals[VAR_LOCAL_SIZE];
     uint32_t nextstack[NEXT_STACK_SIZE];
 } Slot;

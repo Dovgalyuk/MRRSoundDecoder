@@ -22,7 +22,7 @@
 #include "cv.h"
 #include "logger.h"
 
-static const char *TAG = "http";
+#define TAG "http"
 
 #define MAX_FILE_SIZE   (24*1024*1024)
 #define SCRATCH_BUFSIZE 4096
@@ -259,7 +259,7 @@ static esp_err_t web_project_upload_handler(httpd_req_t *req)
 {
     /* File cannot be larger than a limit */
     if (req->content_len > MAX_FILE_SIZE) {
-        ESP_LOGE(TAG, "File too large : %d bytes", req->content_len);
+        logger_printf(TAG ": File too large : %d bytes", req->content_len);
         httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST,
                             "File too large");
         return ESP_FAIL;
@@ -271,14 +271,14 @@ static esp_err_t web_project_upload_handler(httpd_req_t *req)
             /* Retry if timeout occurred */
             continue;
         }
-        ESP_LOGE(TAG, "File reception failed!");
+        logger_printf(TAG ": File reception failed!");
         httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Failed to receive file");
         return ESP_FAIL;
     }
 
     /* Check signature */
     if (received != 4 || *(uint32_t*)scratch != PROJECT_MAGIC) {
-        ESP_LOGE(TAG, "Signature check failed!");
+        logger_printf(TAG ": Signature check failed!");
         httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Failed to check signature");
         return ESP_FAIL;
     }
@@ -287,7 +287,7 @@ static esp_err_t web_project_upload_handler(httpd_req_t *req)
 
     FILE *f = fopen(PROJECT_FILENAME, "wb");
     if (!f) {
-        ESP_LOGE(TAG, "Failed to create file : %s", PROJECT_FILENAME);
+        logger_printf(TAG ": Failed to create file : %s", PROJECT_FILENAME);
         httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Failed to create file");
         return ESP_FAIL;
     }
@@ -308,7 +308,7 @@ static esp_err_t web_project_upload_handler(httpd_req_t *req)
             goto error;
         }
         remaining -= received;
-        printf("remaining %d bytes\n", remaining);
+        //printf("remaining %d bytes\n", remaining);
     }
 //ok:
     fclose(f);
@@ -322,7 +322,7 @@ error:
     /* In case of unrecoverable error, close and delete the unfinished file*/
     fclose(f);
     unlink(PROJECT_FILENAME);
-    ESP_LOGE(TAG, "File reception failed!");
+    logger_printf(TAG ": File reception failed!");
     httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Failed to receive file");
     return ESP_FAIL;
 }
@@ -331,7 +331,7 @@ static esp_err_t web_firmware_upload_handler(httpd_req_t *req)
 {
     /* File cannot be larger than a limit */
     if (req->content_len > 2 * 1024 * 1024) {
-        ESP_LOGE(TAG, "File too large : %d bytes", req->content_len);
+        logger_printf(TAG ": File too large : %d bytes", req->content_len);
         httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST,
                             "File too large");
         return ESP_FAIL;

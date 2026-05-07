@@ -9,8 +9,6 @@
 #define PROJECT_MAGIC 0x4452524d
 
 #define PROJECT_STANDARD   0
-#define PROJECT_STEAM1     1
-#define PROJECT_STEAM2     2
 
 void project_open(void);
 void project_close(void);

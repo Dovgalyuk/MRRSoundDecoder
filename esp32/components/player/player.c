@@ -145,8 +145,6 @@ retry:
             }
             /* Divide by 100% volume */
             s /= 128 * 128 * 128;
-            /* Testing: 50% volume */
-            s /= 2;
             if (s > 32767) {
                 s = 32767;
             } else if (s < -32767) {

@@ -6,7 +6,7 @@
 /* F_FUNCTION is always set to 1 */
 #define SCHEDULE_FLAG_FORCE 0x01
 /* F_FUNCTION is not used */
-#define SCHEDULE_FLAG_AUTO  0x02
+//#define SCHEDULE_FLAG_AUTO  0x02
 /* Schedule for braking sound */
 #define SCHEDULE_FLAG_BRAKE 0x04
 

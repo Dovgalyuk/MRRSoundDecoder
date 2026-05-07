@@ -72,7 +72,7 @@ static void engine_task(void *args)
         ledc_update_duty(MOTOR_SPEED_MODE, MOTOR_CHANNEL2);
 
         /* Update smoke */
-        gpio_set_level(PHYS_OUTPUT_SMOKE, 1);
+        gpio_set_level(PHYS_OUTPUT_SMOKE, 0);
 
         /* Update LEDs */
         for (int i = 0 ; i < OUT_PWM_PINS ; ++i) {
