@@ -32,11 +32,11 @@ int main(int argc, char **argv)
     engine_set_throttle(ENGINE_THROTTLE_STEPS);
 
     /* Start playing */
-    vm_set_slot_var(1, F_FUNCTION, 1);
+    //vm_set_slot_var(1, F_FUNCTION, 1);
     //vm_set_slot_var(32, F_FUNCTION, 1);
-    //vm_set_slot_var(4, F_FUNCTION, 1);
+    vm_set_slot_var(4, F_FUNCTION, 1);
 
-    for (int i = 0 ; i < 3000 ; ++i) {
+    for (int i = 0 ; i < 30000 ; ++i) {
         //printf("%d : %d\n", i, slot.pc);
         //slot_step(&slot);
         engine_tick(10);

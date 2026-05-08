@@ -115,6 +115,10 @@ class Slot:
                     context.add_instruction(IrLoad(SlotVariable(name)))
                 else:
                     context.add_instruction(IrLoadI(context.get_var(name)))
+            case ast.Call(func=ast.Name(id='rand'), args=[left, right]):
+                self._generate_expr(right, context);
+                self._generate_expr(left, context);
+                context.add_instruction(IrRand())
             case _:
                 raise RRException(f'Invalid operation in slot: {ast.dump(node)}')
 
@@ -194,8 +198,23 @@ class Slot:
                 else:
                     ref = context.get_parent().get_state(name)
                 context.add_instruction(IrCall(ref))
+            case ast.Assign(targets=[ast.Subscript(value=ast.Name(id=name), slice=ast.Constant(value=bit))], value=ast.Constant(value=value)):
+                if value is not True and value is not False:
+                    raise RRException(f'Invalid value "{value}" for bit assignment for "{name}"')
+                if type(bit) != int or bit < 0 or bit > 7:
+                    raise RRException(f'Invalid bit "{bit}" for bit assignment for "{name}"')
+                if value:
+                    context.add_instruction(IrSet(SlotVariable(name), bit))
+                else:
+                    context.add_instruction(IrReset(SlotVariable(name), bit))
+            case ast.Assign(targets=[ast.Name(id=name)], value=ast.Constant(value=bool())):
+                if node.value.value:
+                    context.add_instruction(IrSet(SlotVariable(name), 0))
+                else:
+                    context.add_instruction(IrReset(SlotVariable(name), 0))
             case ast.Assign(targets=[ast.Name(id=name)]):
                 if name in slot_variables:
+                    self._generate_expr(node.value, context)
                     context.add_instruction(IrStore(SlotVariable(name)))
             case ast.AugAssign(target=ast.Name(id=name)):
                 context.add_instruction(IrLoad(SlotVariable(name)))
@@ -209,13 +228,6 @@ class Slot:
                         raise RRException(f'Invalid operation in slot: {ast.dump(node)}')
                 context.add_instruction(IrStore(SlotVariable(name)))
                 pass
-            case ast.Assign(targets=[ast.Subscript(value=ast.Name(id=name), slice=ast.Constant(value=bit))], value=ast.Constant(value=value)):
-                if value is not True and value is not False:
-                    raise RRException(f'Invalid value "{value}" for bit assignment for "{name}"')
-                if value:
-                    context.add_instruction(IrSet(SlotVariable(name), bit))
-                else:
-                    context.add_instruction(IrReset(SlotVariable(name), bit))
             case ast.While(test=ast.Constant(value=True)):
                 start = IrLabel()
                 context.add_instruction(start)
@@ -235,15 +247,15 @@ class Slot:
                 # else is not supported yet
             case ast.Expr(value=ast.Call(func=ast.Name(id='goto'), args=[ast.Name(id='_next')])):
                 # _next is on top of the stack
-                context.add_instruction(IrNext())
-            case ast.Expr(value=ast.Call(func=ast.Name(id='goto'), args=[ast.Name(id=name)])):
-                p = context.get_parent()
-                if context.is_function():
-                    p = p.get_parent()
-                context.add_instruction(IrLoadI(p.get_state(name)))
-                context.add_instruction(IrNext())
+                context.add_instruction(IrNext(1))
+            # case ast.Expr(value=ast.Call(func=ast.Name(id='goto'), args=[ast.Name(id=name)])):
+            #     p = context.get_parent()
+            #     if context.is_function():
+            #         p = p.get_parent()
+            #     context.add_instruction(IrLoadI(p.get_state(name)))
+            #     context.add_instruction(IrNext())
             case ast.Expr(value=ast.Call(func=ast.Name(id='goto'), args=args)):
-                if len(args) != 8:
+                if len(args) not in [1, 2, 4, 8]:
                     raise RRException(f'Invalid operation in slot: {ast.dump(node)}')
                 p = context.get_parent()
                 if context.is_function():
@@ -251,7 +263,7 @@ class Slot:
                 for arg in reversed(args):
                     next = p.get_state(arg.id)
                     context.add_instruction(IrLoadI(next))
-                context.add_instruction(IrNextCyl())
+                context.add_instruction(IrNext(len(args)))
             case ast.Return(value=ast.Name(id=name)):
                 ref = context.get_parent().get_parent().get_state(name)
                 context.add_instruction(IrLoadI(ref))
@@ -268,8 +280,7 @@ class Slot:
                 context.add_instruction(IrRet())
             case ast.Expr(value=ast.Call(func=ast.Name(id='switch'))):
                 context.add_instruction(IrSwitch())
-            case ast.Expr(value=ast.Await(value=ast.Call(func=ast.Name(id='delay'), args=[ast.Constant(value=time), ast.Constant(value=drivelock)]))):
-                context.add_instruction(IrLoadI(drivelock))
+            case ast.Expr(value=ast.Await(value=ast.Call(func=ast.Name(id='delay'), args=[ast.Constant(value=time)]))):
                 context.add_instruction(IrLoadI(time))
                 context.add_instruction(IrDelay())
                 label = IrLabel()
@@ -281,9 +292,7 @@ class Slot:
             case ast.Expr(value=ast.Await(value=ast.Call(func=ast.Name(id='play'),
                                                         args=[ast.Constant(value=sample),
                                                               ast.Constant(value=volume_min),
-                                                              ast.Constant(value=volume_max),
-                                                              ast.Constant(value=drivelock)]))):
-                context.add_instruction(IrLoadI(drivelock))
+                                                              ast.Constant(value=volume_max)]))):
                 res = resources_map[context.get_var('_prefix') + '/' + sample]
                 context.add_instruction(IrLoadI(volume_max * self._info.volume * res.volume // 128 // 128))
                 context.add_instruction(IrLoadI(volume_min * self._info.volume * res.volume // 128 // 128))
@@ -305,8 +314,14 @@ class Slot:
                     self._generate_ir(node, s)
                 if name == '_immediate':
                     self._generate_imm_call(s, context)
-                # needed for immediate and backup for others
-                s.add_instruction(IrRet())
+                # goto _init state after running own (entry) code
+                init = s.get_state('_init')
+                if init:
+                    s.add_instruction(IrLoadI(init))
+                    s.add_instruction(IrNext())
+                else:
+                    # needed for immediate and backup for others
+                    s.add_instruction(IrRet())
             case _:
                 raise RRException(f'Invalid operation in slot: {ast.dump(node)}')
 
@@ -344,13 +359,10 @@ class Slot:
             return
         write_byte(f, 0x02)
         write_byte(f, self._num)
-        #write_string(f, self._info.name)
-        #write_byte(f, self._info.volume)
         flags = 0
         for flag in self._info.flags:
             flags += {'force': 1, 'brake': 4}[flag]
         write_byte(f, flags)
-        #write_dword(f, 0) # start
         write_dword(f, self._length) # bytecode len
         # write bytecode
         self._context.write_bytecode(f)

@@ -6,22 +6,4 @@ menu "Player Configuration"
         help
             The audio sample rate
 
-    choice PLAYER_BACKEND
-        prompt "Player backend"
-        default PLAYER_I2S
-        help
-            Use DAC or I2S for sound output
-
-        config PLAYER_DAC
-            bool "Play though DAC"
-            help
-                Use DAC for sound output.
-
-        config PLAYER_I2S
-            bool "Play through I2S"
-            depends on SOC_I2S_SUPPORTS_PDM_TX
-            help
-                Use I2S for sound output.
-    endchoice
-
 endmenu

@@ -99,7 +99,7 @@ project_dir = sys.argv[1]
 output_dir = sys.argv[2]
 os.makedirs(output_dir, exist_ok=True)
 
-output_name = os.path.join(output_dir, 'project.bin')
+output_name = os.path.join(output_dir, 'sound.prj')
 
 # load all data
 with open(os.path.join(project_dir, 'locomotive.json'), 'r') as f:
@@ -129,6 +129,10 @@ with open(os.path.join(project_dir, 'project.cfg'), 'r') as f:
     context = parse_config(ast.parse(f.read()))
 
 # check unused entities
+for f in functions:
+    if not f.logic and not f.slots and not f.phy:
+        f._used = False
+
 for f in functions:
     if not f._used:
         continue
@@ -189,3 +193,6 @@ for s in slots:
 
 for r in resources:
     r.save(output_file)
+
+# TODO: cv from config
+# TODO: physical output props

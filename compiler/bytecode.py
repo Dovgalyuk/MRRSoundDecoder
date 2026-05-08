@@ -185,26 +185,6 @@ class IrLoadI(IrInstruction):
     def bytes(self):
         return b'\x0b' + int(self._addr).to_bytes(3, 'little', signed=True)
 
-class IrStore(IrInstruction):
-    _var = None
-    _addr: int = None
-
-    def __init__(self, var):
-        super().__init__()
-        self._var = var
-
-    def __str__(self):
-        return f'  store {self._var}'
-
-    def size(self):
-        return 2
-
-    def replace_labels(self, address):
-        self._addr = self._var.get_address()
-
-    def bytes(self):
-        return b'\x0c' + int(self._addr).to_bytes()
-
 class IrLoad(IrInstruction):
     _var = None
     _addr: int = None
@@ -215,6 +195,26 @@ class IrLoad(IrInstruction):
 
     def __str__(self):
         return f'  load {self._var}'
+
+    def size(self):
+        return 2
+
+    def replace_labels(self, address):
+        self._addr = self._var.get_address()
+
+    def bytes(self):
+        return b'\x0c' + int(self._addr).to_bytes()
+
+class IrStore(IrInstruction):
+    _var = None
+    _addr: int = None
+
+    def __init__(self, var):
+        super().__init__()
+        self._var = var
+
+    def __str__(self):
+        return f'  store {self._var}'
 
     def size(self):
         return 2
@@ -246,24 +246,22 @@ class IrCall(IrInstruction):
         return b'\x0e' + int(self._addr).to_bytes(3, 'little')
 
 class IrNext(IrInstruction):
+    _count: int
+
+    def __init__(self, count=1):
+        super().__init__()
+        self._count = count
+        if count not in [1, 2, 4, 8]:
+            raise RRException(f'Invalid number of cylinders in next: {count}')
+
     def __str__(self):
-        return f'  next'
+        return f'  next {self._count}'
 
     def size(self):
         return 1
 
     def bytes(self):
-        return b'\x0f'
-
-class IrNextCyl(IrInstruction):
-    def __str__(self):
-        return f'  nextcyl'
-
-    def size(self):
-        return 1
-
-    def bytes(self):
-        return b'\x10'
+        return int(0x10 + self._count - 1).to_bytes()
 
 class IrSet(IrInstruction):
     _var = None
@@ -282,7 +280,8 @@ class IrSet(IrInstruction):
 
     def bytes(self):
         code = 0x20 + self._bit
-        return int.to_bytes(code) + b'\x00'
+        var = self._var.get_address()
+        return int.to_bytes(code) + int.to_bytes(var)
 
 class IrReset(IrInstruction):
     _var = None
@@ -301,7 +300,8 @@ class IrReset(IrInstruction):
 
     def bytes(self):
         code = 0x28 + self._bit
-        return int.to_bytes(code) + b'\x00'
+        var = self._var.get_address()
+        return int.to_bytes(code) + int.to_bytes(var)
 
 class IrTest(IrInstruction):
     _var = None
@@ -320,7 +320,8 @@ class IrTest(IrInstruction):
 
     def bytes(self):
         code = 0x30 + self._bit
-        return int.to_bytes(code) + b'\x00'
+        var = self._var.get_address()
+        return int.to_bytes(code) + int.to_bytes(var)
 
 class IrCond(IrInstruction):
     _cond = None

@@ -27,6 +27,7 @@
 static char *function_key_names[VM_FUNCTION_KEYS];
 
 typedef struct Function {
+    // TODO: add counters
     uint8_t inputs[FUNCTION_MAX_IN];
     uint8_t not_inputs[FUNCTION_MAX_IN];
     uint8_t logic[FUNCTION_MAX_OUT];
@@ -117,7 +118,7 @@ void project_open(void)
     if (!file_read_uint8(f, &version)) {
         goto ret;
     }
-    if (version != 4) {
+    if (version != 0x10) {
         goto ret;
     }
     uint8_t section;
@@ -131,29 +132,36 @@ void project_open(void)
             }
         } else if (section == SECTION_SLOT) {
             if (!vm_load_slot(f)) {
+                logger_printf("Error: can't load slot");
                 goto ret;
             }
         } else if (section == SECTION_WAVE) {
             if (!wave_load_info(f)) {
+                logger_printf("Error: can't load wave");
                 goto ret;
             }
         } else if (section == SECTION_FUNCTION) {
             if (!project_load_function(f)) {
+                logger_printf("Error: can't load function");
                 goto ret;
             }
         } else if (section == SECTION_CV) {
             if (!cv_load(f)) {
+                logger_printf("Error: can't load CV");
                 goto ret;
             }
         } else if (section == SECTION_FUNCTION_KEY) {
             if (!project_load_function_key(f)) {
+                logger_printf("Error: can't load function key");
                 goto ret;
             }
         } else if (section == SECTION_PHYSICAL_OUTPUT) {
             if (!engine_load_output_props(f)) {
+                logger_printf("Error: can't load physical output");
                 goto ret;
             }
         } else {
+            logger_printf("Error: unknown project section %d", section);
             goto ret;
         }
     }

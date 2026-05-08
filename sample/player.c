@@ -38,8 +38,17 @@ void player_abort_slot(Slot *slot, uint8_t subslot)
 {
 }
 
-void play_slot_sound(Slot *slot, uint8_t subslot, uint16_t id, uint8_t priority,
-                     uint8_t volmin, uint8_t volmax, uint8_t delay)
+void play_slot_delay(Slot *slot, uint8_t subslot, uint8_t delay)
+{
+    uint16_t sample = 0;
+    int samples = (delay * WAVE_SAMPLERATE) / 1000;
+    while (samples--) {
+        fwrite(&sample, sizeof(sample), 1, wav);
+    }
+}
+
+void play_slot_sound(Slot *slot, uint8_t subslot, uint16_t id,
+                     uint8_t volmin, uint8_t volmax)
 {
     printf("play %d speed %d\n", id, engine_get_speed());
     WaveFile *w = wave_open(id);
@@ -47,11 +56,7 @@ void play_slot_sound(Slot *slot, uint8_t subslot, uint16_t id, uint8_t priority,
         printf("Can't open file %d\n", id);
         exit(1);
     }
-    uint16_t sample = 0;
-    int samples = (delay * WAVE_SAMPLERATE) / 1000;
-    while (samples--) {
-        fwrite(&sample, sizeof(sample), 1, wav);
-    }
+    int16_t sample;
     while (wave_next_sample(w, &sample)) {
         fullsize += 2;
         fwrite(&sample, sizeof(sample), 1, wav);

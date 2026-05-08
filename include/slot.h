@@ -7,23 +7,22 @@
 
 typedef struct Schedule Schedule;
 
-#define SLOT_STACK_SIZE 8
-#define NEXT_STACK_SIZE 8
+#define STACK_SIZE 32
 
 typedef struct Slot {
     Schedule *schedule;
     uint32_t pc;
     uint8_t id;
-    uint8_t sp;
-    uint8_t nextsp;
     /* Number of current sample (0-1) */
     uint8_t subslot;
     bool flag;
     bool error;
     /* 32-bit to allow signed 8-bit values and 32-bit addresses */
-    int32_t stack[SLOT_STACK_SIZE];
+    uint8_t datasp;
+    int32_t datastack[STACK_SIZE];
+    uint8_t callsp;
+    uint32_t callstack[STACK_SIZE];
     uint8_t locals[VAR_LOCAL_SIZE];
-    uint32_t nextstack[NEXT_STACK_SIZE];
 } Slot;
 
 void slot_init(Slot *slot, Schedule *schedule);
@@ -35,6 +34,7 @@ void slot_set_var(Slot *slot, uint16_t addr, uint8_t val);
 uint8_t slot_get_var(Slot *slot, uint16_t addr);
 
 void slot_started_sound(Slot *slot, uint8_t subslot);
+void slot_started_delay(Slot *slot, uint8_t subslot);
 void slot_finished_sound(Slot *slot, uint8_t subslot);
 
 #endif

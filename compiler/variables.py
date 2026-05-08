@@ -10,8 +10,9 @@ slot_variables = {
     'V_USER_3':        0x06,
     'V_USER_4':        0x07,
     'F_DRIVELOCK':     0x08,
-    'F_RESTORE':       0x09,
+    #'F_RESTORE':       0x09,
     'V_TIMER_1S':      0x0b,
+
     'F_REVERSE':       0x40,
     'F_BRAKE1':        0x41,
     'F_BRAKE2':        0x42,
@@ -29,12 +30,12 @@ slot_variables = {
     'V_SELECT':        0x4e,
     'V_SHARE1':        0x4f,
     'V_SHARE2':        0x50,
+    'F_DRIVING':       0x51,
     'F_DISABLE_BRAKE': 0x52,
     'F_LOAD1':         0x53,
     'F_LOAD2':         0x54,
-    'V_ACCEL':         0xE0,
 
-    'F_DRIVING':       0x51,
+    'V_ACCEL':         0xE0,
 
     'F_KEY0':          0x60,
     'F_KEY1':          0x61,

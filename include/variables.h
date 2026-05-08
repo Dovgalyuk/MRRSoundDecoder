@@ -14,7 +14,7 @@
 /* Set to prevent movement while playing */
 #define F_DRIVELOCK     0x08
 /* Restore sound when re-enabling the slot in case of priority conflict */
-#define F_RESTORE       0x09
+//#define F_RESTORE       0x09
 /* Shadow playing flag for switching between two sounds */
 #define F_PLAYING2      0x0a
 #define V_TIMER_1S      0x0b
@@ -43,6 +43,7 @@
 #define F_DISABLE_BRAKE 0x52
 #define F_LOAD1         0x53
 #define F_LOAD2         0x54
+#define V_CYLINDER      0x55
 
 #define F_KEY0          0x60
 #define F_KEY1          0x61

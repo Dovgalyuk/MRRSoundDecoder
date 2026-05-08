@@ -34,8 +34,7 @@ class Resource:
             write_word(f, self.num)
             write_dword(f, length)
             write_word(f, samplerate)
-            write_word(f, bits)
-            #write_byte(f, self.volume)
+            write_byte(f, bits)
             f.write(w.read(length))
         elif type == 'bmp':
             pass

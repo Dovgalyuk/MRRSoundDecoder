@@ -12,7 +12,6 @@ typedef struct WaveInfo {
     uint32_t length;
     uint16_t samplerate;
     uint8_t bits;
-    uint8_t volume;
 } WaveInfo;
 
 typedef struct WaveFile {
@@ -21,7 +20,7 @@ typedef struct WaveFile {
     uint32_t size;
     union {
         uint8_t buffer[BUFFER_SIZE];
-        uint16_t samples[BUFFER_SIZE / 2];
+        int16_t samples[BUFFER_SIZE / 2];
     };
     uint16_t first;
     uint16_t sample_count;
@@ -58,7 +57,6 @@ WaveFile *wave_open(uint16_t num)
     w->prev_sample = 0;
     w->sample_count = 0;
     w->first = 0;
-    //printf("WAVE %d %x %d %d %d\n", num, (int)w->last_offset, (int)w->size, w->info->bits, w->info->samplerate);
     return w;
 }
 
@@ -113,12 +111,11 @@ static void wave_fetch_sample(WaveFile *w)
         }
         w->samples[0] = ((int32_t)(int16_t)w->prev_sample + (int16_t)w->samples[1]) / 2;
     }
-    //printf("%x %x %x %x\n", w->samples[0], w->samples[1], w->samples[2], w->samples[3]);
     w->first = 0;
     w->sample_count = count;
 }
 
-bool wave_next_sample(WaveFile *w, uint16_t *sample)
+bool wave_next_sample(WaveFile *w, int16_t *sample)
 {
     wave_fetch_sample(w);
     if (!w->info) {
@@ -126,14 +123,6 @@ bool wave_next_sample(WaveFile *w, uint16_t *sample)
     }
     *sample = w->samples[w->first++];
     return true;
-}
-
-uint8_t wave_get_volume(WaveFile *w)
-{
-    if (w && w->info) {
-        return w->info->volume;
-    }
-    return 0;
 }
 
 uint32_t wave_get_length(WaveFile *w)
@@ -174,10 +163,6 @@ bool wave_load_info(FILE *f)
     if (!file_read_uint8(f, &bits)) {
         return false;
     }
-    uint8_t volume;
-    if (!file_read_uint8(f, &volume)) {
-        return false;
-    }
     uint32_t offset = ftell(f);
     if (fseek(f, length, SEEK_CUR)) {
         return false;
@@ -191,12 +176,10 @@ bool wave_load_info(FILE *f)
         wavecount = num + 1;
     }
     WaveInfo *w = &waves[num];
-    // printf("loaded wave %d offset=0x%x len=0x%x bits=%d samplerate=%d\n", num, offset, length, bits, samplerate);
     w->bits = bits;
     w->length = length;
     w->offset = offset;
     w->samplerate = samplerate;
-    w->volume = volume;
     return true;
 }
 

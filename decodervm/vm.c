@@ -36,7 +36,6 @@ uint8_t vm_get_var(uint16_t addr)
 bool vm_load_slot(FILE *f)
 {
     uint8_t slot;
-    char *name = NULL;
     Schedule *sch = NULL;
     if (!file_read_uint8(f, &slot)) {
         printf("error %d\n", __LINE__);
@@ -46,48 +45,31 @@ bool vm_load_slot(FILE *f)
         printf("error %d\n", __LINE__);
         goto error;
     }
-    if (!file_read_string(f, &name)) {
-        printf("error %d\n", __LINE__);
-        goto error;
-    }
-    uint8_t volume, flags;
-    if (!file_read_uint8(f, &volume)) {
-        printf("error %d\n", __LINE__);
-        goto error;
-    }
+    uint8_t flags;
     if (!file_read_uint8(f, &flags)) {
         printf("error %d\n", __LINE__);
         goto error;
     }
-    uint32_t init, length;
-    if (!file_read_uint32(f, &init)) {
-        printf("error %d\n", __LINE__);
-        goto error;
-    }
+    uint32_t length;
     if (!file_read_uint32(f, &length)) {
         printf("error %d\n", __LINE__);
         goto error;
     }
     sch = malloc(sizeof(Schedule) + length);
     if (!sch) {
-        printf("Not enough memory while loading slot %d of size %"PRId32"\n", slot, length);
+        logger_printf("Not enough memory while loading slot %d of size %"PRId32"", slot, length);
         goto error;
     }
-    sch->name = name;
-    sch->volume = volume;
     sch->flags = flags;
-    sch->start = init;
     sch->script_size = length;
     if (fread(sch->script, 1, length, f) != length) {
-        printf("error %d\n", __LINE__);
+        logger_printf("Error: can't load script code of length %d", length);
         goto error;
     }
-    //printf("Loading slot %d (%s) with %d bytes\n", slot, sch->name, sch->script_size);
     slots[slot].id = slot;
     slot_init(&slots[slot], sch);
     return true;
 error:
-    free(name);
     free(sch);
     return false;
 }
@@ -133,6 +115,8 @@ void vm_tick(uint32_t t)
         trigger_time -= period;
         if (engine_get_speed_step()) {
             trigger_set = true;
+            /* Switch the cylinder */
+            vm_set_var(V_CYLINDER, vm_get_var(V_CYLINDER) + 1);
         }
     }
 
