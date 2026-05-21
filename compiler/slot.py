@@ -3,7 +3,7 @@ from utils import *
 from state import *
 from bytecode import *
 from variables import *
-from resources import resources_map
+from project import *
 import ast
 
 @dataclass
@@ -21,6 +21,71 @@ def calculate(expr, context):
             return -calculate(op, context)
         case _:
             raise RRException(f'Invalid operation in expression: {ast.dump(expr)}')
+
+class Optimizer(ast.NodeTransformer):
+    _context: State = None
+
+    def __init__(self, context):
+        super().__init__()
+        self._context = context
+
+    def visit(self, node):
+        self.generic_visit(node)
+
+        match node:
+            case ast.Compare(ops=[op], left=ast.Name(id=name), comparators=[ast.Constant(value=val)]):
+                v = self._context.get_var(name)
+                if v is not None:
+                    res = None
+                    match op:
+                        case ast.Eq():
+                            res = v == val
+                        case ast.NotEq():
+                            res = v != val
+                        case ast.Gt():
+                            res = v > val
+                        case ast.GtE():
+                            res = v >= val
+                        case ast.Lt():
+                            res = v < val
+                        case ast.LtE():
+                            res = v <= val
+                    if res is not None:
+                        return ast.Constant(value=res)
+            case ast.BoolOp(op=ast.And()):
+                new_values = []
+                for v in node.values:
+                    match v:
+                        case ast.Constant(value=True):
+                            pass
+                        case ast.Constant(value=False):
+                            return v
+                        case _:
+                            new_values.append(v)
+                if not new_values:
+                    return ast.Constant(value=True)
+                node.values = new_values
+                return node
+            case ast.BoolOp(op=ast.Or()):
+                new_values = []
+                for v in node.values:
+                    match v:
+                        case ast.Constant(value=True):
+                            return v
+                        case ast.Constant(value=False):
+                            pass
+                        case _:
+                            new_values.append(v)
+                if not new_values:
+                    return ast.Constant(value=False)
+                node.values = new_values
+                return node
+            case ast.If(test=ast.Constant(value=True)):
+                return node.body
+            case ast.If(test=ast.Constant(value=False)):
+                return None
+
+        return node
 
 class Slot:
     _info: SlotInfo = None
@@ -54,11 +119,13 @@ class Slot:
             case ast.Assign(targets=[ast.Subscript(value=ast.Name(id=name), slice=ast.Constant(value=bit))]):
                 #context.set_var(name, calculate(node.value, context))
                 pass
-            case ast.While(test=ast.Constant(value=True)):
+            case ast.While():
+                # TODO: process test
                 for node in node.body:
                     self._process_node(node, context)
             case ast.If():
-                # TODO: process node.test
+                # Maybe will need some day
+                # self._process_node(node.test, context)
                 for node in node.body:
                     self._process_node(node, context)
                 # else is not supported yet
@@ -78,10 +145,14 @@ class Slot:
                 pass
             case ast.Expr(value=ast.Await(value=ast.Call(func=ast.Name(id='play'),
                                                         args=args))):
-                # check resource references
                 sample = args[0].value
-                res = resources_map[context.get_var('_prefix') + '/' + sample]
-                res._used = True
+                if (context.get_var('_prefix') + '/' + sample) not in resources_map:
+                    raise RRException(f'Invalid resource reference in: {ast.dump(node)}')
+            case ast.Expr(value=ast.Call(args=args)):
+                # TODO: process_expression?
+                # for a in args:
+                #     self._process_node(a, context)
+                pass
             case ast.Pass():
                 pass
             case ast.FunctionDef(name=name):
@@ -112,7 +183,7 @@ class Slot:
                 context.add_instruction(IrLoadI(value))
             case ast.Name(id=name):
                 if name in slot_variables:
-                    context.add_instruction(IrLoad(SlotVariable(name)))
+                    context.add_instruction(IrLoad(SlotVariable(name, self._num)))
                 else:
                     context.add_instruction(IrLoadI(context.get_var(name)))
             case ast.Call(func=ast.Name(id='rand'), args=[left, right]):
@@ -129,10 +200,17 @@ class Slot:
                 context.add_instruction(IrLoadI(0))
                 context.add_instruction(IrCond('eq'))
                 context.add_instruction(IrJump(label_else, 't'))
+                context.add_instruction(IrJump(label_then))
             case ast.Compare(ops=[ast.Eq() | ast.NotEq()], comparators=[ast.Constant(value=True) | ast.Constant(value=False)]):
                 match node.left:
                     case ast.Name(id=name):
-                        context.add_instruction(IrTest(SlotVariable(name), 0))
+                        var = SlotVariable(node.left.id, self._num)
+                        if var.is_cond():
+                            context.add_instruction(IrLoadI(0))
+                            context.add_instruction(IrLoad(var))
+                            context.add_instruction(IrCond('ne'))
+                        else:
+                            context.add_instruction(IrTest(var, 0))
                     case ast.Subscript(value=ast.Name(id=name), slice=ast.Constant(value=bit)):
                         context.add_instruction(IrTest(SlotVariable(name), bit))
                     case _:
@@ -141,7 +219,17 @@ class Slot:
                 if node.ops[0] is ast.NotEq:
                     flag = 't'
                 context.add_instruction(IrJump(label_else, flag))
-                # label_then is expected to be here
+                context.add_instruction(IrJump(label_then))
+            case ast.Name(id=name):
+                var = SlotVariable(name, self._num)
+                if var.is_cond():
+                    context.add_instruction(IrLoadI(0))
+                    context.add_instruction(IrLoad(var))
+                    context.add_instruction(IrCond('ne'))
+                else:
+                    context.add_instruction(IrTest(var, 0))
+                context.add_instruction(IrJump(label_else, 'f'))
+                context.add_instruction(IrJump(label_then))
             case ast.Compare(ops=[op], comparators=[right]):
                 self._generate_expr(node.left, context)
                 self._generate_expr(right, context)
@@ -161,18 +249,21 @@ class Slot:
                     case _:
                         raise RRException(f'Invalid operation in slot: {ast.dump(node)}')
                 context.add_instruction(IrJump(label_else, 'f'))
-                # label_then is expected to be here
+                context.add_instruction(IrJump(label_then))
             case ast.BoolOp(op=ast.And()):
-                for cond in node.values:
+                for cond in node.values[:-1]:
                     cond_then = IrLabel()
                     self._generate_cond(cond, context, cond_then, label_else)
                     context.add_instruction(cond_then)
-                # label_then is expected to be here
+                self._generate_cond(node.values[-1], context, label_then, label_else)
             case ast.BoolOp(op=ast.Or()):
-                for cond in node.values:
+                for cond in node.values[:-1]:
                     cond_else = IrLabel()
                     self._generate_cond(cond, context, label_then, cond_else)
                     context.add_instruction(cond_else)
+                self._generate_cond(node.values[-1], context, label_then, label_else)
+            case ast.UnaryOp(op=ast.Not(), operand=operand):
+                self._generate_cond(operand, context, label_else, label_then)
             case _:
                 raise RRException(f'Invalid operation in slot: {ast.dump(node)}')
 
@@ -185,6 +276,11 @@ class Slot:
                 imm = p.get_state('_immediate')
         if imm:
             code.add_instruction(IrCall(imm))
+
+    def _generate_on_exit_call(self, context):
+        ex = context.get_state('_on_exit')
+        if ex:
+            context.add_instruction(IrCall(ex))
 
     def _generate_ir(self, node, context):
         match node:
@@ -236,6 +332,19 @@ class Slot:
                 for node in node.body:
                     self._generate_ir(node, context)
                 context.add_instruction(IrJump(start))
+            case ast.While(test=cond):
+                start = IrLabel()
+                end = IrLabel()
+                body = IrLabel()
+                context.add_instruction(start)
+                self._generate_cond(node.test, context, body, end)
+                context.add_instruction(body)
+                if not context.is_function():
+                    self._generate_imm_call(context, context)
+                for node in node.body:
+                    self._generate_ir(node, context)
+                context.add_instruction(IrJump(start))
+                context.add_instruction(end)
             case ast.If():
                 label_then = IrLabel()
                 label_else = IrLabel()
@@ -247,13 +356,8 @@ class Slot:
                 # else is not supported yet
             case ast.Expr(value=ast.Call(func=ast.Name(id='goto'), args=[ast.Name(id='_next')])):
                 # _next is on top of the stack
+                self._generate_on_exit_call(context)
                 context.add_instruction(IrNext(1))
-            # case ast.Expr(value=ast.Call(func=ast.Name(id='goto'), args=[ast.Name(id=name)])):
-            #     p = context.get_parent()
-            #     if context.is_function():
-            #         p = p.get_parent()
-            #     context.add_instruction(IrLoadI(p.get_state(name)))
-            #     context.add_instruction(IrNext())
             case ast.Expr(value=ast.Call(func=ast.Name(id='goto'), args=args)):
                 if len(args) not in [1, 2, 4, 8]:
                     raise RRException(f'Invalid operation in slot: {ast.dump(node)}')
@@ -263,6 +367,7 @@ class Slot:
                 for arg in reversed(args):
                     next = p.get_state(arg.id)
                     context.add_instruction(IrLoadI(next))
+                self._generate_on_exit_call(context)
                 context.add_instruction(IrNext(len(args)))
             case ast.Return(value=ast.Name(id=name)):
                 ref = context.get_parent().get_parent().get_state(name)
@@ -280,6 +385,12 @@ class Slot:
                 context.add_instruction(IrRet())
             case ast.Expr(value=ast.Call(func=ast.Name(id='switch'))):
                 context.add_instruction(IrSwitch())
+            case ast.Expr(value=ast.Call(func=ast.Name(id='inc'), args=[ast.Name(id=cond)])):
+                var = SlotVariable(cond)
+                context.add_instruction(IrInc(var))
+            case ast.Expr(value=ast.Call(func=ast.Name(id='dec'), args=[ast.Name(id=cond)])):
+                var = SlotVariable(cond)
+                context.add_instruction(IrDec(var))
             case ast.Expr(value=ast.Await(value=ast.Call(func=ast.Name(id='delay'), args=[ast.Constant(value=time)]))):
                 context.add_instruction(IrLoadI(time))
                 context.add_instruction(IrDelay())
@@ -296,8 +407,7 @@ class Slot:
                 res = resources_map[context.get_var('_prefix') + '/' + sample]
                 context.add_instruction(IrLoadI(volume_max * self._info.volume * res.volume // 128 // 128))
                 context.add_instruction(IrLoadI(volume_min * self._info.volume * res.volume // 128 // 128))
-                context.add_instruction(IrComment(sample))
-                context.add_instruction(IrLoadI(res.num))
+                context.add_instruction(IrLoadI(res))
                 context.add_instruction(IrPlay())
                 label = IrLabel()
                 context.add_instruction(label)
@@ -325,8 +435,14 @@ class Slot:
             case _:
                 raise RRException(f'Invalid operation in slot: {ast.dump(node)}')
 
+    def set_used(self):
+        self._used = True
+
+    def is_used(self):
+        return self._used
+
     def parse(self, tree):
-        if not self._used:
+        if self._tree:
             return
 
         self._tree = tree
@@ -338,21 +454,35 @@ class Slot:
         self._context.dump(f)
 
     def compile(self):
-        if not self._used:
-            return
-
-        # TODO: substitute variables and optimize IR/States
+        # substitute known variables and optimize conditions
+        self._tree = ast.fix_missing_locations(Optimizer(self._context).visit(self._tree))
 
         # address 0 is reserved, place nop there
         self._context.add_instruction(IrNop())
         for node in self._tree.body:
             self._generate_ir(node, self._context)
 
+        # optimize jump-to-jump
+        self._context.optimize_jumps()
+
+        # optimize control flow
+        self._context.set_used()
+        while self._context.taint_control_flow():
+            pass
+        self._context.optimize_control_flow()
+
+    def finalize(self):
+        if not self._used:
+            return
+
         # get label addresses
         self._length = self._context.calculate_addresses()
 
         # replace labels with addresses
         self._context.replace_labels()
+
+    def process_deps(self):
+        return self._context.process_deps()
 
     def save(self, f):
         if not self._used:
@@ -361,7 +491,7 @@ class Slot:
         write_byte(f, self._num)
         flags = 0
         for flag in self._info.flags:
-            flags += {'force': 1, 'brake': 4}[flag]
+            flags += {'helper': 1, 'brake': 4}[flag]
         write_byte(f, flags)
         write_dword(f, self._length) # bytecode len
         # write bytecode

@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#define VM_SLOTS         43
+#define VM_SLOTS         48
 #define VM_FUNCTION_KEYS 32
 
 typedef struct Slot Slot;

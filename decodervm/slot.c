@@ -362,6 +362,16 @@ void slot_step(Slot *slot)
             }
         }
         break;
+    case I_DEC:
+        arg8 = slot->schedule->script[slot->pc++];
+        DPRINTF("DEC %d\n", arg8);
+        slot_write_mem(slot, arg8, slot_read_mem(slot, arg8) - 1);
+        break;
+    case I_INC:
+        arg8 = slot->schedule->script[slot->pc++];
+        DPRINTF("INC %d\n", arg8);
+        slot_write_mem(slot, arg8, slot_read_mem(slot, arg8) + 1);
+        break;
     default:
         /* Error */
         DPRINTF("ERROR instr\n");

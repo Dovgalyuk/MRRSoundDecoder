@@ -55,7 +55,11 @@ static void engine_task(void *args)
             if (!dir) {
                 min = cv_read(CV_REVERSE_VSTART);
             }
-            uint8_t range = 255 - min;
+            uint8_t max_speed = 255;
+            if (vm_get_var(F_SWITCHING)) {
+                max_speed = max_speed * cv_read(CV_SWITCHING_TRIM) / 128;
+            }
+            uint8_t range = min < max_speed ? max_speed - min : min;
             // Drive 0 output as PWM
             uint8_t pwm = MOTOR_PWM_MAX - (min + (range * speed) / MOTOR_PWM_MAX);
             // FWD 10

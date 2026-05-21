@@ -1,8 +1,6 @@
 from dataclasses import dataclass
 from utils import *
-
-resources = None
-resources_map = {}
+from project import *
 
 @dataclass
 class Resource:
@@ -11,6 +9,12 @@ class Resource:
     volume: int = 128
     num: int = 0
     _used: bool = False
+
+    def __str__(self):
+        return self.name
+
+    def set_used(self):
+        self._used = True
 
     def save(self, f):
         if self.num == 0:

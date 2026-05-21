@@ -108,7 +108,8 @@ void engine_tick(uint32_t t)
     /* cv3*896 = milliseconds to reach full speed */
     /* cv3*32 = milliseconds = delay per step */
     if ((!cv_read(CV_DECELERATION) && throttle_step < speed_step)
-        || (!cv_read(CV_ACCELERATION) && throttle_step > speed_step)) {
+        || (!cv_read(CV_ACCELERATION) && throttle_step > speed_step)
+        || vm_get_var(F_DISABLE_ACCEL)) {
         dt = 0;
     } else if (dt < TICK_DURATION) {
         return;

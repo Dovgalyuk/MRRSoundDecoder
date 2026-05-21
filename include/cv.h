@@ -19,7 +19,7 @@
 #define CV_BRAKE_OFF_THRESHOLD  52
 #define CV_LOAD_OPTIONAL        53
 #define CV_LOAD_PRIMARY         54
-// #define CV_SWITCH               49
+#define CV_SWITCHING_TRIM       55
 // #define CV_SOUND_VOLUME         63
 
 #define CV_SPEED_TABLE1         67
