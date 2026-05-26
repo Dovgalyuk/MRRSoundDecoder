@@ -100,7 +100,7 @@ void engine_tick(uint32_t t)
 
     /* Wait for speed update */
     static uint32_t dt;
-    if (vm_has_drivelock()) {
+    if (vm_get_var(C_DRIVELOCK)) {
         dt = 0;
         return;
     }
@@ -109,7 +109,7 @@ void engine_tick(uint32_t t)
     /* cv3*32 = milliseconds = delay per step */
     if ((!cv_read(CV_DECELERATION) && throttle_step < speed_step)
         || (!cv_read(CV_ACCELERATION) && throttle_step > speed_step)
-        || vm_get_var(F_DISABLE_ACCEL)) {
+        || vm_get_var(C_DISABLE_ACCEL)) {
         dt = 0;
     } else if (dt < TICK_DURATION) {
         return;
@@ -156,12 +156,9 @@ void engine_tick(uint32_t t)
     /* Calculate brake conditions */
     bool brake = accel < 0
         && speed <= cv_read(CV_BRAKE_ON_THRESHOLD)
-        && speed >= cv_read(CV_BRAKE_OFF_THRESHOLD);
-    for (int i = 0 ; i < VM_SLOTS ; ++i) {
-       if (vm_slot_is_brake(i)) {
-            vm_set_slot_var(i, F_FUNCTION, brake);
-       }
-    }
+        && speed >= cv_read(CV_BRAKE_OFF_THRESHOLD)
+        && !vm_get_var(F_DISABLE_BRAKE);
+    vm_set_var(F_BRAKING, brake);
 
     /* update speed, reverse, and acceleration in VM */
     vm_set_var(V_ACCEL, accel);

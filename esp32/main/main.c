@@ -80,7 +80,7 @@ void app_main(void)
     project_open();
     /* Load CVs after opening the project */
     cv_storage_init();
-    vm_init_function_keys();
+    vm_init();
     player_init();
     engine_init();
 

@@ -106,8 +106,6 @@ static void slot_next_state(Slot *slot, uint32_t addr)
     if (slot_get_var(slot, F_PLAYING)) {
         player_abort_slot(slot, slot->subslot);
     }
-    /* Reset drive-related variables */
-    slot_set_var(slot, F_DRIVELOCK, 0);
     /* Reset sound-related variables */
     //slot_set_var(slot, F_RESTORE, 0);
 }
@@ -137,6 +135,7 @@ void slot_started_delay(Slot *slot, uint8_t subslot)
 void slot_started_sound(Slot *slot, uint8_t subslot)
 {
     slot_started_delay(slot, subslot);
+    /* TODO: several slots may use trigger in parallel */
     vm_reset_trigger();
 }
 
@@ -179,9 +178,6 @@ void slot_reset(Slot *slot)
     slot->subslot = 0;
     memset(slot->locals, 0, sizeof(slot->locals));
     slot->pc = 0;
-
-    slot_set_var(slot, F_FUNCTION,
-        !!(slot->schedule->flags & SCHEDULE_FLAG_FORCE));
 }
 
 void slot_step(Slot *slot)

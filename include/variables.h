@@ -1,9 +1,10 @@
 #ifndef VARIABLES_H
 #define VARIABLES_H
 
-#define VAR_LOCAL_START 0x00
+#define F_NULL          0x00 // Always read as 0
+
+#define VAR_LOCAL_START 0x01
 /* Local flags and variables */
-//#define F_FUNCTION      0x00 // Replaced with C_SLOT
 #define F_PLAYING       0x01
 #define V_TIMER_1_256MS 0x02
 #define V_TIMER_2_256MS 0x03
@@ -44,9 +45,12 @@
 #define F_LOAD1         0x53
 #define F_LOAD2         0x54
 #define V_CYLINDER      0x55
-#define F_SWITCHING     0x56
-#define F_DISABLE_ACCEL 0x57
-#define F_SMOKE         0x58
+#define C_SWITCHING     0x56
+#define C_DISABLE_ACCEL 0x57
+#define C_SMOKE         0x58
+#define F_BRAKING       0x59
+#define F_EXECUTING     0x5a
+#define F_RANDOM        0x5b
 
 #define C_KEY0          0x60
 #define C_KEY1          0x61

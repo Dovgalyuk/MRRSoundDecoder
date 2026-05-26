@@ -165,7 +165,7 @@ with open(os.path.join(project_dir, 'project.cfg'), 'r') as f:
 
 # check unused entities
 for s in slots:
-    if 'helper' in s._info.flags:
+    if s._info.enable in ['F_EXECUTING', 'F_RANDOM']:
         s._used = True
 
 # TODO: find unused function keys and physical outputs?

@@ -11,7 +11,7 @@ class SlotInfo:
     num: int
     name: str
     volume: int
-    flags: list[str]
+    enable: str
 
 def calculate(expr, context):
     match expr:
@@ -218,6 +218,8 @@ class Slot:
                 flag = 'f'
                 if node.ops[0] is ast.NotEq:
                     flag = 't'
+                if not node.comparators[0].value:
+                    flag = {'f': 't', 't': 'f'}[flag]
                 context.add_instruction(IrJump(label_else, flag))
                 context.add_instruction(IrJump(label_then))
             case ast.Name(id=name):
@@ -489,10 +491,8 @@ class Slot:
             return
         write_byte(f, 0x02)
         write_byte(f, self._num)
-        flags = 0
-        for flag in self._info.flags:
-            flags += {'helper': 1, 'brake': 4}[flag]
-        write_byte(f, flags)
+        var = SlotVariable(self._info.enable)
+        write_byte(f, var.get_address())
         write_dword(f, self._length) # bytecode len
         # write bytecode
         self._context.write_bytecode(f)

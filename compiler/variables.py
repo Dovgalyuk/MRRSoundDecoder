@@ -1,7 +1,7 @@
 from utils import RRException
 
 slot_variables = {
-    # 'F_FUNCTION':      0x00,
+    'F_NULL':          0x00,
     'F_PLAYING':       0x01,
     'V_TIMER_1_256MS': 0x02,
     'V_TIMER_2_256MS': 0x03,
@@ -38,6 +38,9 @@ slot_variables = {
     'C_SWITCHING':     0x56,
     'C_DISABLE_ACCEL': 0x57,
     'C_SMOKE':         0x58,
+    'F_BRAKING':       0x59,
+    'F_EXECUTING':     0x5a,
+    'F_RANDOM':        0x5b,
 
     'V_ACCEL':         0xF0,
 

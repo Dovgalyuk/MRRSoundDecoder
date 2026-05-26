@@ -45,8 +45,8 @@ bool vm_load_slot(FILE *f)
         printf("error %d\n", __LINE__);
         goto error;
     }
-    uint8_t flags;
-    if (!file_read_uint8(f, &flags)) {
+    uint8_t enable;
+    if (!file_read_uint8(f, &enable)) {
         printf("error %d\n", __LINE__);
         goto error;
     }
@@ -60,7 +60,7 @@ bool vm_load_slot(FILE *f)
         logger_printf("Not enough memory while loading slot %d of size %"PRId32"", slot, length);
         goto error;
     }
-    sch->flags = flags;
+    sch->enable_var = enable;
     sch->script_size = length;
     if (fread(sch->script, 1, length, f) != length) {
         logger_printf("Error: can't load script code of length %d", length);
@@ -87,12 +87,6 @@ uint8_t vm_get_slot_var(uint8_t id, uint16_t addr)
         return 0;
     }
     return slot_get_var(&slots[id], addr);
-}
-
-bool vm_slot_is_brake(uint8_t id)
-{
-    return id < VM_SLOTS && slots[id].schedule
-        && (slots[id].schedule->flags & SCHEDULE_FLAG_BRAKE);
 }
 
 void vm_tick(uint32_t t)
@@ -164,12 +158,10 @@ void vm_tick(uint32_t t)
         vm_set_var(F_TRIGGER, trigger_set);
 
         for (int i = 0 ; i < VM_SLOTS ; ++i) {
-            /* TODO?: brake function */
-            if (slots[i].schedule
-                && (slots[i].schedule->flags & SCHEDULE_FLAG_BRAKE)
-                && (vm_get_var(F_DISABLE_BRAKE)
-                    /* Brake script may not check function */
-                    || !slot_get_var(&slots[i], F_FUNCTION))) {
+            if (!slots[i].schedule) {
+                continue;
+            }
+            if (!vm_get_var(slots[i].schedule->enable_var)) {
                 continue;
             }
 
@@ -183,17 +175,9 @@ void vm_reset_trigger(void)
     trigger_set = false;
 }
 
-bool vm_has_drivelock(void)
+void vm_init(void)
 {
-    for (int i = 0 ; i < VM_SLOTS ; ++i) {
-        if (!slots[i].schedule) {
-            continue;
-        }
-        if (slot_get_var(&slots[i], F_DRIVELOCK)) {
-            return true;
-        }
-    }
-    return false;
+    vm_reset();
 }
 
 void vm_clear(void)
@@ -207,6 +191,8 @@ void vm_reset(void)
 {
     trigger_set = false;
     vm_init_function_keys();
+    vm_set_var(F_RANDOM, 1);
+    vm_set_var(F_EXECUTING, 1);
     for (int i = 0 ; i < VM_SLOTS ; ++i) {
         slot_reset(&slots[i]);
     }
@@ -215,14 +201,20 @@ void vm_reset(void)
 void vm_set_function_key(uint8_t f, bool v)
 {
     if (f < VM_FUNCTION_KEYS) {
-        vm_set_var(F_KEY0 + f, v);
+        uint8_t k = vm_get_var(C_KEY0 + f);
+        if (v) {
+            k |= 0x80;
+        } else {
+            k &= 0x7f;
+        }
+        vm_set_var(C_KEY0 + f, k);
     }
 }
 
 bool vm_get_function_key(uint8_t f)
 {
     if (f < VM_FUNCTION_KEYS) {
-        return vm_get_var(F_KEY0 + f);
+        return vm_get_var(C_KEY0 + f);
     }
     return false;
 }
