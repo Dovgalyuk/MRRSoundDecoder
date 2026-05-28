@@ -6,8 +6,10 @@
 #include "vm.h"
 
 #define ENGINE_THROTTLE_STEPS 28
+#define PHYSICAL_OUTPUTS      7
 
 typedef struct OutputProps {
+    uint8_t flag_var;
     uint8_t delay_on;
     uint8_t delay_off;
 } OutputProps;

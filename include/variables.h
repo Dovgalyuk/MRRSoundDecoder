@@ -135,15 +135,24 @@
 #define C_SLOT48        0xaf
 #define C_DRIVELOCK     0xb0
 
-/* Reserved addresses 0xd0-0xdf for 0xf outputs */
-#define PHYS_OUTPUTS       7
-#define PHYS_OUTPUT0    0xd0
-#define PHYS_OUTPUT1    0xd1
-#define PHYS_OUTPUT2    0xd2
-#define PHYS_OUTPUT3    0xd3
-#define PHYS_OUTPUT4    0xd4
-#define PHYS_OUTPUT5    0xd5
-#define PHYS_OUTPUT6    0xd6
+/* Reserved addresses 0xd0-0xdf for 0x10 outputs */
+#define LOG_OUTPUTS     0x10
+#define C_OUT1          0xd0
+#define C_OUT2          0xd1
+#define C_OUT3          0xd2
+#define C_OUT4          0xd3
+#define C_OUT5          0xd4
+#define C_OUT6          0xd5
+#define C_OUT7          0xd6
+#define C_OUT8          0xd7
+#define C_OUT9          0xd8
+#define C_OUT10         0xd9
+#define C_OUT11         0xda
+#define C_OUT12         0xdb
+#define C_OUT13         0xdc
+#define C_OUT14         0xdd
+#define C_OUT15         0xde
+#define C_OUT16         0xdf
 
 #define VAR_GLOBAL_SIGNED_START 0xF0
 /* Signed global variables */

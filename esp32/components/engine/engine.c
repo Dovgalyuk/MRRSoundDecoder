@@ -18,8 +18,8 @@ CV 4	Deceleration Rate
 #include "pins.h"
 #include "logger.h"
 
-#define ENGINE_OUTPUT_FWD_LIGHT  PHYS_OUTPUT1
-#define ENGINE_OUTPUT_BACK_LIGHT PHYS_OUTPUT2
+#define ENGINE_OUTPUT_FWD_LIGHT  1
+#define ENGINE_OUTPUT_BACK_LIGHT 2
 
 #define MOTOR_SPEED_MODE        LEDC_LOW_SPEED_MODE
 #define MOTOR_CHANNEL1          LEDC_CHANNEL_0
@@ -56,7 +56,7 @@ static void engine_task(void *args)
                 min = cv_read(CV_REVERSE_VSTART);
             }
             uint8_t max_speed = 255;
-            if (vm_get_var(F_SWITCHING)) {
+            if (vm_get_var(C_SWITCHING)) {
                 max_speed = max_speed * cv_read(CV_SWITCHING_TRIM) / 128;
             }
             uint8_t range = min < max_speed ? max_speed - min : min;
@@ -80,9 +80,9 @@ static void engine_task(void *args)
 
         /* Update LEDs */
         for (int i = 0 ; i < OUT_PWM_PINS ; ++i) {
-            bool cur = vm_get_var(pwm_outputs[i]);
+            const OutputProps *p = engine_get_output_props(pwm_outputs[i]);
+            bool cur = vm_get_var(p->flag_var);
             if (cur != pwm_pin_states[i]) {
-                const OutputProps *p = engine_get_output_props(pwm_outputs[i]);
                 uint32_t delay = cur ? p->delay_on : p->delay_off;
                 delay *= 1000;
                 pwm_pin_states[i] = cur;

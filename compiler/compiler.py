@@ -48,7 +48,9 @@ class PhysicalOutput:
         if not self._used:
             return
         write_byte(f, 0x07)
-        write_byte(f, self.id)
+        write_byte(f, self.real_output)
+        var = SlotVariable(f'C_OUT{self.id}')
+        write_byte(f, var.get_address())
         write_byte(f, self.delay_on)
         write_byte(f, self.delay_off)
 
@@ -57,31 +59,6 @@ class PhysicalOutput:
 
     def set_used(self):
         self._used = True
-
-# @dataclass
-# class Function:
-#     num: int
-#     inputs: list[str | SlotVariable]
-#     not_inputs: list[str | SlotVariable]
-#     logic: list[str | SlotVariable]
-#     slots: list[int]
-#     phy: list[int]
-#     _used: bool = True
-
-#     def compile(self):
-#         self.inputs = [SlotVariable(v) for v in self.inputs]
-#         self.not_inputs = [SlotVariable(v) for v in self.not_inputs]
-#         self.logic = [SlotVariable(v) for v in self.logic]
-
-#     def save(self, f):
-#         if not self._used:
-#             return
-#         write_byte(f, 0x04)
-#         write_byte_array(f, [v.get_address() for v in self.inputs])
-#         write_byte_array(f, [v.get_address() for v in self.not_inputs])
-#         write_byte_array(f, [v.get_address() for v in self.logic])
-#         write_byte_array(f, self.slots)
-#         write_byte_array(f, self.phy)
 
 @dataclass
 class Locomotive:

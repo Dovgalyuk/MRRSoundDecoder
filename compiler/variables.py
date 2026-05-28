@@ -134,6 +134,15 @@ slot_variables = {
     'C_OUT5':          0xd4,
     'C_OUT6':          0xd5,
     'C_OUT7':          0xd6,
+    'C_OUT8':          0xd7,
+    'C_OUT9':          0xd8,
+    'C_OUT10':         0xd9,
+    'C_OUT11':         0xda,
+    'C_OUT12':         0xdb,
+    'C_OUT13':         0xdc,
+    'C_OUT14':         0xdd,
+    'C_OUT15':         0xde,
+    'C_OUT16':         0xdf,
 }
 
 

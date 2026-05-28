@@ -1,0 +1,17 @@
+menu "Main board configuration"
+
+    config MOUNT_POINT
+        string "Storage mount point"
+        default "/decoder"
+        help
+            Mount point for project storage media
+
+    config BOARD_VERSION
+        int "Board version"
+        default 1 if ESPTOOLPY_FLASHSIZE_4MB
+        default 1 if ESPTOOLPY_FLASHSIZE_16MB
+        default 2 if ESPTOOLPY_FLASHSIZE_32MB
+        range 1 2
+        help
+            Version of the board with ESP32 WROOM
+endmenu

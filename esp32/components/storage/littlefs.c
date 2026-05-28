@@ -57,6 +57,7 @@ static bool storage_try_littlefs(void)
 
 void storage_register_external_partition(void)
 {
+#if CONFIG_BOARD_VERSION==1
     spi_bus_config_t bus_config =
     {
         .data0_io_num = FLASH_SPI_D0,
@@ -110,6 +111,7 @@ void storage_register_external_partition(void)
         }
     }
     /* Pointer is not needed, will format partition with LittleFS library */
+#endif
 }
 
 void storage_init(void)

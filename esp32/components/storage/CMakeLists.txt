@@ -1,8 +1,4 @@
-if("${CONFIG_STORAGE_FLASH}" STREQUAL y)
-    set(srcs "littlefs.c" "cv.c")
-endif()
-
-idf_component_register(SRCS ${srcs}
+idf_component_register(SRCS littlefs.c cv.c
                        PRIV_REQUIRES esp_driver_spi esp_driver_gpio spi_flash
                                      esp_partition vfs nvs_flash
                        INCLUDE_DIRS "." "../../include" "../../../include"
