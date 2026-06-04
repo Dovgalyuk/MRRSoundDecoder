@@ -4541,7 +4541,7 @@
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator")
 		(tags "capacitor handsolder")
 		(property "Reference" "C10"
-			(at -3.2875 0.75 90)
+			(at -2.2875 -1.25 180)
 			(layer "F.SilkS")
 			(uuid "5bd8e558-e34b-496d-8018-20c3bd961b13")
 			(effects
@@ -11386,7 +11386,7 @@
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator")
 		(tags "capacitor handsolder")
 		(property "Reference" "C11"
-			(at -0.0375 -1.25 90)
+			(at 0.9625 -2 180)
 			(layer "F.SilkS")
 			(uuid "634bc644-aa0d-4c4e-ac54-40096a11279f")
 			(effects
@@ -12693,6 +12693,18 @@
 			(justify left bottom mirror)
 		)
 	)
+	(gr_text "BOOT"
+		(at 73 89.25 0)
+		(layer "B.SilkS")
+		(uuid "4dcb0a64-80f9-4322-8dbe-53f125ac8b75")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+			(justify right bottom mirror)
+		)
+	)
 	(gr_text "-"
 		(at 114 112.48 0)
 		(layer "B.SilkS")
@@ -12703,6 +12715,30 @@
 				(thickness 0.1)
 			)
 			(justify left bottom mirror)
+		)
+	)
+	(gr_text "RX"
+		(at 73 84.25 0)
+		(layer "B.SilkS")
+		(uuid "62a1f743-789d-4513-95a2-3de03e10cdce")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+			(justify right bottom mirror)
+		)
+	)
+	(gr_text "TX"
+		(at 73 86.99 0)
+		(layer "B.SilkS")
+		(uuid "6603f7a6-270d-4189-b3d1-a38a6878be69")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+			(justify right bottom mirror)
 		)
 	)
 	(gr_text "AUX2"
@@ -12847,6 +12883,30 @@
 				(thickness 0.1)
 			)
 			(justify left bottom mirror)
+		)
+	)
+	(gr_text "GND"
+		(at 72.75 91.75 0)
+		(layer "B.SilkS")
+		(uuid "dc343e9a-d016-4f55-9f71-44225ff625a6")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+			(justify right bottom mirror)
+		)
+	)
+	(gr_text "+5V"
+		(at 73 81.75 0)
+		(layer "B.SilkS")
+		(uuid "e5b3e702-871b-4c98-beff-6b6c85c32edf")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+			(justify right bottom mirror)
 		)
 	)
 	(gr_text "-"
