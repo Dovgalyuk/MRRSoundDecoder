@@ -35,7 +35,7 @@ int main(int argc, char **argv)
     //vm_set_slot_var(1, F_FUNCTION, 1);
     //vm_set_slot_var(32, F_FUNCTION, 1);
     vm_set_var(C_SLOT1, 1);
-    // vm_set_var(C_SLOT32, 1);
+    vm_set_var(C_SLOT32, 1);
 
     for (int i = 0 ; i < 30000 ; ++i) {
         //printf("%d : %d\n", i, slot.pc);

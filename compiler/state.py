@@ -27,7 +27,7 @@ class State:
         return self._name
 
     def is_function(self):
-        return self._name in ['_exit', '_immediate', '_on_exit']
+        return self._name in ['_exit', '_immediate', '_on_exit', '_exit_processor']
 
     def set_var(self, name, value):
         self._variables[name] = value
@@ -52,6 +52,11 @@ class State:
 
     def get_parent(self):
         return self._parent
+    
+    def get_level(self):
+        if self._parent:
+            return self._parent.get_level() + 1
+        return 0
 
     def set_used(self):
         self._used = True
@@ -77,6 +82,11 @@ class State:
             changed = True
 
         s = self.get_state('_immediate')
+        if s and not s.is_used():
+            s.set_used()
+            changed = True
+
+        s = self.get_state('_exit_processor')
         if s and not s.is_used():
             s.set_used()
             changed = True

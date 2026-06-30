@@ -270,28 +270,28 @@ class IrStore(IrInstruction):
         return self._var
 
 class IrCall(IrInstruction):
-    _ref = None
-    _addr: int = None
+    # _ref = None
+    # _addr: int = None
 
-    def __init__(self, ref):
-        super().__init__()
-        self._ref = ref
+    # def __init__(self, ref):
+    #     super().__init__()
+    #     self._ref = ref
 
     def __str__(self):
-        return f'  call {self._ref}'
+        return f'  call'# {self._ref}'
 
     def size(self):
-        return 4
+        return 1#4
 
-    def replace_labels(self, address):
-        self._addr = self._ref.get_address()
+    # def replace_labels(self, address):
+    #     self._addr = self._ref.get_address()
 
     def bytes(self):
-        return b'\x0e' + int(self._addr).to_bytes(3, 'little')
+        return b'\x0e'# + int(self._addr).to_bytes(3, 'little')
 
-    def set_used(self):
-        super().set_used()
-        self._ref.set_used()
+    # def set_used(self):
+    #     super().set_used()
+    #     self._ref.set_used()
 
 class IrDec(IrInstruction):
     _var = None
@@ -336,6 +336,16 @@ class IrNext(IrInstruction):
 
     def is_passthrough(self):
         return False
+
+class IrSwap(IrInstruction):
+    def __str__(self):
+        return f'  swap'
+
+    def size(self):
+        return 1
+
+    def bytes(self):
+        return b'\x18'
 
 class IrSet(IrInstruction):
     _var = None

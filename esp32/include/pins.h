@@ -15,9 +15,13 @@
 #       define I2S_DOUT_IO1         3
 #   endif
 /* Motor */
-#   define MOTOR_INPUT_V        1
-#   define MOTOR_OUTPUT_DIR1    2
-#   define MOTOR_OUTPUT_DIR2    4
+#   if CONFIG_BOARD_VERSION==2
+#       define MOTOR_INPUT_V        1
+#       define MOTOR_ADC_UNIT       ADC_UNIT_1
+#       define MOTOR_ADC_CHANNEL    ADC_CHANNEL_0
+#   endif
+#   define MOTOR_OUTPUT_DIR1          2
+#   define MOTOR_OUTPUT_DIR2          4
 /* Physical outputs */
 #   if CONFIG_BOARD_VERSION==1
 #       define PHYS_OUTPUT_SMOKE      47

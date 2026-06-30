@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <inttypes.h>
 #include "vm.h"
 #include "slot.h"
@@ -8,13 +9,17 @@
 #include "utils.h"
 #include "cv.h"
 #include "engine.h"
+#include "player.h"
 #include "logger.h"
 
 #define INSTRUCTIONS_PER_TICK 100
+#define CMD_QUEUE_SIZE        (8 * 3)
 
 static Slot slots[VM_SLOTS];
 static uint8_t memory[VAR_GLOBAL_SIZE];
 static bool trigger_set;
+static uint16_t cmd_queue[CMD_QUEUE_SIZE];
+static uint16_t cmd_queue_head, cmd_queue_tail;
 
 void vm_set_var(uint16_t addr, uint8_t val)
 {
@@ -89,8 +94,66 @@ uint8_t vm_get_slot_var(uint8_t id, uint16_t addr)
     return slot_get_var(&slots[id], addr);
 }
 
+static void vm_cmd_queue_push_value(uint16_t v)
+{
+    cmd_queue[cmd_queue_tail] = v;
+    cmd_queue_tail = (cmd_queue_tail + 1) % CMD_QUEUE_SIZE;
+}
+
+static uint16_t vm_cmd_queue_pop_value(void)
+{
+    uint16_t r = cmd_queue[cmd_queue_head];
+    cmd_queue[cmd_queue_head] = 0;
+    cmd_queue_head = (cmd_queue_head + 1) % CMD_QUEUE_SIZE;
+    return r;
+}
+
+static void vm_process_queue(void)
+{
+    while (cmd_queue_head != cmd_queue_tail) {
+        uint16_t cmd = vm_cmd_queue_pop_value();
+        uint16_t p1 = vm_cmd_queue_pop_value();
+        uint16_t p2 = vm_cmd_queue_pop_value();
+        switch (cmd) {
+        case VM_CMD_NONE:
+            /* Really do nothing */
+            break;
+        case VM_CMD_STOP:
+            engine_stop();
+            player_clear();
+            vm_reset();
+            break;
+        case VM_CMD_BRAKE:
+            engine_brake();
+            break;
+        case VM_CMD_SET_THROTTLE:
+            engine_set_throttle(p1);
+            break;
+        case VM_CMD_SET_DIRECTION:
+            engine_set_direction(p1);
+            break;
+        case VM_CMD_SET_FUNCTION_STATE:
+            vm_set_function_key(p1, p2);
+            break;
+        default:
+            logger_printf("Unknown VM command %d", cmd);
+            break;
+        }
+    }
+}
+
+void vm_queue_command(VMCommand cmd, uint16_t param1, uint16_t param2)
+{
+    /* Don't bother on queue overflow yet */
+    vm_cmd_queue_push_value(cmd);
+    vm_cmd_queue_push_value(param1);
+    vm_cmd_queue_push_value(param2);
+}
+
 void vm_tick(uint32_t t)
 {
+    vm_process_queue();
+
     static int32_t trigger_time;
     /* Set trigger */
     //trigger_time += t;
@@ -189,13 +252,16 @@ void vm_clear(void)
 
 void vm_reset(void)
 {
+    /* Clear everything */
     trigger_set = false;
-    vm_init_function_keys();
-    vm_set_var(F_RANDOM, 1);
-    vm_set_var(F_EXECUTING, 1);
+    memset(memory, 0, sizeof(memory));
     for (int i = 0 ; i < VM_SLOTS ; ++i) {
         slot_reset(&slots[i]);
     }
+    /* Set defaults */
+    vm_init_function_keys();
+    vm_set_var(F_RANDOM, 1);
+    vm_set_var(F_EXECUTING, 1);
 }
 
 void vm_set_function_key(uint8_t f, bool v)

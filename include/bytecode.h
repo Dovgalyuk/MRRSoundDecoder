@@ -28,6 +28,14 @@
 #define I_CALL              0x0e
 #define I_DEC               0x0f
 #define I_NEXT              0x10
+#define I_SWAP              0x18
+// 0x19
+// 0x1a
+// 0x1b
+// 0x1c
+// 0x1d
+// 0x1e
+// 0x1f
 #define I_SET0              0x20
 #define I_SET1              (I_SET0 + 1)
 #define I_SET2              (I_SET0 + 2)

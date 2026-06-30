@@ -9,8 +9,8 @@ slot_variables = {
     'V_USER_2':        0x05,
     'V_USER_3':        0x06,
     'V_USER_4':        0x07,
-    #                  0x08,
-    #'F_RESTORE':       0x09,
+    'R_ACCUM':         0x08,
+    'R_ACCUM2':        0x09,
     'V_TIMER_1S':      0x0b,
 
     'F_REVERSE':       0x40,

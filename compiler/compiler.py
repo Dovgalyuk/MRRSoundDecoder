@@ -187,7 +187,7 @@ for s in slots:
 output_file = open(output_name, 'wb')
 
 output_file.write(b'MRRD')
-write_byte(output_file, 0x10) #version
+write_byte(output_file, 0x11) #version
 
 locomotive.save(output_file)
 

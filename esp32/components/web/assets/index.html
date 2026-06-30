@@ -163,7 +163,7 @@
     <nav>
         <button class="nav-btn active" onclick="showTab('dashboard')">Dashboard</button>
         <button class="nav-btn" onclick="showTab('cvs')">CVs</button>
-        <button class="nav-btn" onclick="showTab('files')">Files</button>
+        <button class="nav-btn" onclick="showTab('files')">Project</button>
         <button class="nav-btn" onclick="showTab('logs')">Logs</button>
         <button class="nav-btn" onclick="showTab('system')">System</button>
     </nav>
@@ -232,15 +232,20 @@
 
         <!-- System Tab -->
         <section id="system" class="tab-content">
-            <h3>Upload Firmware</h3>
-            <form id="upload-firmware-form">
-                <input type="file" id="firmware-file-input" required accept=".bin">
-                <button type="submit" class="btn primary">Upload</button>
-            </form>
             <div class="button-group" style="margin-top: 10px;">
-                <button id="firmware-status" class="btn primary" onclick="validateFirmware()">Validate</button>
+                <button class="btn danger" onclick="sendAction('reset')">Reset</button>
             </div>
-            <div id="upload-firmware-status"></div>
+            <div class="card" style="margin-top: 10px;">
+                <h3>Upload Firmware</h3>
+                <form id="upload-firmware-form">
+                    <input type="file" id="firmware-file-input" required accept=".bin">
+                    <button type="submit" class="btn primary">Upload</button>
+                </form>
+                <div class="button-group" style="margin-top: 10px;">
+                    <button id="firmware-status" class="btn primary" onclick="validateFirmware()">Validate</button>
+                </div>
+                <div id="upload-firmware-status"></div>
+            </div>
             <div id="system-info" style="margin-top: 10px;" class="terminal"></div>
         </section>
     </main>

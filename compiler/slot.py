@@ -106,8 +106,15 @@ class Slot:
 
     def _process_node(self, node, context):
         match node:
+            # global stuff
             case ast.Assign(targets=[ast.Name(id='_prefix')], value=ast.Constant(value=prefix)):
                 context.set_var('_prefix', prefix)
+            case ast.FunctionDef(name=name):
+                s = State(name, context)
+                context.add_state(s)
+                for node in node.body:
+                    self._process_node(node, s)
+            # local stuff
             case ast.Assign(targets=[ast.Name(id='_next')]):
                 pass
             case ast.Assign(targets=[ast.Name(id=name)]):
@@ -155,11 +162,6 @@ class Slot:
                 pass
             case ast.Pass():
                 pass
-            case ast.FunctionDef(name=name):
-                s = State(name, context)
-                context.add_state(s)
-                for node in node.body:
-                    self._process_node(node, s)
             case _:
                 raise RRException(f'Invalid operation in slot: {ast.dump(node)}')
 
@@ -270,22 +272,67 @@ class Slot:
                 raise RRException(f'Invalid operation in slot: {ast.dump(node)}')
 
     def _generate_imm_call(self, code, context):
-        p = context.get_parent()
+        p = context
         imm = p.get_state('_immediate')
         while p and not imm:
             p = p.get_parent()
             if p:
                 imm = p.get_state('_immediate')
         if imm:
-            code.add_instruction(IrCall(imm))
+            code.add_instruction(IrLoadI(imm))
+            code.add_instruction(IrCall())
 
-    def _generate_on_exit_call(self, context):
-        ex = context.get_state('_on_exit')
-        if ex:
-            context.add_instruction(IrCall(ex))
+    def _generate_on_exit_function(self):
+        st = self._context.get_state('_exit_processor')
+        accum = SlotVariable('R_ACCUM')
+        accum2 = SlotVariable('R_ACCUM2')
+        retry = IrLabel()
+        ret = IrLabel()
+        st.add_instruction(retry)
+        # remember the top value
+        st.add_instruction(IrStore(accum))
+        st.add_instruction(IrStore(accum2))
+        st.add_instruction(IrLoad(accum2))
+        st.add_instruction(IrLoad(accum))
+        st.add_instruction(IrCond('ge'))
+        st.add_instruction(IrJump(ret, 'f'))
+        st.add_instruction(IrLoad(accum))
+        st.add_instruction(IrSwap())
+        st.add_instruction(IrCall())
+        st.add_instruction(IrJump(retry))
+        st.add_instruction(ret)
+        st.add_instruction(IrLoad(accum2))
+        st.add_instruction(IrRet())
 
     def _generate_ir(self, node, context):
         match node:
+            case ast.FunctionDef(name=name):
+                s = context.get_state(name)
+                # generate prolog
+                if not s.is_function():
+                    on_exit = 0
+                    on_exit_func = s.get_state('_on_exit')
+                    if on_exit_func:
+                        on_exit = on_exit_func
+                    s.add_instruction(IrLoadI(s.get_level()))
+                    s.add_instruction(IrLoadI(self._context.get_state('_exit_processor')))
+                    s.add_instruction(IrCall())
+                    s.add_instruction(IrLoadI(on_exit))
+                    s.add_instruction(IrLoadI(s.get_level()))
+
+                # generate body
+                for node in node.body:
+                    self._generate_ir(node, s)
+                if name == '_immediate':
+                    self._generate_imm_call(s, context.get_parent())
+                # goto _init state after running own (entry) code
+                init = s.get_state('_init')
+                if init:
+                    s.add_instruction(IrLoadI(init))
+                    s.add_instruction(IrNext())
+                else:
+                    # needed for immediate and backup for others
+                    s.add_instruction(IrRet())
             case ast.Assign(targets=[ast.Name(id='_prefix')]):
                 # not needed here
                 pass
@@ -295,7 +342,8 @@ class Slot:
                     ref = context.get_parent().get_parent().get_state(name)
                 else:
                     ref = context.get_parent().get_state(name)
-                context.add_instruction(IrCall(ref))
+                context.add_instruction(IrLoadI(ref))
+                context.add_instruction(IrCall())
             case ast.Assign(targets=[ast.Subscript(value=ast.Name(id=name), slice=ast.Constant(value=bit))], value=ast.Constant(value=value)):
                 if value is not True and value is not False:
                     raise RRException(f'Invalid value "{value}" for bit assignment for "{name}"')
@@ -358,7 +406,6 @@ class Slot:
                 # else is not supported yet
             case ast.Expr(value=ast.Call(func=ast.Name(id='goto'), args=[ast.Name(id='_next')])):
                 # _next is on top of the stack
-                self._generate_on_exit_call(context)
                 context.add_instruction(IrNext(1))
             case ast.Expr(value=ast.Call(func=ast.Name(id='goto'), args=args)):
                 if len(args) not in [1, 2, 4, 8]:
@@ -369,7 +416,6 @@ class Slot:
                 for arg in reversed(args):
                     next = p.get_state(arg.id)
                     context.add_instruction(IrLoadI(next))
-                self._generate_on_exit_call(context)
                 context.add_instruction(IrNext(len(args)))
             case ast.Return(value=ast.Name(id=name)):
                 ref = context.get_parent().get_parent().get_state(name)
@@ -383,7 +429,8 @@ class Slot:
                     ref = context.get_parent().get_parent().get_state('_exit')
                 else:
                     ref = context.get_parent().get_state('_exit')
-                context.add_instruction(IrCall(ref))
+                context.add_instruction(IrLoadI(ref))
+                context.add_instruction(IrCall())
                 context.add_instruction(IrRet())
             case ast.Expr(value=ast.Call(func=ast.Name(id='switch'))):
                 context.add_instruction(IrSwitch())
@@ -420,20 +467,6 @@ class Slot:
             case ast.Pass():
                 # do nothing
                 pass
-            case ast.FunctionDef(name=name):
-                s = context.get_state(name)
-                for node in node.body:
-                    self._generate_ir(node, s)
-                if name == '_immediate':
-                    self._generate_imm_call(s, context)
-                # goto _init state after running own (entry) code
-                init = s.get_state('_init')
-                if init:
-                    s.add_instruction(IrLoadI(init))
-                    s.add_instruction(IrNext())
-                else:
-                    # needed for immediate and backup for others
-                    s.add_instruction(IrRet())
             case _:
                 raise RRException(f'Invalid operation in slot: {ast.dump(node)}')
 
@@ -449,8 +482,13 @@ class Slot:
 
         self._tree = tree
         self._context = State('', global_context)
+
+        # process the source
         for node in tree.body:
             self._process_node(node, self._context)
+
+        # create global exit processor as the last function
+        self._context.add_state(State('_exit_processor', self._context))
 
     def dump(self, f):
         self._context.dump(f)
@@ -459,8 +497,12 @@ class Slot:
         # substitute known variables and optimize conditions
         self._tree = ast.fix_missing_locations(Optimizer(self._context).visit(self._tree))
 
-        # address 0 is reserved, place nop there
-        self._context.add_instruction(IrNop())
+        # Load 0 into stack for exit_processor guard
+        self._context.add_instruction(IrLoadI(0))
+
+        self._generate_on_exit_function()
+
+        # generate all functions and states
         for node in self._tree.body:
             self._generate_ir(node, self._context)
 

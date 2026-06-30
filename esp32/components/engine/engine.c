@@ -10,6 +10,7 @@ CV 4	Deceleration Rate
 #include "freertos/task.h"
 #include "driver/ledc.h"
 #include "driver/gpio.h"
+#include "esp_adc/adc_oneshot.h"
 
 #include "cv.h"
 #include "engine.h"
@@ -17,9 +18,6 @@ CV 4	Deceleration Rate
 #include "variables.h"
 #include "pins.h"
 #include "logger.h"
-
-#define ENGINE_OUTPUT_FWD_LIGHT  1
-#define ENGINE_OUTPUT_BACK_LIGHT 2
 
 #define MOTOR_SPEED_MODE        LEDC_LOW_SPEED_MODE
 #define MOTOR_CHANNEL1          LEDC_CHANNEL_0
@@ -35,12 +33,12 @@ CV 4	Deceleration Rate
 #define OUT_PWM_MAX             255
 #define OUT_TIMER               LEDC_TIMER_1
 
-#define OUT_PWM_PINS            2
+#define OUT_PWM_PINS            6
 
-static const uint8_t pwm_outputs[OUT_PWM_PINS] = {ENGINE_OUTPUT_FWD_LIGHT, ENGINE_OUTPUT_BACK_LIGHT};
-static const uint8_t pwm_pins[OUT_PWM_PINS] = {PHYS_OUTPUT_FWD_LIGHT, PHYS_OUTPUT_BACK_LIGHT};
-static const uint8_t pwm_pin_channels[OUT_PWM_PINS] = {LEDC_CHANNEL_2, LEDC_CHANNEL_3};
+static const uint8_t pwm_pins[OUT_PWM_PINS] = {PHYS_OUTPUT_FWD_LIGHT, PHYS_OUTPUT_BACK_LIGHT, PHYS_OUTPUT_4, PHYS_OUTPUT_5, PHYS_OUTPUT_6, PHYS_OUTPUT_7};
+static const uint8_t pwm_pin_channels[OUT_PWM_PINS] = {LEDC_CHANNEL_2, LEDC_CHANNEL_3, LEDC_CHANNEL_4, LEDC_CHANNEL_5, LEDC_CHANNEL_6, LEDC_CHANNEL_7};
 static bool pwm_pin_states[OUT_PWM_PINS];
+static adc_oneshot_unit_handle_t adc_handle;
 
 static void engine_task(void *args)
 {
@@ -80,7 +78,7 @@ static void engine_task(void *args)
 
         /* Update LEDs */
         for (int i = 0 ; i < OUT_PWM_PINS ; ++i) {
-            const OutputProps *p = engine_get_output_props(pwm_outputs[i]);
+            const OutputProps *p = engine_get_output_props(i);
             bool cur = vm_get_var(p->flag_var);
             if (cur != pwm_pin_states[i]) {
                 uint32_t delay = cur ? p->delay_on : p->delay_off;
@@ -92,6 +90,21 @@ static void engine_task(void *args)
                                 LEDC_FADE_NO_WAIT);
             }
         }
+
+        /* Read motor current */
+        int motor_voltage = 0;
+        LOGGER_ERROR_CHECK(adc_oneshot_read(adc_handle, MOTOR_ADC_CHANNEL, &motor_voltage));
+        static uint64_t prev;
+        static uint64_t count;
+        static int prev_speed;
+        if (prev_speed != speed) {
+            prev_speed = speed;
+            prev = 0;
+            count = 0;
+        }
+        prev += motor_voltage;
+        ++count;
+        logger_printf("Motor speed=%d voltage=%d", speed, (int)(prev / count));
 
         /* Wait */
         vTaskDelay(pdMS_TO_TICKS(100));
@@ -108,7 +121,7 @@ void engine_init(void)
         .freq_hz          = MOTOR_PWM_FREQUENCY,
         .clk_cfg          = LEDC_AUTO_CLK
     };
-    ESP_ERROR_CHECK(ledc_timer_config(&ledc_timer_motor));
+    LOGGER_ERROR_CHECK(ledc_timer_config(&ledc_timer_motor));
     ledc_timer_config_t ledc_timer_out = {
         .speed_mode       = OUT_SPEED_MODE,
         .duty_resolution  = OUT_PWM_RESOLUTION,
@@ -116,7 +129,7 @@ void engine_init(void)
         .freq_hz          = OUT_PWM_FREQUENCY,
         .clk_cfg          = LEDC_AUTO_CLK
     };
-    ESP_ERROR_CHECK(ledc_timer_config(&ledc_timer_out));
+    LOGGER_ERROR_CHECK(ledc_timer_config(&ledc_timer_out));
 
     /* Motor pins */
     ledc_channel_config_t ledc_channel_motor1 = {
@@ -128,7 +141,7 @@ void engine_init(void)
         .duty           = MOTOR_PWM_MAX,
         .hpoint         = 0
     };
-    ESP_ERROR_CHECK(ledc_channel_config(&ledc_channel_motor1));
+    LOGGER_ERROR_CHECK(ledc_channel_config(&ledc_channel_motor1));
 
     ledc_channel_config_t ledc_channel_motor2 = {
         .speed_mode     = MOTOR_SPEED_MODE,
@@ -139,7 +152,7 @@ void engine_init(void)
         .duty           = MOTOR_PWM_MAX,
         .hpoint         = 0
     };
-    ESP_ERROR_CHECK(ledc_channel_config(&ledc_channel_motor2));
+    LOGGER_ERROR_CHECK(ledc_channel_config(&ledc_channel_motor2));
 
     /* PWM out pins */
     for (int i = 0 ; i < OUT_PWM_PINS ; ++i) {
@@ -152,18 +165,32 @@ void engine_init(void)
             .duty           = 0,
             .hpoint         = 0
         };
-        ESP_ERROR_CHECK(ledc_channel_config(&ledc_channel));
+        LOGGER_ERROR_CHECK(ledc_channel_config(&ledc_channel));
     }
 
-    /* Initialize other pins for motor driver */
+#if CONFIG_BOARD_VERSION==2
+#if 0
+    /* Initialize pin for motor current measurement */
     gpio_config_t io_conf = {
         .intr_type = GPIO_INTR_DISABLE,
-        .mode = GPIO_MODE_DISABLE,
+        .mode = GPIO_MODE_INPUT,
         .pin_bit_mask = 1ULL << MOTOR_INPUT_V,
         .pull_down_en = 0,
         .pull_up_en = 0,
     };
     gpio_config(&io_conf);
+#endif
+    adc_oneshot_unit_init_cfg_t adc_init_config = {
+        .unit_id = MOTOR_ADC_UNIT,
+    };
+    LOGGER_ERROR_CHECK(adc_oneshot_new_unit(&adc_init_config, &adc_handle));
+
+    adc_oneshot_chan_cfg_t adc_channel_config = {
+        .atten = ADC_ATTEN_DB_0,
+        .bitwidth = ADC_BITWIDTH_DEFAULT,
+    };
+    LOGGER_ERROR_CHECK(adc_oneshot_config_channel(adc_handle, MOTOR_ADC_CHANNEL, &adc_channel_config));
+#endif
 
     /* Other GPIO pins */
     gpio_config_t io_conf_outputs = {

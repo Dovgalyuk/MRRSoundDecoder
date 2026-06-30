@@ -1,7 +1,8 @@
 #ifndef VARIABLES_H
 #define VARIABLES_H
 
-#define F_NULL          0x00 // Always read as 0
+// Out of the address spaces, always read as 0
+#define F_NULL          0x00
 
 #define VAR_LOCAL_START 0x01
 /* Local flags and variables */
@@ -12,10 +13,8 @@
 #define V_USER_2        0x05
 #define V_USER_3        0x06
 #define V_USER_4        0x07
-/* Set to prevent movement while playing */
-//#define F_DRIVELOCK     0x08
-/* Restore sound when re-enabling the slot in case of priority conflict */
-//#define F_RESTORE       0x09
+#define R_ACCUM         0x08
+#define R_ACCUM2        0x09
 /* Shadow playing flag for switching between two sounds */
 #define F_PLAYING2      0x0a
 #define V_TIMER_1S      0x0b

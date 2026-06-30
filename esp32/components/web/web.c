@@ -76,16 +76,18 @@ static esp_err_t web_control_handler(httpd_req_t *req)
     if (act && act->valuestring) {
         if (val) {
             if (!strcmp(act->valuestring, "set_throttle")) {
-                engine_set_throttle(val->valueint);
+                vm_queue_command(VM_CMD_SET_THROTTLE, val->valueint, 0);
             } else if (!strcmp(act->valuestring, "function") && index) {
-                vm_set_function_key(index->valueint, val->valueint);
+                vm_queue_command(VM_CMD_SET_FUNCTION_STATE, index->valueint, val->valueint);
             } else if (!strcmp(act->valuestring, "set_direction")) {
-                engine_set_direction(val->type == cJSON_True);
+                vm_queue_command(VM_CMD_SET_DIRECTION, val->type == cJSON_True, 0);
             }
         } else if (!strcmp(act->valuestring, "stop")) {
-            project_stop();
+            vm_queue_command(VM_CMD_STOP, 0, 0);
         } else if (!strcmp(act->valuestring, "brake")) {
-            engine_brake();
+            vm_queue_command(VM_CMD_BRAKE, 0, 0);
+        } else if (!strcmp(act->valuestring, "reset")) {
+            esp_restart();
         } else if (!strcmp(act->valuestring, "validate_firmware")) {
             esp_ota_mark_app_valid_cancel_rollback();
         }

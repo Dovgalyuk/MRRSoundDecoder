@@ -11,6 +11,8 @@
 #include "cv.h"
 #include "logger.h"
 
+#define PROJECT_VERSION         0x11
+
 #define SECTION_INFO            1
 #define SECTION_SLOT            2
 #define SECTION_WAVE            3
@@ -118,7 +120,7 @@ void project_open(void)
     if (!file_read_uint8(f, &version)) {
         goto ret;
     }
-    if (version != 0x10) {
+    if (version != PROJECT_VERSION) {
         goto ret;
     }
     uint8_t section;
@@ -206,14 +208,4 @@ const char *project_get_function_key_name(uint8_t id)
         return function_key_names[id];
     }
     return NULL;
-}
-
-void project_stop(void)
-{
-    engine_stop();
-    vm_reset();
-    player_clear();
-    for (int f = 0 ; f < VM_FUNCTION_KEYS ; ++f) {
-        vm_set_function_key(f, false);
-    }
 }

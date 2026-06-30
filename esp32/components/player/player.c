@@ -46,16 +46,16 @@ i2s_chan_handle_t tx_chan;
 
 static void player_clear_channel(SoundChannel *ch)
 {
-    if (!ch->file) {
-        return;
+    if (ch->file) {
+        wave_close(ch->file);
     }
-    wave_close(ch->file);
-    if (!ch->aborted) {
+    if (!ch->aborted && ch->slot) {
         slot_finished_sound(ch->slot, ch->subslot);
     }
     ch->file = NULL;
     ch->delay = 0;
     ch->aborted = false;
+    ch->slot = NULL;
 }
 
 static void player_mixer_task(void *args)
@@ -71,16 +71,17 @@ static void player_mixer_task(void *args)
 retry:
                 if (channels[i].file || channels[i].delay) {
                     int16_t v;
-                    if (!channels[i].aborted && channels[i].delay) {
-                        found = true;
-                        --channels[i].delay;
-                    } else if (channels[i].aborted || !wave_next_sample(channels[i].file, &v)) {
-                        player_clear_channel(&channels[i]);
-                        /* Switch to other tasks to allow continuous playing
-                           by starting next sample. */
-                        vTaskDelay(pdMS_TO_TICKS(10));
-                        /* Try to get rid of empty sample between files */
-                        goto retry;
+                    bool clear = false;
+                    if (channels[i].aborted) {
+                        clear = true;
+                    } else if (channels[i].delay) {
+                        if (!--channels[i].delay) {
+                            clear = true;
+                        } else {
+                            found = true;
+                        }
+                    } else if (!wave_next_sample(channels[i].file, &v)) {
+                        clear = true;
                     } else {
                         found = true;
                         s += v * channels[i].volume_cur;
@@ -90,6 +91,14 @@ retry:
                                 ++channels[i].volume_cur;
                             }
                         }
+                    }
+                    if (clear) {
+                        player_clear_channel(&channels[i]);
+                        /* Switch to other tasks to allow continuous playing
+                           by starting next sample. */
+                        vTaskDelay(pdMS_TO_TICKS(10));
+                        /* Try to get rid of empty sample between files */
+                        goto retry;
                     }
                 }
             }
@@ -170,10 +179,9 @@ static SoundChannel *player_acquire_channel(Slot *slot, uint8_t subslot)
 {
     /* TODO: work with priorities */
     for (int i = 0 ; i < SOUND_CHANNELS ; ++i) {
-        if (!channels[i].file && !channels[i].delay) {
+        if (!channels[i].file && !channels[i].delay && !channels[i].aborted) {
             channels[i].slot = slot;
             channels[i].subslot = subslot;
-            channels[i].aborted = false;
             return &channels[i];
         }
     }

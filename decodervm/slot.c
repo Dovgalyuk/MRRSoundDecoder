@@ -13,14 +13,16 @@
 #define DPRINTF(fmt, ...) \
     do if (DEBUG) printf(fmt, ## __VA_ARGS__); while(0)
 
+#define STACK_SIZE(type) (sizeof(slot->type##stack) / sizeof(slot->type##stack[0]))
+
 #define PUSH(type, d)   do { \
                             slot->type##stack[slot->type##sp] = (d); \
-                            slot->type##sp = (slot->type##sp + 1) % STACK_SIZE; \
+                            slot->type##sp = (slot->type##sp + 1) % STACK_SIZE(type); \
                         } while (0)
 #define PUSH_DATA(d) PUSH(data, d)
 #define PUSH_CALL(d) PUSH(call, d)
 
-#define POP(type) ((slot->type##sp = (slot->type##sp - 1 + STACK_SIZE) % STACK_SIZE), \
+#define POP(type) ((slot->type##sp = (slot->type##sp - 1 + STACK_SIZE(type)) % STACK_SIZE(type)), \
                    (slot->type##stack[slot->type##sp]))
 #define POP_DATA() POP(data)
 #define POP_CALL() POP(call)
@@ -130,13 +132,13 @@ void slot_started_delay(Slot *slot, uint8_t subslot)
 {
     uint8_t var = subslot == slot->subslot ? F_PLAYING : F_PLAYING2;
     slot_set_var(slot, var, 1);
+    /* TODO: several slots may use trigger in parallel */
+    vm_reset_trigger();
 }
 
 void slot_started_sound(Slot *slot, uint8_t subslot)
 {
     slot_started_delay(slot, subslot);
-    /* TODO: several slots may use trigger in parallel */
-    vm_reset_trigger();
 }
 
 void slot_finished_sound(Slot *slot, uint8_t subslot)
@@ -191,7 +193,7 @@ void slot_step(Slot *slot)
     uint8_t arg8;
     uint16_t arg16;
     uint32_t arg32;
-    DPRINTF("%"PRId32":\t0x%x\t", first, op);
+    DPRINTF("[%02d] %"PRId32":\t0x%x\t", slot->id, first, op);
     switch (op) {
     case I_NOP:
         DPRINTF("NOP\n");
@@ -280,10 +282,12 @@ void slot_step(Slot *slot)
         slot_write_mem(slot, arg8, POP_DATA());
         break;
     case I_CALL:
-        arg32 = read_3byte(slot->schedule, &slot->pc);
+        arg32 = POP_DATA();
         DPRINTF("CALL %d\n", (int)arg32);
-        PUSH_CALL(slot->pc);
-        slot_set_pc(slot, arg32);
+        if (arg32) {
+            PUSH_CALL(slot->pc);
+            slot_set_pc(slot, arg32);
+        }
         break;
     case I_NEXT...(I_NEXT + 7):
         {
@@ -298,6 +302,15 @@ void slot_step(Slot *slot)
                 }
             }
             slot_next_state(slot, next);
+        }
+        break;
+    case I_SWAP:
+        {
+            DPRINTF("SWAP\n");
+            uint32_t v1 = POP_DATA();
+            uint32_t v2 = POP_DATA();
+            PUSH_DATA(v1);
+            PUSH_DATA(v2);
         }
         break;
     case I_SET0...I_SET7:

@@ -7,7 +7,8 @@
 
 typedef struct Schedule Schedule;
 
-#define STACK_SIZE 32
+#define DATA_STACK_SIZE 128
+#define CALL_STACK_SIZE 32
 
 typedef struct Slot {
     Schedule *schedule;
@@ -19,9 +20,9 @@ typedef struct Slot {
     bool error;
     /* 32-bit to allow signed 8-bit values and 32-bit addresses */
     uint8_t datasp;
-    int32_t datastack[STACK_SIZE];
+    int32_t datastack[DATA_STACK_SIZE];
     uint8_t callsp;
-    uint32_t callstack[STACK_SIZE];
+    uint32_t callstack[CALL_STACK_SIZE];
     uint8_t locals[VAR_LOCAL_SIZE];
 } Slot;
 

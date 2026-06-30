@@ -12,7 +12,6 @@
 
 void project_open(void);
 void project_close(void);
-void project_stop(void);
 void project_tick(uint32_t t);
 
 /* Provide project information */
