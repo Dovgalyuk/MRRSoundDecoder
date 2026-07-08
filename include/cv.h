@@ -9,19 +9,22 @@
 #define CV_VSTART               2
 #define CV_ACCELERATION         3
 #define CV_DECELERATION         4
+#define CV_EMF_CUTOUT           10
 
 /* Custom 47-64 */
 #define CV_CHUFF_PERIOD         47
 #define CV_CHUFF_SPEEDUP        48
 #define CV_CHUFF_MIN_PERIOD     49
-#define CV_REVERSE_VSTART       50
+//#define CV_REVERSE_VSTART       50
 #define CV_BRAKE_ON_THRESHOLD   51
 #define CV_BRAKE_OFF_THRESHOLD  52
 #define CV_LOAD_OPTIONAL        53
 #define CV_LOAD_PRIMARY         54
 #define CV_SWITCHING_TRIM       55
+#define CV_KICK_START_TIME      56
 // #define CV_SOUND_VOLUME         63
 
+#define CV_KICK_START           65
 #define CV_SPEED_TABLE1         67
 #define CV_SPEED_TABLE2         68
 #define CV_SPEED_TABLE3         69

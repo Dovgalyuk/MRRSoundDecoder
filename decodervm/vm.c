@@ -120,6 +120,7 @@ static void vm_process_queue(void)
             break;
         case VM_CMD_STOP:
             engine_stop();
+            engine_hw_stop();
             player_clear();
             vm_reset();
             break;

@@ -50,6 +50,7 @@
 #define F_BRAKING       0x59
 #define F_EXECUTING     0x5a
 #define F_RANDOM        0x5b
+#define C_DIMMER        0x5c
 
 #define C_KEY0          0x60
 #define C_KEY1          0x61
@@ -132,6 +133,7 @@
 #define C_SLOT46        0xad
 #define C_SLOT47        0xae
 #define C_SLOT48        0xaf
+/* Motor speed is locked: can't start or change speed */
 #define C_DRIVELOCK     0xb0
 
 /* Reserved addresses 0xd0-0xdf for 0x10 outputs */

@@ -3,6 +3,7 @@
 #include "variables.h"
 #include "cv.h"
 #include "utils.h"
+#include "logger.h"
 
 #define TICK_DURATION    (896 / ENGINE_THROTTLE_STEPS)
 
@@ -103,11 +104,12 @@ void engine_tick(uint32_t t)
 
     /* Wait for speed update */
     static uint32_t dt;
-    if (vm_get_var(C_DRIVELOCK)) {
-        dt = 0;
+    dt += t;
+    if (vm_get_var(C_DRIVELOCK)
+        || !engine_can_accelerate()) {
+        // dt = 0;
         return;
     }
-    dt += t;
     /* cv3*896 = milliseconds to reach full speed */
     /* cv3*32 = milliseconds = delay per step */
     if ((!cv_read(CV_DECELERATION) && throttle_step < speed_step)
@@ -119,6 +121,7 @@ void engine_tick(uint32_t t)
     } else {
         dt -= TICK_DURATION;
     }
+
     /* calculate new speed */
     int16_t accel;
     if (throttle_step != speed_step) {

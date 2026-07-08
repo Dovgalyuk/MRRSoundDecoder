@@ -10,19 +10,34 @@ typedef struct CVDesc {
     const uint8_t max;
 } CVDesc;
 
+/*
+Getting Kick Start Working
+Kick Start is programmed using Configuration Variable 65, and its value is determined by experimentation. By changing the value in CV 65, you change the specified amount of Kick Start applied to the motor when the throttle transitions from stop to the first speed step.
+
+Before starting to adjust CVs:
+Determine the CVs the multifunction decoder supports, and investigate the presence of additional CVs the manufacturer may have included for motor control purposes
+The locomotive in question should be well maintained, lubricated, well running, and operate it for a few minutes to warm up the motor and lubricate the mechanism.
+Ensure your locomotive moves at speed step 1. Get your locomotive started then back it down to speed step 1. If it stops moving, adjust the speed table or dither features first.
+Finding the magic number for Kick Start takes a little time. If you have speed step 1 set to keep the locomotive running, but it will not start moving on speed step 1, increase the value in Kick Start. If the loco abruptly starts, or jolts to life, then settles back down to speed step 1, lower Kick Start value. When the locomotive instantly starts to crawl at the speed step 1 speed when first entering speed step 1, you've found the perfect setting.
+Kick start is usually used in conjunction with user-loadable Speed Table. It is suggested you setup your speed table before tinkering with dither or Kick Start.
+
+*/
+
 static const CVDesc cv_desc[CV_MAX + 1] = {
     [CV_VSTART] = {20, "Start motor voltage", "Start motor voltage for forward movement 255=VCC", 0, 255},
     [CV_ACCELERATION] = {10, "Acceleration", "0 for acceleration without delay", 0, 255},
     [CV_DECELERATION] = {10, "Deceleration", "0 for slowing down without delay", 0, 255},
+    [CV_EMF_CUTOUT] = {5, "EMF Cutout", "Speed step above which the back EMF motor control cuts off", 1, 28},
     [CV_CHUFF_PERIOD] = {120, "Chuff period", "Steam chuffs period at speed 1 in 10s of milliseconds", 30, 255},
     [CV_CHUFF_SPEEDUP] = {96, "Chuff speedup", "Chuff speedup factor", 0, 255},
     [CV_CHUFF_MIN_PERIOD] = {150, "Minimum chuff period", "Chuff period could not be less at highest speeds", 0, 255},
-    [CV_REVERSE_VSTART] = {20, "Reverse start motor voltage", "Start motor voltage for reverse movement 255=VCC", 0, 255},
     [CV_BRAKE_ON_THRESHOLD] = {60, "Brake On", "Brake sound swithes on when the speed is smaller or equals than this value", 0, 255},
     [CV_BRAKE_OFF_THRESHOLD] = {7, "Brake Off", "Brake sound swithes off when the speed is smaller than this value", 0, 255},
     [CV_LOAD_OPTIONAL] = {0, "Optional load", "Divided by 128 is the factor that changes acceleration and deceleration", 0, 255},
     [CV_LOAD_PRIMARY] = {255, "Primary load", "Divided by 128 is the factor that changes acceleration and deceleration", 0, 255},
     [CV_SWITCHING_TRIM] = {64, "Switching trim", "Divided by 128 is the factor that changes the speed in switching mode", 0, 255},
+    [CV_KICK_START_TIME] = {3, "Kick start time", "Time for kick start voltage in 10ms.", 0, 255},
+    [CV_KICK_START] = {90, "Kick start", "Extra Kick that will supplied to the motor when starting.", 0, 255},
     [CV_SPEED_TABLE1] = {1, "Speed table step 1", "1-255", 1, 255},
     [CV_SPEED_TABLE2] = {2, "Speed table step 2", "1-255", 1, 255},
     [CV_SPEED_TABLE3] = {4, "Speed table step 3", "1-255", 1, 255},

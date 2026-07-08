@@ -41,6 +41,7 @@ slot_variables = {
     'F_BRAKING':       0x59,
     'F_EXECUTING':     0x5a,
     'F_RANDOM':        0x5b,
+    'C_DIMMER':        0x5c,
 
     'V_ACCEL':         0xF0,
 
@@ -156,11 +157,11 @@ slot_variables = {
 class SlotVariable():
     _name: str = None
 
-    def __init__(self, name, slot=None):
+    def __init__(self, name, slot_var=None):
         if name == 'F_FUNCTION':
-            if not slot:
+            if not slot_var:
                 raise RRException(f'Unknown slot while reading F_FUNCTION')
-            name = f'C_SLOT{slot}'
+            name = slot_var
         if name not in slot_variables:
             raise RRException(f'Unknown variable {name}')
         self._name = name

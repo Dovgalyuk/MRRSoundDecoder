@@ -23,7 +23,9 @@ uint8_t engine_get_speed_step(void);
 bool engine_get_direction(void);
 void engine_set_direction(bool d);
 void engine_stop(void);
+void engine_hw_stop(void);
 void engine_brake(void);
+bool engine_can_accelerate(void);
 
 const OutputProps *engine_get_output_props(uint8_t id);
 bool engine_load_output_props(FILE *f);

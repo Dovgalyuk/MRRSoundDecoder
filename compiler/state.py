@@ -52,7 +52,7 @@ class State:
 
     def get_parent(self):
         return self._parent
-    
+
     def get_level(self):
         if self._parent:
             return self._parent.get_level() + 1
