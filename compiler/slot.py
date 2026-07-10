@@ -11,7 +11,8 @@ class SlotInfo:
     num: int
     name: str
     volume: int
-    enable: str
+    function: str
+    enable: str = 'F_EXECUTING'
 
 def calculate(expr, context):
     match expr:
@@ -185,7 +186,7 @@ class Slot:
                 context.add_instruction(IrLoadI(value))
             case ast.Name(id=name):
                 if name in slot_variables:
-                    context.add_instruction(IrLoad(SlotVariable(name, self._info.enable)))
+                    context.add_instruction(IrLoad(SlotVariable(name, self._info.function)))
                 else:
                     context.add_instruction(IrLoadI(context.get_var(name)))
             case ast.Call(func=ast.Name(id='rand'), args=[left, right]):
@@ -206,7 +207,7 @@ class Slot:
             case ast.Compare(ops=[ast.Eq() | ast.NotEq()], comparators=[ast.Constant(value=True) | ast.Constant(value=False)]):
                 match node.left:
                     case ast.Name(id=name):
-                        var = SlotVariable(node.left.id, self._info.enable)
+                        var = SlotVariable(node.left.id, self._info.function)
                         if var.is_cond():
                             context.add_instruction(IrLoadI(0))
                             context.add_instruction(IrLoad(var))
@@ -225,7 +226,7 @@ class Slot:
                 context.add_instruction(IrJump(label_else, flag))
                 context.add_instruction(IrJump(label_then))
             case ast.Name(id=name):
-                var = SlotVariable(name, self._info.enable)
+                var = SlotVariable(name, self._info.function)
                 if var.is_cond():
                     context.add_instruction(IrLoadI(0))
                     context.add_instruction(IrLoad(var))

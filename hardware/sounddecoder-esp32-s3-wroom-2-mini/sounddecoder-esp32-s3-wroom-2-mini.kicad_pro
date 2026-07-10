@@ -58,36 +58,7 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [
-        [
-          "copper_edge_clearance|75400002|113512502|31ee116d-62c9-4da1-836b-e012d2896fd9|84b78a82-6760-48c2-aed0-84f143fb5756",
-          ""
-        ],
-        [
-          "courtyards_overlap|114050319|118475000|236b2071-0f12-4a90-a1c9-499a295960ea|83a6e8f4-d697-4633-90f6-7a49e2c4a9ff",
-          ""
-        ],
-        [
-          "courtyards_overlap|114645000|82435000|2c0a018f-d5a1-4fd3-ba94-9ffdf45f1f74|fd211f07-28d9-4955-8c8a-dbe65e78182d",
-          ""
-        ],
-        [
-          "courtyards_overlap|114645000|88435000|2c0a018f-d5a1-4fd3-ba94-9ffdf45f1f74|d5bfb976-c1c1-4716-aba2-8266e175968d",
-          ""
-        ],
-        [
-          "courtyards_overlap|114665000|94435000|046224ca-f867-4fac-8f09-6ecb9aac8c00|d5bfb976-c1c1-4716-aba2-8266e175968d",
-          ""
-        ],
-        [
-          "courtyards_overlap|78175000|104092500|1d9b4321-f42f-4c2e-8e9c-d3f6a144f1ca|8fe6e2c6-162b-48f3-a779-f1b16d835713",
-          ""
-        ],
-        [
-          "courtyards_overlap|86445028|95990000|18811a70-81a4-4580-bd63-002f7404eae9|1d9b4321-f42f-4c2e-8e9c-d3f6a144f1ca",
-          ""
-        ]
-      ],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },

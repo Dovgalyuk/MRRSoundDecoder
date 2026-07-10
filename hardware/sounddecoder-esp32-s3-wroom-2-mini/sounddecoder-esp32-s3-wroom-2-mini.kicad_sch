@@ -847,6 +847,235 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Connector_Generic:Conn_01x05"
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "J"
+				(at 0 7.62 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Conn_01x05"
+				(at 0 -7.62 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Generic connector, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "connector"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Connector*:*_1x??_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Conn_01x05_1_1"
+				(rectangle
+					(start -1.27 6.35)
+					(end 1.27 -6.35)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(rectangle
+					(start -1.27 5.207)
+					(end 0 4.953)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 2.667)
+					(end 0 2.413)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 0.127)
+					(end 0 -0.127)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 -2.413)
+					(end 0 -2.667)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 -4.953)
+					(end 0 -5.207)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -5.08 5.08 0)
+					(length 3.81)
+					(name "Pin_1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 2.54 0)
+					(length 3.81)
+					(name "Pin_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "Pin_3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -2.54 0)
+					(length 3.81)
+					(name "Pin_4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -5.08 0)
+					(length 3.81)
+					(name "Pin_5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:C"
 			(pin_numbers
 				(hide yes)
@@ -3972,12 +4201,6 @@
 		(uuid "2974ee48-e448-4e83-b962-3ee41bbb83b6")
 	)
 	(junction
-		(at 24.13 64.77)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "2ae92bdb-a22f-4741-b83d-ee67f1aec520")
-	)
-	(junction
 		(at 96.52 85.09)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4032,16 +4255,16 @@
 		(uuid "7502e224-041e-4a44-be40-3060f783ea80")
 	)
 	(junction
+		(at 96.52 71.12)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "75b55a50-0757-4008-a22a-7a1e25b9db92")
+	)
+	(junction
 		(at 129.54 101.6)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "8263dcc8-1487-40ba-b6aa-1dbfadba7dd2")
-	)
-	(junction
-		(at 96.52 71.12)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "8460bbeb-9a14-4557-8b85-5e95e48d0cda")
 	)
 	(junction
 		(at 80.01 36.83)
@@ -4116,12 +4339,6 @@
 		(uuid "c7cf3455-d917-4191-903e-fbf0c556e609")
 	)
 	(junction
-		(at 24.13 72.39)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e8332427-68bf-43c9-a97d-83c78f38cc70")
-	)
-	(junction
 		(at 88.9 68.58)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4194,6 +4411,16 @@
 			(type default)
 		)
 		(uuid "066a603d-45a9-43e4-a26c-68d30d9a4452")
+	)
+	(wire
+		(pts
+			(xy 96.52 71.12) (xy 100.33 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "06bbbe4e-629a-42a2-9444-483c391b9b7d")
 	)
 	(wire
 		(pts
@@ -4314,6 +4541,16 @@
 			(type default)
 		)
 		(uuid "14f2593e-6857-4d08-bad5-82265dfcb0c6")
+	)
+	(wire
+		(pts
+			(xy 187.96 146.05) (xy 193.04 146.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1620a56a-9c0b-499f-beeb-54e7bb6b9b88")
 	)
 	(wire
 		(pts
@@ -4497,16 +4734,6 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 71.12) (xy 100.33 71.12)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "30342704-7a5f-40c5-8e90-0660f3357ccd")
-	)
-	(wire
-		(pts
 			(xy 77.47 86.36) (xy 77.47 83.82)
 		)
 		(stroke
@@ -4647,7 +4874,7 @@
 	)
 	(wire
 		(pts
-			(xy 166.37 140.97) (xy 179.07 140.97)
+			(xy 166.37 140.97) (xy 193.04 140.97)
 		)
 		(stroke
 			(width 0)
@@ -4827,16 +5054,6 @@
 	)
 	(wire
 		(pts
-			(xy 24.13 64.77) (xy 29.21 64.77)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6969dc4c-c961-455b-9792-39024689d347")
-	)
-	(wire
-		(pts
 			(xy 166.37 148.59) (xy 179.07 148.59)
 		)
 		(stroke
@@ -4847,17 +5064,7 @@
 	)
 	(wire
 		(pts
-			(xy 17.78 72.39) (xy 24.13 72.39)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6a96a188-b444-4eb3-bad7-fcdd971e3816")
-	)
-	(wire
-		(pts
-			(xy 24.13 73.66) (xy 24.13 72.39)
+			(xy 26.67 73.66) (xy 26.67 74.93)
 		)
 		(stroke
 			(width 0)
@@ -5167,23 +5374,13 @@
 	)
 	(wire
 		(pts
-			(xy 166.37 143.51) (xy 179.07 143.51)
+			(xy 166.37 143.51) (xy 193.04 143.51)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "ad815a69-8748-4e22-bc1b-bf40bac65bb5")
-	)
-	(wire
-		(pts
-			(xy 17.78 64.77) (xy 24.13 64.77)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b0e9aeea-812e-4570-9ab6-c5f79a6e4e6b")
 	)
 	(wire
 		(pts
@@ -5527,16 +5724,6 @@
 	)
 	(wire
 		(pts
-			(xy 24.13 72.39) (xy 29.21 72.39)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f0c68d49-e48f-48f4-bb99-7e5f86bdc849")
-	)
-	(wire
-		(pts
 			(xy 49.53 158.75) (xy 72.39 158.75)
 		)
 		(stroke
@@ -5547,7 +5734,7 @@
 	)
 	(wire
 		(pts
-			(xy 24.13 63.5) (xy 24.13 64.77)
+			(xy 26.67 64.77) (xy 26.67 66.04)
 		)
 		(stroke
 			(width 0)
@@ -5604,6 +5791,16 @@
 			(type default)
 		)
 		(uuid "ff8fd715-5ecb-4a9a-9e27-8ee5987a5255")
+	)
+	(label "IO0"
+		(at 190.5 146.05 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "079716fd-a30e-4d73-b95f-f0b712e74257")
 	)
 	(label "UART-TX"
 		(at 167.64 140.97 0)
@@ -6900,6 +7097,72 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 193.04 148.59 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3e8ae980-1f7c-4a29-9b83-f74f0bfe40f3")
+		(property "Reference" "#PWR0102"
+			(at 193.04 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 193.04 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 193.04 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 193.04 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 193.04 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "16c5e93c-45d0-46ea-98bb-b3b8cde70201")
+		)
+		(instances
+			(project "sounddecoder-esp32-s3-wroom-2-mini"
+				(path "/d1fe0542-ce5f-402b-bc04-d653d7366528"
+					(reference "#PWR0102")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:VCC")
 		(at 29.21 30.48 0)
 		(unit 1)
@@ -7037,7 +7300,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 17.78 68.58 0)
+		(at 26.67 69.85 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7046,7 +7309,7 @@
 		(fields_autoplaced yes)
 		(uuid "459d0b87-d6d2-4263-8831-c69b432c1e93")
 		(property "Reference" "C1"
-			(at 21.59 67.3099 0)
+			(at 30.48 68.5799 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7055,7 +7318,7 @@
 			)
 		)
 		(property "Value" "0.1uF"
-			(at 21.59 69.8499 0)
+			(at 30.48 71.1199 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7064,7 +7327,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
-			(at 18.7452 72.39 0)
+			(at 27.6352 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7073,7 +7336,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 17.78 68.58 0)
+			(at 26.67 69.85 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7082,7 +7345,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 17.78 68.58 0)
+			(at 26.67 69.85 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7509,6 +7772,85 @@
 			(project "sounddecoder-esp32-s3-wroom-2-mini"
 				(path "/d1fe0542-ce5f-402b-bc04-d653d7366528"
 					(reference "#PWR07")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x05")
+		(at 198.12 143.51 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "64944c2e-eb6f-4037-afd0-4b851fb81f45")
+		(property "Reference" "J101"
+			(at 200.66 142.2399 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Conn_01x05"
+			(at 200.66 144.7799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical"
+			(at 198.12 143.51 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 198.12 143.51 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 198.12 143.51 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "cf78a3a5-cdb6-475d-9ddb-41c776d81d39")
+		)
+		(pin "1"
+			(uuid "84924185-7499-41f8-b77f-bedffe5df56c")
+		)
+		(pin "4"
+			(uuid "b64f8e48-4124-4c74-b44b-696881a5222e")
+		)
+		(pin "5"
+			(uuid "da93884e-4fb0-431a-98a5-ef11d9d349de")
+		)
+		(pin "3"
+			(uuid "e71cedd9-0267-4fa9-a3ea-96103c6cac43")
+		)
+		(instances
+			(project "sounddecoder-esp32-s3-wroom-2-mini"
+				(path "/d1fe0542-ce5f-402b-bc04-d653d7366528"
+					(reference "J101")
 					(unit 1)
 				)
 			)
@@ -8485,6 +8827,72 @@
 		)
 	)
 	(symbol
+		(lib_id "power:+5V")
+		(at 193.04 138.43 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a15dac1b-014d-44a8-b245-97465011d182")
+		(property "Reference" "#PWR0101"
+			(at 193.04 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+5V"
+			(at 193.04 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 193.04 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 193.04 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 193.04 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e624c12e-bbc6-49e4-bc50-050e020bd042")
+		)
+		(instances
+			(project "sounddecoder-esp32-s3-wroom-2-mini"
+				(path "/d1fe0542-ce5f-402b-bc04-d653d7366528"
+					(reference "#PWR0101")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
 		(at 82.55 160.02 0)
 		(unit 1)
@@ -8621,7 +9029,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 24.13 73.66 0)
+		(at 26.67 74.93 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -8630,7 +9038,7 @@
 		(fields_autoplaced yes)
 		(uuid "b0784ee8-6e92-4161-9d16-9f0121bd6dbf")
 		(property "Reference" "#PWR09"
-			(at 24.13 80.01 0)
+			(at 26.67 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8639,7 +9047,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 24.13 78.74 0)
+			(at 26.67 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8647,7 +9055,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 24.13 73.66 0)
+			(at 26.67 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8656,7 +9064,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 24.13 73.66 0)
+			(at 26.67 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8665,7 +9073,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 24.13 73.66 0)
+			(at 26.67 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8874,7 +9282,7 @@
 	)
 	(symbol
 		(lib_id "power:VCC")
-		(at 24.13 63.5 0)
+		(at 26.67 64.77 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -8883,7 +9291,7 @@
 		(fields_autoplaced yes)
 		(uuid "bbbb8fac-a84d-4310-b553-e57652579774")
 		(property "Reference" "#PWR016"
-			(at 24.13 67.31 0)
+			(at 26.67 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8892,7 +9300,7 @@
 			)
 		)
 		(property "Value" "VCC"
-			(at 24.13 58.42 0)
+			(at 26.67 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8900,7 +9308,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 24.13 63.5 0)
+			(at 26.67 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8909,7 +9317,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 24.13 63.5 0)
+			(at 26.67 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8918,7 +9326,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VCC\""
-			(at 24.13 63.5 0)
+			(at 26.67 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9648,8 +10056,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x02")
-		(at 105.41 71.12 0)
-		(mirror x)
+		(at 105.41 68.58 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9657,7 +10064,7 @@
 		(dnp no)
 		(uuid "f3020315-f93b-4fa7-844a-50c71a1ba58d")
 		(property "Reference" "J3"
-			(at 107.95 71.1201 0)
+			(at 107.95 68.5799 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9666,7 +10073,7 @@
 			)
 		)
 		(property "Value" "Motor"
-			(at 107.95 68.5801 0)
+			(at 107.95 71.1199 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9675,7 +10082,7 @@
 			)
 		)
 		(property "Footprint" "TerminalBlock:TerminalBlock_Xinya_XY308-2.54-2P_1x02_P2.54mm_Horizontal"
-			(at 105.41 71.12 0)
+			(at 105.41 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9684,7 +10091,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 105.41 71.12 0)
+			(at 105.41 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9693,7 +10100,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 105.41 71.12 0)
+			(at 105.41 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9711,76 +10118,6 @@
 			(project "sounddecoder-esp32-s3-wroom-2-mini"
 				(path "/d1fe0542-ce5f-402b-bc04-d653d7366528"
 					(reference "J3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Polarized")
-		(at 29.21 68.58 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "f6ee62c1-bdfc-450b-a99d-96ab38a4bc1a")
-		(property "Reference" "C2"
-			(at 33.02 66.4209 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "47uF"
-			(at 33.02 68.9609 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:CP_Elec_6.3x5.4"
-			(at 30.1752 72.39 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 29.21 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Polarized capacitor"
-			(at 29.21 68.58 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "dad61484-0086-44bf-8a7c-676f01a21044")
-		)
-		(pin "2"
-			(uuid "210e5aba-2831-4d1f-8bee-9b25d4e17071")
-		)
-		(instances
-			(project "sounddecoder-esp32-s3-wroom-2-mini"
-				(path "/d1fe0542-ce5f-402b-bc04-d653d7366528"
-					(reference "C2")
 					(unit 1)
 				)
 			)

@@ -226,6 +226,10 @@ static void output_task(void *args)
         /* Update smoke */
         gpio_set_level(PHYS_OUTPUT_SMOKE, 0);
 
+// TODO
+// // dimmer - reduce brightness by 60%
+// #define C_DIMMER        0x5c
+
         /* Update LEDs */
         for (int i = 0 ; i < OUT_PWM_PINS ; ++i) {
             const OutputProps *p = engine_get_output_props(i);

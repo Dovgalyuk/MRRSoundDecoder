@@ -50,6 +50,7 @@
 #define F_BRAKING       0x59
 #define F_EXECUTING     0x5a
 #define F_RANDOM        0x5b
+// dimmer - reduce brightness by 60%
 #define C_DIMMER        0x5c
 
 #define C_KEY0          0x60
