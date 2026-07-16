@@ -42,7 +42,18 @@ static SoundChannel channels[SOUND_CHANNELS];
 #define BUFFER_SIZE 2000
 static uint16_t buffer[BUFFER_SIZE];
 i2s_chan_handle_t tx_chan;
+static bool player_on = true;
 
+
+bool player_is_on(void)
+{
+    return player_on;
+}
+
+void player_set_onoff(bool onoff)
+{
+    player_on = onoff;
+}
 
 static void player_clear_channel(SoundChannel *ch)
 {
@@ -111,6 +122,10 @@ retry:
                 s = 32767;
             } else if (s < -32767) {
                 s = -32767;
+            }
+            /* Don't skip all the sounds, because they affect the behavior */
+            if (!player_on) {
+                s = 0;
             }
             buffer[last] = s;
         }

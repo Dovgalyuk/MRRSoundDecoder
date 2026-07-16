@@ -70,6 +70,22 @@ static const CVDesc cv_desc[CV_MAX + 1] = {
     [CV_FUNC_DEFAULT1] = {0, "Functions 8-15", "Enabled by default F8=1 F9=2 F10=4 F11=8 F12=16 F13=32 F14=64 F15=128", 0, 255},
     [CV_FUNC_DEFAULT2] = {0, "Functions 16-23", "Enabled by default F16=1 F17=2 F18=4 F19=8 F20=16 F21=32 F22=64 F23=128", 0, 255},
     [CV_FUNC_DEFAULT3] = {0, "Functions 24-31", "Enabled by default F24=1 F25=2 F26=4 F27=8 F28=16 F29=32 F30=64 F31=128", 0, 255},
+    [CV_SOUND1] = {0, "Sound CV 1", "Project-defined sound parameter", 0, 255},
+    [CV_SOUND2] = {0, "Sound CV 2", "Project-defined sound parameter", 0, 255},
+    [CV_SOUND3] = {0, "Sound CV 3", "Project-defined sound parameter", 0, 255},
+    [CV_SOUND4] = {0, "Sound CV 4", "Project-defined sound parameter", 0, 255},
+    [CV_SOUND5] = {0, "Sound CV 5", "Project-defined sound parameter", 0, 255},
+    [CV_SOUND6] = {0, "Sound CV 6", "Project-defined sound parameter", 0, 255},
+    [CV_SOUND7] = {0, "Sound CV 7", "Project-defined sound parameter", 0, 255},
+    [CV_SOUND8] = {0, "Sound CV 8", "Project-defined sound parameter", 0, 255},
+    [CV_SOUND9] = {0, "Sound CV 9", "Project-defined sound parameter", 0, 255},
+    [CV_SOUND10] = {0, "Sound CV 10", "Project-defined sound parameter", 0, 255},
+    [CV_SOUND11] = {0, "Sound CV 11", "Project-defined sound parameter", 0, 255},
+    [CV_SOUND12] = {0, "Sound CV 12", "Project-defined sound parameter", 0, 255},
+    [CV_SOUND13] = {0, "Sound CV 13", "Project-defined sound parameter", 0, 255},
+    [CV_SOUND14] = {0, "Sound CV 14", "Project-defined sound parameter", 0, 255},
+    [CV_SOUND15] = {0, "Sound CV 15", "Project-defined sound parameter", 0, 255},
+    [CV_SOUND16] = {0, "Sound CV 16", "Project-defined sound parameter", 0, 255},
 };
 
 /*

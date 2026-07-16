@@ -72,7 +72,9 @@ class Locomotive:
         # Type not needed yet
         write_byte(f, 0x00)
         write_string(f, self.name)
+        write_string(f, self.description)
 
+scv = {}
 
 ###################################################
 # script parsers
@@ -82,7 +84,11 @@ def parse_config(tree):
     for op in tree.body:
         match op:
             case ast.Assign(targets=[ast.Name(id=name)], value=ast.Constant(value=value)):
-                global_context.set_var(name, value)
+                if 'V_SOUNDCV' in name:
+                    #define CV_SOUND1 155
+                    scv[155 + int(name[9:]) - 1] = int(value)
+                else:
+                    global_context.set_var(name, value)
             case _:
                 raise RRException(f'Invalid operation in config: {ast.dump(op)}')
 
@@ -187,7 +193,7 @@ for s in slots:
 output_file = open(output_name, 'wb')
 
 output_file.write(b'MRRD')
-write_byte(output_file, 0x11) #version
+write_byte(output_file, 0x12) #version
 
 locomotive.save(output_file)
 
@@ -203,5 +209,11 @@ for r in resources:
 for p in outputs:
     p.save(output_file)
 
-# TODO: cv from config
+if scv:
+    write_byte(output_file, 5)
+    write_word(output_file, len(scv))
+    for cv, v in scv.items():
+        write_word(output_file, cv)
+        write_byte(output_file, v)
+
 # TODO: physical output props

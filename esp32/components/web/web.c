@@ -20,12 +20,13 @@
 #include "engine.h"
 #include "project.h"
 #include "cv.h"
+#include "player.h"
 #include "logger.h"
 
 #define TAG "http"
 
 #define MAX_FILE_SIZE   (24*1024*1024)
-#define SCRATCH_BUFSIZE 4096
+#define SCRATCH_BUFSIZE 8192
 static char scratch[SCRATCH_BUFSIZE];
 
 static esp_err_t web_receive_json_content(httpd_req_t *req)
@@ -81,6 +82,8 @@ static esp_err_t web_control_handler(httpd_req_t *req)
                 vm_queue_command(VM_CMD_SET_FUNCTION_STATE, index->valueint, val->valueint);
             } else if (!strcmp(act->valuestring, "set_direction")) {
                 vm_queue_command(VM_CMD_SET_DIRECTION, val->type == cJSON_True, 0);
+            } else if (!strcmp(act->valuestring, "set_sound")) {
+                player_set_onoff(val->type == cJSON_True);
             }
         } else if (!strcmp(act->valuestring, "stop")) {
             vm_queue_command(VM_CMD_STOP, 0, 0);
@@ -102,8 +105,10 @@ static esp_err_t web_status_handler(httpd_req_t *req)
     httpd_resp_set_type(req, "application/json");
     cJSON *root = cJSON_CreateObject();
     cJSON_AddNumberToObject(root, "speed", engine_get_speed_step());
-    bool dir = engine_get_direction();
-    cJSON_AddStringToObject(root, "direction", dir ? "forward" : "backward");
+    cJSON_AddStringToObject(root, "direction",
+        engine_get_direction() ? "forward" : "backward");
+    cJSON_AddStringToObject(root, "sound",
+        player_is_on() ? "on" : "off");
     cJSON *arr = cJSON_AddArrayToObject(root, "functions");
     for (int i = 0 ; i < VM_FUNCTION_KEYS ; ++i) {
         cJSON *item = cJSON_CreateBool(vm_get_function_key(i));
@@ -132,6 +137,7 @@ static esp_err_t web_info_handler(httpd_req_t *req)
     httpd_resp_set_type(req, "application/json");
     cJSON *root = cJSON_CreateObject();
     cJSON_AddStringToObject(root, "name", project_get_name());
+    cJSON_AddStringToObject(root, "description", project_get_description());
     cJSON *arr = cJSON_AddArrayToObject(root, "functions");
     for (int i = 0 ; i < VM_FUNCTION_KEYS ; ++i) {
         const char *name = project_get_function_key_name(i);

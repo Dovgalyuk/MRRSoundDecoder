@@ -138,7 +138,8 @@ static void engine_task(void *args)
                 engine_state = ES_ACCEL_BEFORE_START;
                 motor_voltage_start = 0;
                 motor_voltage_count = 0;
-
+            }
+            if (prev_speed != speed) {
                 prev_speed = speed;
                 /* Update speed */
                 uint8_t s1 = MOTOR_PWM_MAX;

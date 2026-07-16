@@ -59,6 +59,23 @@
 #define CV_FUNC_DEFAULT1        113
 #define CV_FUNC_DEFAULT2        114
 #define CV_FUNC_DEFAULT3        115
+// 116-154
+#define CV_SOUND1               155
+#define CV_SOUND2               156
+#define CV_SOUND3               157
+#define CV_SOUND4               158
+#define CV_SOUND5               159
+#define CV_SOUND6               160
+#define CV_SOUND7               161
+#define CV_SOUND8               162
+#define CV_SOUND9               163
+#define CV_SOUND10              164
+#define CV_SOUND11              165
+#define CV_SOUND12              166
+#define CV_SOUND13              167
+#define CV_SOUND14              168
+#define CV_SOUND15              169
+#define CV_SOUND16              170
 
 #define CV_MAX                  255
 

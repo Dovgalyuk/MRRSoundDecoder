@@ -12,10 +12,10 @@
 
 void project_open(void);
 void project_close(void);
-void project_tick(uint32_t t);
 
 /* Provide project information */
 const char *project_get_name(void);
+const char *project_get_description(void);
 const char *project_get_function_key_name(uint8_t id);
 
 #endif

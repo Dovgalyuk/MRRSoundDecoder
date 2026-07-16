@@ -176,6 +176,7 @@
                 <div class="button-group">
                     <button class="btn danger" onclick="sendStop()">STOP</button>
                     <button class="btn primary" onclick="sendBrake()">Brake</button>
+                    <button style="margin-left: auto;margin-right: 0;" id="mute-btn" class="btn primary" onclick="toggleMute()">Mute</button>
                 </div>
                 <div class="card" style="margin-top: 10px;">
                     <h3>Throttle / Speed</h3>
@@ -213,15 +214,20 @@
             </div>
         </section>
 
-        <!-- File Manager Tab -->
+        <!-- Project Tab -->
         <section id="files" class="tab-content">
-            <div class="file-upload">
-                <h3>Upload Sound Project</h3>
-                <form id="upload-project-form">
-                    <input type="file" id="project-file-input" required accept=".prj">
-                    <button type="submit" class="btn primary">Upload</button>
-                </form>
-                <div id="upload-status"></div>
+            <div class="card" style="margin-top: 10px;">
+                <div id="locomotive-desc">Locomotive description</div>
+            </div>
+            <div class="card" style="margin-top: 10px;">
+                <div class="file-upload">
+                    <h3>Upload Sound Project</h3>
+                    <form id="upload-project-form">
+                        <input type="file" id="project-file-input" required accept=".prj">
+                        <button type="submit" class="btn primary">Upload</button>
+                    </form>
+                    <div id="upload-status"></div>
+                </div>
             </div>
         </section>
 
@@ -298,6 +304,7 @@ function loadInfo() {
         .then(r => r.json())
         .then(data => {
             document.getElementById('locomotive-name').innerText = data.name;
+            document.getElementById('locomotive-desc').innerText = data.description;
             if (data.functions) {
                 function_info = data.functions;
             }
@@ -327,11 +334,14 @@ function pollStatus() {
             const speed = parseInt(data.speed);
             document.getElementById('speed-slider').value = speed;
 
-            const dirStr = data.direction;
-            const isFwd = (dirStr === "forward");
+            const isFwd = (data.direction === "forward");
             const dirBtn = document.getElementById('dir-btn');
             dirBtn.innerText = isFwd ? "FWD" : "REV";
             dirBtn.disabled = speed != 0;
+
+            const isMuted = (data.sound === "off");
+            const muteBtn = document.getElementById('mute-btn');
+            muteBtn.innerText = isMuted ? "Unmute" : "Mute";
 
             // Sync Functions
             if (data.functions) {
@@ -375,6 +385,11 @@ function toggleDir() {
     sendAction('set_direction', !currentFwd);
 }
 
+function toggleMute() {
+    const btn = document.getElementById('mute-btn');
+    const mute = (btn.innerText === "Mute");
+    sendAction('set_sound', !mute);
+}
 function setThrottle(val) {
     sendAction('set_throttle', parseInt(val));
 }

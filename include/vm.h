@@ -36,7 +36,6 @@ void vm_reset_trigger(void);
 
 void vm_set_function_key(uint8_t f, bool v);
 bool vm_get_function_key(uint8_t f);
-void vm_init_function_keys(void);
 
 void vm_queue_command(VMCommand cmd, uint16_t param1, uint16_t param2);
 

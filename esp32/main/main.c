@@ -38,7 +38,6 @@ static void vm_task(void *args)
         uint64_t cur_clock = clock_read_ms();
         uint32_t t = cur_clock - last_clock;
         last_clock = cur_clock;
-        project_tick(t);
         engine_tick(t);
         vm_tick(t);
         vTaskDelay(pdMS_TO_TICKS(10));

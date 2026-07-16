@@ -188,7 +188,10 @@ class Slot:
                 if name in slot_variables:
                     context.add_instruction(IrLoad(SlotVariable(name, self._info.function)))
                 else:
-                    context.add_instruction(IrLoadI(context.get_var(name)))
+                    var = context.get_var(name)
+                    if var is None:
+                        raise Exception(f'Unknown variable {name}')
+                    context.add_instruction(IrLoadI(var))
             case ast.Call(func=ast.Name(id='rand'), args=[left, right]):
                 self._generate_expr(right, context);
                 self._generate_expr(left, context);
@@ -511,10 +514,14 @@ class Slot:
         self._context.optimize_jumps()
 
         # optimize control flow
-        self._context.set_used()
-        while self._context.taint_control_flow():
+        try:
+            self._context.set_used()
+            while self._context.taint_control_flow():
+                pass
+            self._context.optimize_control_flow()
+        except Exception as e:
+            print(f'Error of taint optimization in slot {self._num}: {e}')
             pass
-        self._context.optimize_control_flow()
 
     def finalize(self):
         if not self._used:

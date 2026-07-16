@@ -251,6 +251,16 @@ void vm_clear(void)
     }
 }
 
+static void vm_init_function_keys(void)
+{
+    for (int i = 0 ; i < 4 ; ++i) {
+        uint8_t bits = cv_read(CV_FUNC_DEFAULT0 + i);
+        for (int j = 0 ; j < 8 ; ++j, bits >>= 1) {
+            vm_set_function_key(i * 8 + j, bits & 1);
+        }
+    }
+}
+
 void vm_reset(void)
 {
     /* Clear everything */
@@ -263,6 +273,9 @@ void vm_reset(void)
     vm_init_function_keys();
     vm_set_var(F_RANDOM, 1);
     vm_set_var(F_EXECUTING, 1);
+    for (int i = 0 ; i < SOUNDCV_COUNT ; ++i) {
+        vm_set_var(V_SOUNDCV1 + i, cv_read(CV_SOUND1 + i));
+    }
 }
 
 void vm_set_function_key(uint8_t f, bool v)
@@ -284,14 +297,4 @@ bool vm_get_function_key(uint8_t f)
         return vm_get_var(C_KEY0 + f);
     }
     return false;
-}
-
-void vm_init_function_keys(void)
-{
-    for (int i = 0 ; i < 4 ; ++i) {
-        uint8_t bits = cv_read(CV_FUNC_DEFAULT0 + i);
-        for (int j = 0 ; j < 8 ; ++j, bits >>= 1) {
-            vm_set_function_key(i * 8 + j, bits & 1);
-        }
-    }
 }

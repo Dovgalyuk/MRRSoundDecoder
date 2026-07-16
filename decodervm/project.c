@@ -11,7 +11,7 @@
 #include "cv.h"
 #include "logger.h"
 
-#define PROJECT_VERSION         0x11
+#define PROJECT_VERSION         0x12
 
 #define SECTION_INFO            1
 #define SECTION_SLOT            2
@@ -39,6 +39,7 @@ typedef struct Function {
 
 static uint8_t project_type;
 static char *project_name;
+static char *project_description;
 
 static Function *functions;
 static uint8_t function_count;
@@ -132,6 +133,9 @@ void project_open(void)
             if (!file_read_string(f, &project_name)) {
                 goto ret;
             }
+            if (!file_read_string(f, &project_description)) {
+                goto ret;
+            }
         } else if (section == SECTION_SLOT) {
             if (!vm_load_slot(f)) {
                 logger_printf("Error: can't load slot");
@@ -191,15 +195,18 @@ void project_close(void)
     wave_clear();
     free(project_name);
     project_name = NULL;
-}
-
-void project_tick(uint32_t t)
-{
+    free(project_description);
+    project_description = NULL;
 }
 
 const char *project_get_name(void)
 {
     return project_name;
+}
+
+const char *project_get_description(void)
+{
+    return project_description;
 }
 
 const char *project_get_function_key_name(uint8_t id)

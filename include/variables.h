@@ -20,7 +20,27 @@
 #define V_TIMER_1S      0x0b
 #define VAR_LOCAL_SIZE  0x10
 
-#define VAR_GLOBAL_START 0x40
+#define VAR_GLOBAL_START 0x30
+
+/* Sound CVs */
+#define SOUNDCV_COUNT   0x10
+#define V_SOUNDCV1      0x30
+#define V_SOUNDCV2      0x31
+#define V_SOUNDCV3      0x32
+#define V_SOUNDCV4      0x33
+#define V_SOUNDCV5      0x34
+#define V_SOUNDCV6      0x35
+#define V_SOUNDCV7      0x36
+#define V_SOUNDCV8      0x37
+#define V_SOUNDCV9      0x38
+#define V_SOUNDCV10     0x39
+#define V_SOUNDCV11     0x3a
+#define V_SOUNDCV12     0x3b
+#define V_SOUNDCV13     0x3c
+#define V_SOUNDCV14     0x3d
+#define V_SOUNDCV15     0x3e
+#define V_SOUNDCV16     0x3f
+
 /* Global flags and variables */
 #define F_REVERSE       0x40
 #define F_BRAKE1        0x41
