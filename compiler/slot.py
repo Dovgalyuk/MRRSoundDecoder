@@ -5,6 +5,7 @@ from bytecode import *
 from variables import *
 from project import *
 import ast
+import os
 
 @dataclass
 class SlotInfo:
@@ -13,6 +14,7 @@ class SlotInfo:
     volume: int
     function: str
     enable: str = 'F_EXECUTING'
+    file: str = None
 
 def calculate(expr, context):
     match expr:
@@ -105,11 +107,17 @@ class Slot:
         self._num = info.num
         self._states = []
 
+    def open_file(self, project_dir):
+        fname = f'{self._num}.slot'
+        if self._info.file:
+            fname = self._info.file
+        return open(os.path.join(project_dir, fname), 'r')
+
     def _process_node(self, node, context):
         match node:
             # global stuff
             case ast.Assign(targets=[ast.Name(id='_prefix')], value=ast.Constant(value=prefix)):
-                context.set_var('_prefix', prefix)
+                context.set_var('_prefix', prefix + '/')
             case ast.FunctionDef(name=name):
                 s = State(name, context)
                 context.add_state(s)
@@ -154,7 +162,7 @@ class Slot:
             case ast.Expr(value=ast.Await(value=ast.Call(func=ast.Name(id='play'),
                                                         args=args))):
                 sample = args[0].value
-                if (context.get_var('_prefix') + '/' + sample) not in resources_map:
+                if (context.get_var('_prefix') + sample) not in resources_map:
                     raise RRException(f'Invalid resource reference in: {ast.dump(node)}')
             case ast.Expr(value=ast.Call(args=args)):
                 # TODO: process_expression?
@@ -203,9 +211,14 @@ class Slot:
         match node:
             case ast.Name(id='_next'):
                 # TODO: jump should work with stack?
+                accum = SlotVariable('R_ACCUM')
+                context.add_instruction(IrStore(accum))
+                context.add_instruction(IrLoad(accum))
                 context.add_instruction(IrLoadI(0))
                 context.add_instruction(IrCond('eq'))
                 context.add_instruction(IrJump(label_else, 't'))
+                # duplicate next to allow next goto or ret
+                context.add_instruction(IrLoad(accum))
                 context.add_instruction(IrJump(label_then))
             case ast.Compare(ops=[ast.Eq() | ast.NotEq()], comparators=[ast.Constant(value=True) | ast.Constant(value=False)]):
                 match node.left:
@@ -348,6 +361,14 @@ class Slot:
                     ref = context.get_parent().get_state(name)
                 context.add_instruction(IrLoadI(ref))
                 context.add_instruction(IrCall())
+            case ast.Expr(value=ast.Call(func=ast.Name(id='_exit'))):
+                # _exit is not a state, but just a function, need to go deeper
+                if context.is_function():
+                    ref = context.get_parent().get_parent().get_state('_exit')
+                else:
+                    ref = context.get_parent().get_state('_exit')
+                context.add_instruction(IrLoadI(ref))
+                context.add_instruction(IrCall())
             case ast.Assign(targets=[ast.Subscript(value=ast.Name(id=name), slice=ast.Constant(value=bit))], value=ast.Constant(value=value)):
                 if value is not True and value is not False:
                     raise RRException(f'Invalid value "{value}" for bit assignment for "{name}"')
@@ -421,6 +442,9 @@ class Slot:
                     next = p.get_state(arg.id)
                     context.add_instruction(IrLoadI(next))
                 context.add_instruction(IrNext(len(args)))
+            case ast.Return(value=ast.Name(id='_next')):
+                # _next is already in the stack
+                context.add_instruction(IrRet())
             case ast.Return(value=ast.Name(id=name)):
                 ref = context.get_parent().get_parent().get_state(name)
                 context.add_instruction(IrLoadI(ref))
@@ -457,7 +481,7 @@ class Slot:
                                                         args=[ast.Constant(value=sample),
                                                               ast.Constant(value=volume_min),
                                                               ast.Constant(value=volume_max)]))):
-                res = resources_map[context.get_var('_prefix') + '/' + sample]
+                res = resources_map[context.get_var('_prefix') + sample]
                 context.add_instruction(IrLoadI(volume_max * self._info.volume * res.volume // 128 // 128))
                 context.add_instruction(IrLoadI(volume_min * self._info.volume * res.volume // 128 // 128))
                 context.add_instruction(IrLoadI(res))

@@ -16,6 +16,18 @@ class Resource:
     def set_used(self):
         self._used = True
 
+    def get_samplerate(self):
+        if self.num == 0:
+            return 0
+        type = self.path[-3:]
+        w = open(self.path, 'rb')
+        if type == 'wav':
+            # read header
+            header = w.read(44)
+            samplerate = int.from_bytes(header[0x18:0x1c], "little")
+            return samplerate
+        return 0
+
     def save(self, f):
         if self.num == 0:
             return
@@ -28,7 +40,7 @@ class Resource:
             bits = int.from_bytes(header[0x22:0x23], "little")
             channels = int.from_bytes(header[0x16:0x18], "little")
             length = int.from_bytes(header[0x4:0x8], "little") - (44 - 8)
-            if samplerate not in [15625, 31250]:
+            if samplerate not in [15625, 31250, 22050, 11025]: # TODO
                 raise RRException(f'Unsupported samplerate {samplerate} for {self.path}')
             if bits not in [8, 16]:
                 raise RRException(f'Unsupported bits per sample ({bits}) for {self.path}')

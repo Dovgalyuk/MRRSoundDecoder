@@ -35,13 +35,13 @@ class FunctionKey:
 @dataclass
 class PhysicalOutput:
     id: int
-    name: str
-    mode: str
-    delay_on: int
-    delay_off: int
-    timeout: int
-    attrib: dict
-    real_output: int
+    name: str = ''
+    mode: str = ''
+    delay_on: int = 0
+    delay_off: int = 0
+    timeout: int = 0
+    attrib: dict = None
+    real_output: int = 0
     _used: bool = False
 
     def save(self, f):
@@ -62,10 +62,10 @@ class PhysicalOutput:
 
 @dataclass
 class Locomotive:
-    type: str
-    name: str
-    description: str
-    icon: str
+    type: str = ''
+    name: str = ''
+    description: str = ''
+    icon: str = ''
 
     def save(self, f):
         write_byte(f, 0x01)
@@ -107,6 +107,8 @@ os.makedirs(output_dir, exist_ok=True)
 
 output_name = os.path.join(output_dir, 'sound.prj')
 
+global_context.set_var('_prefix', '')
+
 # load all data
 with open(os.path.join(project_dir, 'locomotive.json'), 'r') as f:
     locomotive = Locomotive(**json.load(f))
@@ -120,6 +122,8 @@ with open(os.path.join(project_dir, 'function_keys.cfg'), 'r') as f:
     for t in tree.body:
         k = FunctionKey(**eval(ast.unparse(t)))
         function_keys.append(k)
+        if k.num in function_keys_map:
+            raise Exception(f'Duplicate function key {k.num}')
         function_keys_map[k.num] = k
 
 with open(os.path.join(project_dir, 'slots.cfg'), 'r') as f:
@@ -127,12 +131,16 @@ with open(os.path.join(project_dir, 'slots.cfg'), 'r') as f:
     for t in tree.body:
         slot = Slot(SlotInfo(**eval(ast.unparse(t))))
         slots.append(slot)
+        if slot._num in slots_map:
+            raise Exception(f'Duplicate slot {slot._num}')
         slots_map[slot._num] = slot
 
 with open(os.path.join(project_dir, 'resources.json'), 'r') as f:
     resources = [Resource(**d) for d in json.load(f)]
     for r in resources:
         r.path = os.path.join(project_dir, 'resources', r.path)
+        if r.name in resources_map:
+            raise Exception(f'Duplicate resource {r.name}')
         resources_map[r.name] = r
 
 with open(os.path.join(project_dir, 'outputs.cfg'), 'r') as f:
@@ -140,6 +148,8 @@ with open(os.path.join(project_dir, 'outputs.cfg'), 'r') as f:
     for t in tree.body:
         p = PhysicalOutput(**eval(ast.unparse(t)))
         outputs.append(p)
+        if p.id in outputs_map:
+            raise Exception(f'Duplicate output {p.id}')
         outputs_map[p.id] = p
 
 # load config
@@ -155,7 +165,7 @@ for s in slots:
 
 # load slots
 for s in slots:
-    with open(os.path.join(project_dir, f'{s._num}.slot'), 'r') as f:
+    with s.open_file(project_dir) as f:
         s.parse(ast.parse(f.read()))
 
 # compile slots
@@ -189,13 +199,32 @@ for s in slots:
     with open(os.path.join(output_dir, f'{s._num}.asm'), 'w') as f:
         s.dump(f)
 
+# find samplerate
+s = set()
+for r in resources:
+    sr = r.get_samplerate()
+    if sr:
+        s.add(sr)
+
+if len(s) > 2:
+    print(f'Unsupported set of samplerates {s}')
+    sys.exit(1)
+
+if len(s) > 1 and min(s) * 2 != max(s):
+    print(f'Unsupported set of samplerates {s}')
+    sys.exit(1)
+
+samplerate = max(s)
+
 # write compiled project
 output_file = open(output_name, 'wb')
 
 output_file.write(b'MRRD')
-write_byte(output_file, 0x12) #version
+write_byte(output_file, 0x13) #version
 
 locomotive.save(output_file)
+# additional info field
+write_dword(output_file, samplerate)
 
 for f in function_keys:
     f.save(output_file)

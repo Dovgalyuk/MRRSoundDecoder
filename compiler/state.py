@@ -158,9 +158,13 @@ class State:
 
     def replace_labels(self):
         address = self._address
-        for instr in self._instructions:
-            instr.replace_labels(address)
-            address += instr.size()
+        try:
+            for instr in self._instructions:
+                instr.replace_labels(address)
+                address += instr.size()
+        except Exception as e:
+            print(f'Error while replacing labels in {self}: {e}')
+            pass
         for s in self._substates:
             s.replace_labels()
 

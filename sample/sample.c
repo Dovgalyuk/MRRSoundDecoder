@@ -30,6 +30,7 @@ int main(int argc, char **argv)
     cv_init();
     project_open();
     player_init();
+    vm_init();
 
     for (int i = 0 ; i < VM_FUNCTION_KEYS ; ++i) {
         const char *name = project_get_function_key_name(i);
@@ -43,7 +44,7 @@ int main(int argc, char **argv)
     /* Start playing */
     //vm_set_slot_var(1, F_FUNCTION, 1);
     //vm_set_slot_var(32, F_FUNCTION, 1);
-    vm_set_var(C_SLOT1, 1);
+    vm_set_var(C_KEY8, 1);
     //vm_set_var(C_SLOT2, 1);
     //vm_set_var(C_SLOT22, 1);
 

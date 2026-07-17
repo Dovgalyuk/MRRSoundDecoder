@@ -11,7 +11,7 @@
 #include "cv.h"
 #include "logger.h"
 
-#define PROJECT_VERSION         0x12
+#define PROJECT_VERSION         0x13
 
 #define SECTION_INFO            1
 #define SECTION_SLOT            2
@@ -124,6 +124,7 @@ void project_open(void)
     if (version != PROJECT_VERSION) {
         goto ret;
     }
+    uint32_t samplerate;
     uint8_t section;
     while (file_read_uint8(f, &section)) {
         if (section == SECTION_INFO) {
@@ -134,6 +135,9 @@ void project_open(void)
                 goto ret;
             }
             if (!file_read_string(f, &project_description)) {
+                goto ret;
+            }
+            if (!file_read_uint32(f, &samplerate)) {
                 goto ret;
             }
         } else if (section == SECTION_SLOT) {
@@ -172,7 +176,7 @@ void project_open(void)
         }
     }
     fclose(f);
-    wave_init(PROJECT_FILENAME);
+    wave_init(PROJECT_FILENAME, samplerate);
     logger_printf("Successfully loaded the project");
     return;
 ret:

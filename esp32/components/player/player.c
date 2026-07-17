@@ -23,7 +23,6 @@
 
 #define PDM_TX_CLK_IO           I2S_BCLK_IO1      // I2S PDM TX clock io number
 #define PDM_TX_DOUT_IO          I2S_DOUT_IO1      // I2S PDM TX data out io number
-#define PDM_TX_FREQ_HZ          CONFIG_AUDIO_SAMPLE_RATE
 
 typedef struct SoundChannel {
     Slot *slot;
@@ -154,7 +153,7 @@ void player_init(void)
      * These two helper macros is defined in 'i2s_pdm.h' which can only be used in PDM TX mode.
      * They can help to specify the slot and clock configurations for initialization or re-configuring */
     i2s_pdm_tx_config_t pdm_tx_cfg = {
-        .clk_cfg = I2S_PDM_TX_CLK_DEFAULT_CONFIG(PDM_TX_FREQ_HZ),
+        .clk_cfg = I2S_PDM_TX_CLK_DEFAULT_CONFIG(wave_get_samplerate()),
         /* The data bit-width of PDM mode is fixed to 16 */
         .slot_cfg = I2S_PDM_TX_SLOT_DEFAULT_CONFIG(I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO),
         .gpio_cfg = {

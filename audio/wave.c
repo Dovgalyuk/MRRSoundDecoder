@@ -30,6 +30,7 @@ typedef struct WaveFile {
 static FILE *wavepack;
 static uint16_t wavecount;
 static WaveInfo *waves;
+static uint32_t wave_samplerate;
 
 WaveFile *wave_open(uint16_t num)
 {
@@ -41,7 +42,7 @@ WaveFile *wave_open(uint16_t num)
         return NULL;
     }
     if ((info->bits != 8 && info->bits != 16)
-        || (info->samplerate != WAVE_SAMPLERATE / 2 && info->samplerate != WAVE_SAMPLERATE)) {
+        || (info->samplerate != wave_samplerate / 2 && info->samplerate != wave_samplerate)) {
         return NULL;
     }
     /* Create and fill WaveFile */
@@ -77,7 +78,7 @@ static void wave_fetch_sample(WaveFile *w)
     if (w->info->bits == 8) {
         maxbytes /= 2;
     }
-    if (w->info->samplerate < WAVE_SAMPLERATE) {
+    if (w->info->samplerate < wave_samplerate) {
         maxbytes /= 2;
     }
     if (maxbytes > w->size) {
@@ -101,7 +102,7 @@ static void wave_fetch_sample(WaveFile *w)
         w->info = NULL;
         return;
     }
-    if (w->info->samplerate < WAVE_SAMPLERATE) {
+    if (w->info->samplerate < wave_samplerate) {
         for (int i = count - 1 ; i >= 0 ; --i) {
             w->samples[i * 2 + 1] = w->samples[i];
         }
@@ -134,15 +135,21 @@ uint32_t wave_get_length(WaveFile *w)
     if (w->info->bits == 16) {
         samples /= 2;
     }
-    if (w->info->samplerate < WAVE_SAMPLERATE) {
+    if (w->info->samplerate < wave_samplerate) {
         samples *= 2;
     }
     return samples;
 }
 
-void wave_init(const char *name)
+void wave_init(const char *name, uint32_t samplerate)
 {
     wavepack = fopen(name, "rb");
+    wave_samplerate = samplerate;
+}
+
+uint32_t wave_get_samplerate(void)
+{
+    return wave_samplerate;
 }
 
 bool wave_load_info(FILE *f)

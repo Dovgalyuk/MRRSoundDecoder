@@ -41,7 +41,7 @@ void player_abort_slot(Slot *slot, uint8_t subslot)
 void play_slot_delay(Slot *slot, uint8_t subslot, uint8_t delay)
 {
     uint16_t sample = 0;
-    int samples = (delay * WAVE_SAMPLERATE) / 1000;
+    int samples = (delay * wave_get_samplerate()) / 1000;
     while (samples--) {
         fwrite(&sample, sizeof(sample), 1, wav);
     }
