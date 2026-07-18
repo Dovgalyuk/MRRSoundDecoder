@@ -1,0 +1,581 @@
+# Steam chuffs
+
+def Mute():
+    while not F_FUNCTION:
+        pass
+    goto(Stopped)
+
+def Stopped():
+    while True:
+        if not F_FUNCTION:
+            goto(Mute)
+        if V_SPEED > 0:
+            goto(D1)
+
+def D1():
+    def _exit():
+        if V_SPEED == 0:
+            return Stopped
+        if V_SPEED > 140:
+            return D2
+        return 0
+
+    def _init():
+        if V_ACCEL > 0:
+            goto(Acc)
+        if V_ACCEL < 0:
+            goto(Dec)
+        goto(Std)
+
+    def Acc():
+        def _exit():
+            _next = _exit()
+            if _next:
+                return _next
+            if V_ACCEL == 0:
+                return Std
+            if V_ACCEL < 0:
+                return Dec
+            return 0
+
+        def _init():
+            goto(_1, _2, _3, _4)
+
+        def _1():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_2)
+            await play("chuff2_1.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s1)
+
+        def s1():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_2)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _2():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_3)
+            await play("chuff2_2.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s2)
+
+        def s2():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_3)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _3():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_4)
+            await play("chuff2_3.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s3)
+
+        def s3():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_4)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _4():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_1)
+            await play("chuff2_4.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s4)
+
+        def s4():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_1)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+    def Std():
+        def _exit():
+            _next = _exit()
+            if _next:
+                return _next
+            if V_ACCEL > 0:
+                return Acc
+            if V_ACCEL < 0:
+                return Dec
+            return 0
+
+        def _init():
+            goto(_1, _2, _3, _4)
+
+        def _1():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_2)
+            await play("chuff2_1.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s1)
+
+        def s1():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_2)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _2():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_3)
+            await play("chuff2_2.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s2)
+
+        def s2():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_3)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _3():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_4)
+            await play("chuff2_3.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s3)
+
+        def s3():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_4)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _4():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_1)
+            await play("chuff2_4.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s4)
+
+        def s4():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_1)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+    def Dec():
+        def _exit():
+            _next = _exit()
+            if _next:
+                return _next
+            if V_ACCEL > 0:
+                return Acc
+            if V_ACCEL == 0:
+                return Std
+            return 0
+
+        def _init():
+            goto(_1, _2, _3, _4)
+
+        def _1():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_2)
+            await play("chuff2_1.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s1)
+
+        def s1():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_2)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _2():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_3)
+            await play("chuff2_2.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s2)
+
+        def s2():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_3)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _3():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_4)
+            await play("chuff2_3.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s3)
+
+        def s3():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_4)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _4():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_1)
+            await play("chuff2_4.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s4)
+
+        def s4():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_1)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+def D2():
+    def _exit():
+        if V_SPEED <= 140:
+            return D1
+        return 0
+
+    def _init():
+        if V_ACCEL > 0:
+            goto(Acc)
+        if V_ACCEL < 0:
+            goto(Dec)
+        goto(Std)
+
+    def Acc():
+        def _exit():
+            _next = _exit()
+            if _next:
+                return _next
+            if V_ACCEL == 0:
+                return Std
+            if V_ACCEL < 0:
+                return Dec
+            return 0
+
+        def _init():
+            goto(_1, _2, _3, _4)
+
+        def _1():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_2)
+            await play("chuff1_1.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s1)
+
+        def s1():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_2)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _2():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_3)
+            await play("chuff1_2.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s2)
+
+        def s2():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_3)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _3():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_4)
+            await play("chuff1_3.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s3)
+
+        def s3():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_4)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _4():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_1)
+            await play("chuff1_4.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s4)
+
+        def s4():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_1)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+    def Std():
+        def _exit():
+            _next = _exit()
+            if _next:
+                return _next
+            if V_ACCEL > 0:
+                return Acc
+            if V_ACCEL < 0:
+                return Dec
+            return 0
+
+        def _init():
+            goto(_1, _2, _3, _4)
+
+        def _1():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_2)
+            await play("chuff1_1.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s1)
+
+        def s1():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_2)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _2():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_3)
+            await play("chuff1_2.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s2)
+
+        def s2():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_3)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _3():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_4)
+            await play("chuff1_3.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s3)
+
+        def s3():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_4)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _4():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_1)
+            await play("chuff1_4.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s4)
+
+        def s4():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_1)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+    def Dec():
+        def _exit():
+            _next = _exit()
+            if _next:
+                return _next
+            if V_ACCEL > 0:
+                return Acc
+            if V_ACCEL == 0:
+                return Std
+            return 0
+
+        def _init():
+            goto(_1, _2, _3, _4)
+
+        def _1():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_2)
+            await play("chuff1_1.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s1)
+
+        def s1():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_2)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _2():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_3)
+            await play("chuff1_2.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s2)
+
+        def s2():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_3)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _3():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_4)
+            await play("chuff1_3.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s3)
+
+        def s3():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_4)
+                _next = _exit()
+                if _next:
+                    goto(_next)
+
+        def _4():
+            def _immediate():
+                if F_TRIGGER == True:
+                    switch()
+                    goto(_1)
+            await play("chuff1_4.wav", 128, 128)
+            _next = _exit()
+            if _next:
+                goto(_next)
+            goto(s4)
+
+        def s4():
+            while True:
+                if F_TRIGGER == True:
+                    goto(_1)
+                _next = _exit()
+                if _next:
+                    goto(_next)

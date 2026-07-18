@@ -98,14 +98,13 @@ def parse_config(tree):
 ###################################################
 
 if len(sys.argv) < 3:
-    print(f'Usage: {sys.argv[0]} <project directory> <output directory>')
+    print(f'Usage: {sys.argv[0]} <project directory> <output file>')
     sys.exit(0)
 
 project_dir = sys.argv[1]
-output_dir = sys.argv[2]
-os.makedirs(output_dir, exist_ok=True)
-
-output_name = os.path.join(output_dir, 'sound.prj')
+output_name = sys.argv[2]
+#output_dir = sys.argv[2]
+#os.makedirs(output_dir, exist_ok=True)
 
 global_context.set_var('_prefix', '')
 
@@ -196,8 +195,8 @@ for s in slots:
 for s in slots:
     if not s._used:
         continue
-    with open(os.path.join(output_dir, f'{s._num}.asm'), 'w') as f:
-        s.dump(f)
+    # with open(os.path.join(output_dir, f'{s._num}.asm'), 'w') as f:
+    #     s.dump(f)
 
 # find samplerate
 s = set()

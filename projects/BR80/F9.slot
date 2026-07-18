@@ -1,0 +1,18 @@
+# Whistle 2
+def init():
+    while not F_FUNCTION:
+        pass
+    goto(playing)
+
+def exit():
+    while F_FUNCTION:
+        pass
+    goto(init)
+
+def playing():
+    def _immediate():
+        if not F_FUNCTION:
+            goto(exit)
+
+    await play("Whistle 2", 128, 128)
+    goto(exit)

@@ -1,0 +1,147 @@
+[
+    {
+        "name": "Boiler hiss",
+        "path": "0.wav",
+        "volume": 128
+    },
+    {
+        "name": "Water outlet",
+        "path": "1.wav",
+        "volume": 128
+    },
+    {
+        "name": "Whistle 1",
+        "path": "2.wav",
+        "volume": 128
+    },
+    {
+        "name": "Whistle 2",
+        "path": "3.wav",
+        "volume": 128
+    },
+    {
+        "name": "Injector init",
+        "path": "4.wav",
+        "volume": 128
+    },
+    {
+        "name": "Injector",
+        "path": "5.wav",
+        "volume": 128
+    },
+    {
+        "name": "Injector exit",
+        "path": "6.wav",
+        "volume": 128
+    },
+    {
+        "name": "Air pump init",
+        "path": "7.wav",
+        "volume": 128
+    },
+    {
+        "name": "Air pump",
+        "path": "8.wav",
+        "volume": 128
+    },
+    {
+        "name": "Air pump exit",
+        "path": "9.wav",
+        "volume": 128
+    },
+    {
+        "name": "Conductor whistle init",
+        "path": "10.wav",
+        "volume": 128
+    },
+    {
+        "name": "Conductor whistle",
+        "path": "11.wav",
+        "volume": 128
+    },
+    {
+        "name": "Conductor whistle exit",
+        "path": "12.wav",
+        "volume": 128
+    },
+    {
+        "name": "Coal shoveling init",
+        "path": "13.wav",
+        "volume": 128
+    },
+    {
+        "name": "Coal shoveling",
+        "path": "14.wav",
+        "volume": 128
+    },
+    {
+        "name": "Coal shoveling exit",
+        "path": "15.wav",
+        "volume": 128
+    },
+    {
+        "name": "Generator init",
+        "path": "16.wav",
+        "volume": 128
+    },
+    {
+        "name": "Generator",
+        "path": "17.wav",
+        "volume": 128
+    },
+    {
+        "name": "Generator exit",
+        "path": "18.wav",
+        "volume": 128
+    },
+    {
+        "name": "chuff1_1.wav",
+        "path": "19.wav",
+        "volume": 128
+    },
+    {
+        "name": "chuff1_2.wav",
+        "path": "20.wav",
+        "volume": 128
+    },
+    {
+        "name": "chuff1_3.wav",
+        "path": "21.wav",
+        "volume": 128
+    },
+    {
+        "name": "chuff1_4.wav",
+        "path": "22.wav",
+        "volume": 128
+    },
+    {
+        "name": "chuff2_1.wav",
+        "path": "23.wav",
+        "volume": 128
+    },
+    {
+        "name": "chuff2_2.wav",
+        "path": "24.wav",
+        "volume": 128
+    },
+    {
+        "name": "chuff2_3.wav",
+        "path": "25.wav",
+        "volume": 128
+    },
+    {
+        "name": "chuff2_4.wav",
+        "path": "26.wav",
+        "volume": 128
+    },
+    {
+        "name": "Bell",
+        "path": "27.wav",
+        "volume": 128
+    },
+    {
+        "name": "Brake squeal",
+        "path": "28.wav",
+        "volume": 128
+    }
+]

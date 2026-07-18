@@ -1,0 +1,23 @@
+# Generator
+def init():
+    while not F_FUNCTION:
+        pass
+    goto(playing)
+
+def exit():
+    if not F_REVERSE:
+        dec(C_OUT1)
+    if F_REVERSE:
+        dec(C_OUT2)
+    goto(init)
+
+def playing():
+    if not F_REVERSE:
+        inc(C_OUT1)
+    if F_REVERSE:
+        inc(C_OUT2)
+    await play("Generator init", 128, 128)
+    while F_FUNCTION:
+        await play("Generator", 128, 128)
+    await play("Generator exit", 128, 128)
+    goto(exit)

@@ -1,0 +1,13 @@
+# Bell
+def init():
+    while not F_FUNCTION:
+        pass
+    goto(playing)
+
+def exit():
+    goto(init)
+
+def playing():
+    while F_FUNCTION:
+        await play("Bell", 128, 128)
+    goto(exit)
