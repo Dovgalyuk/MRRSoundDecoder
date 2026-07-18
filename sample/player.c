@@ -32,7 +32,7 @@ void player_clear(void)
     fseek(wav, sizeof(header) - 4, SEEK_SET);
     fwrite(&fullsize, 4, 1, wav);
     fclose(wav);
-}
+}/
 
 void player_abort_slot(Slot *slot, uint8_t subslot)
 {

@@ -174,7 +174,7 @@ static void engine_task(void *args)
             motor_voltage_start += motor_voltage;
             ++motor_voltage_count;
             if (motor_voltage_count == MOTOR_VOLTAGE_COUNT) {
-                logger_printf("Motor speed=%d accel max1=%d", prev_speed, motor_voltage_start);
+                //logger_printf("Motor speed=%d accel max1=%d", prev_speed, motor_voltage_start);
                 motor_voltage_count = 0;
                 accel_time = 0;
                 engine_state = ES_ACCEL_START;
@@ -188,7 +188,7 @@ static void engine_task(void *args)
             if (motor_voltage_count == MOTOR_VOLTAGE_COUNT) {
                 ++accel_time;
                 if (motor_voltage_cur < motor_voltage_start) {
-                    logger_printf("Motor accel max2=%d time=%d", motor_voltage_cur, accel_time);
+                    //logger_printf("Motor accel max2=%d time=%d", motor_voltage_cur, accel_time);
                     accel_time = 0;
                     engine_state = ES_ACCEL_WAIT;
                 } else {
@@ -208,7 +208,7 @@ static void engine_task(void *args)
                 if (motor_voltage_cur * 10 < motor_voltage_start * 7
                     || accel_time > 10) {
                     engine_state = ES_MOVING;
-                    logger_printf("Motor accel min=%d time=%d", prev_speed, motor_voltage_cur, accel_time);
+                    //logger_printf("Motor accel min=%d time=%d", prev_speed, motor_voltage_cur, accel_time);
                 } else {
                     motor_voltage_count = 0;
                     motor_voltage_cur = 0;

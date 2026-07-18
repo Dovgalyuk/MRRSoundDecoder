@@ -141,6 +141,12 @@ retry:
 
 void player_init(void)
 {
+    if (!wave_get_samplerate()) {
+        logger_printf("Project was not initialized, skipping player initialization");
+        return;
+    } else {
+        logger_printf("Initializing player with samplerate %d", wave_get_samplerate());
+    }
     /* I2S */
     i2s_chan_config_t tx_chan_cfg = I2S_CHANNEL_DEFAULT_CONFIG(I2S_NUM_AUTO, I2S_ROLE_MASTER);
     tx_chan_cfg.auto_clear = true;
@@ -210,7 +216,7 @@ void play_slot_delay(Slot *slot, uint8_t subslot, uint8_t delay)
         logger_printf(TAG " No available slots");
         return;
     }
-    ch->delay = (delay * CONFIG_AUDIO_SAMPLE_RATE) / 1000;
+    ch->delay = (delay * wave_get_samplerate()) / 1000;
     slot_started_delay(slot, subslot);
 }
 
