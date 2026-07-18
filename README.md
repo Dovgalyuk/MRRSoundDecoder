@@ -6,6 +6,10 @@ Project includes library for programming the sounds with set of state machines.
 
 There are several ready-to-use sample sound projects.
 
+![Web interface for locomotive operation](/docs/interface.png)
+
+![Render of the PCB](/docs/sounddecoder-esp32-s3-wroom-2-ext.png)
+
 # Project structure
 
 * esp32 - directory where building of the firmware starts
@@ -19,8 +23,8 @@ There are several ready-to-use sample sound projects.
 
 * Get the hardware (order PCB, solder the components)
 * Build firmware
-* * Install ESP32 toolkit (esp idf)
-* * Run esp32/build32M.sh (or other version)
+  * Install ESP32 toolkit (esp idf)
+  * Run esp32/build32M.sh (or other version)
 * Upload esp32/build32M/esp32sounddecoder.bin into the ESP32 module
 * Build selected sound project with compiler/compiler.py
 * Upload built project through the web interface into the controller
