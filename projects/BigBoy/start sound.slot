@@ -1,0 +1,16 @@
+# Coupling
+def init():
+    while True:
+        if V_SPEED_REQUEST > 0:
+            inc(C_DRIVELOCK)
+            goto(playing)
+
+def playing():
+    await play("Coupling", 128, 128)
+    goto(exit)
+
+def exit():
+    dec(C_DRIVELOCK)
+    while F_DRIVING:
+        pass
+    goto(init)

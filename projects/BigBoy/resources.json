@@ -1,0 +1,467 @@
+[
+    {
+        "name": "Water outlet",
+        "path": "0.wav",
+        "volume": 128
+    },
+    {
+        "name": "Boiler hiss init",
+        "path": "1.wav",
+        "volume": 128
+    },
+    {
+        "name": "Boiler hiss",
+        "path": "2.wav",
+        "volume": 128
+    },
+    {
+        "name": "Boiler hiss exit",
+        "path": "3.wav",
+        "volume": 128
+    },
+    {
+        "name": "L3z1.wav",
+        "path": "4.wav",
+        "volume": 128
+    },
+    {
+        "name": "L3z2.wav",
+        "path": "5.wav",
+        "volume": 128
+    },
+    {
+        "name": "L3z3.wav",
+        "path": "6.wav",
+        "volume": 128
+    },
+    {
+        "name": "L3z4.wav",
+        "path": "7.wav",
+        "volume": 128
+    },
+    {
+        "name": "L2-L2_1.wav",
+        "path": "8.wav",
+        "volume": 128
+    },
+    {
+        "name": "L2-L2_2.wav",
+        "path": "9.wav",
+        "volume": 128
+    },
+    {
+        "name": "L2-L2_3.wav",
+        "path": "10.wav",
+        "volume": 128
+    },
+    {
+        "name": "L2-L2_4.wav",
+        "path": "11.wav",
+        "volume": 128
+    },
+    {
+        "name": "L4-L4_1.wav",
+        "path": "12.wav",
+        "volume": 128
+    },
+    {
+        "name": "L4-L4_2.wav",
+        "path": "13.wav",
+        "volume": 128
+    },
+    {
+        "name": "L4-L4_3.wav",
+        "path": "14.wav",
+        "volume": 128
+    },
+    {
+        "name": "L4-L4_4.wav",
+        "path": "15.wav",
+        "volume": 128
+    },
+    {
+        "name": "L4z1.wav",
+        "path": "16.wav",
+        "volume": 128
+    },
+    {
+        "name": "L4z2.wav",
+        "path": "17.wav",
+        "volume": 128
+    },
+    {
+        "name": "L4z3.wav",
+        "path": "18.wav",
+        "volume": 128
+    },
+    {
+        "name": "L4z4.wav",
+        "path": "19.wav",
+        "volume": 128
+    },
+    {
+        "name": "Blower init",
+        "path": "20.wav",
+        "volume": 128
+    },
+    {
+        "name": "Blower",
+        "path": "21.wav",
+        "volume": 128
+    },
+    {
+        "name": "Blower exit",
+        "path": "22.wav",
+        "volume": 128
+    },
+    {
+        "name": "Brake squeal",
+        "path": "23.wav",
+        "volume": 128
+    },
+    {
+        "name": "Ventilation",
+        "path": "24.wav",
+        "volume": 128
+    },
+    {
+        "name": "Bell init",
+        "path": "25.wav",
+        "volume": 128
+    },
+    {
+        "name": "Bell",
+        "path": "26.wav",
+        "volume": 128
+    },
+    {
+        "name": "Bell exit",
+        "path": "27.wav",
+        "volume": 128
+    },
+    {
+        "name": "Injector init",
+        "path": "28.wav",
+        "volume": 128
+    },
+    {
+        "name": "Injector",
+        "path": "29.wav",
+        "volume": 128
+    },
+    {
+        "name": "Injector exit",
+        "path": "30.wav",
+        "volume": 128
+    },
+    {
+        "name": "L1-L1_1.wav",
+        "path": "31.wav",
+        "volume": 128
+    },
+    {
+        "name": "Air pump init",
+        "path": "33.wav",
+        "volume": 128
+    },
+    {
+        "name": "Air pump",
+        "path": "34.wav",
+        "volume": 128
+    },
+    {
+        "name": "Air pump exit",
+        "path": "35.wav",
+        "volume": 128
+    },
+    {
+        "name": "Safety valve",
+        "path": "36.wav",
+        "volume": 128
+    },
+    {
+        "name": "Water init",
+        "path": "37.wav",
+        "volume": 128
+    },
+    {
+        "name": "Water",
+        "path": "38.wav",
+        "volume": 128
+    },
+    {
+        "name": "Water exit",
+        "path": "39.wav",
+        "volume": 128
+    },
+    {
+        "name": "Whistle 1 init",
+        "path": "40.wav",
+        "volume": 128
+    },
+    {
+        "name": "Whistle 1",
+        "path": "41.wav",
+        "volume": 128
+    },
+    {
+        "name": "Whistle 1 exit",
+        "path": "42.wav",
+        "volume": 128
+    },
+    {
+        "name": "Whistle 2 init",
+        "path": "43.wav",
+        "volume": 128
+    },
+    {
+        "name": "Whistle 2",
+        "path": "44.wav",
+        "volume": 128
+    },
+    {
+        "name": "Whistle 2 exit",
+        "path": "45.wav",
+        "volume": 128
+    },
+    {
+        "name": "L1-L1_2.wav",
+        "path": "46.wav",
+        "volume": 128
+    },
+    {
+        "name": "L1-L1_3.wav",
+        "path": "47.wav",
+        "volume": 128
+    },
+    {
+        "name": "L1-L1_4.wav",
+        "path": "48.wav",
+        "volume": 128
+    },
+    {
+        "name": "L1z1.wav",
+        "path": "49.wav",
+        "volume": 128
+    },
+    {
+        "name": "L1z2.wav",
+        "path": "50.wav",
+        "volume": 128
+    },
+    {
+        "name": "L1z3.wav",
+        "path": "51.wav",
+        "volume": 128
+    },
+    {
+        "name": "L1z4.wav",
+        "path": "52.wav",
+        "volume": 128
+    },
+    {
+        "name": "L2z1.wav",
+        "path": "53.wav",
+        "volume": 128
+    },
+    {
+        "name": "L2z2.wav",
+        "path": "54.wav",
+        "volume": 128
+    },
+    {
+        "name": "L2z3.wav",
+        "path": "55.wav",
+        "volume": 128
+    },
+    {
+        "name": "L2z4.wav",
+        "path": "56.wav",
+        "volume": 128
+    },
+    {
+        "name": "L3-L3_1.wav",
+        "path": "57.wav",
+        "volume": 128
+    },
+    {
+        "name": "L3-L3_2.wav",
+        "path": "58.wav",
+        "volume": 128
+    },
+    {
+        "name": "L3-L3_3.wav",
+        "path": "59.wav",
+        "volume": 128
+    },
+    {
+        "name": "L3-L3_4.wav",
+        "path": "60.wav",
+        "volume": 128
+    },
+    {
+        "name": "L5-L5_1.wav",
+        "path": "61.wav",
+        "volume": 128
+    },
+    {
+        "name": "L5-L5_2.wav",
+        "path": "62.wav",
+        "volume": 128
+    },
+    {
+        "name": "L5-L5_3.wav",
+        "path": "63.wav",
+        "volume": 128
+    },
+    {
+        "name": "L5-L5_4.wav",
+        "path": "64.wav",
+        "volume": 128
+    },
+    {
+        "name": "L5z1.wav",
+        "path": "65.wav",
+        "volume": 128
+    },
+    {
+        "name": "L5z2.wav",
+        "path": "66.wav",
+        "volume": 128
+    },
+    {
+        "name": "L5z3.wav",
+        "path": "67.wav",
+        "volume": 128
+    },
+    {
+        "name": "L5z4.wav",
+        "path": "68.wav",
+        "volume": 128
+    },
+    {
+        "name": "L6-L6_1.wav",
+        "path": "69.wav",
+        "volume": 128
+    },
+    {
+        "name": "L6-L6_2.wav",
+        "path": "70.wav",
+        "volume": 128
+    },
+    {
+        "name": "L6-L6_3.wav",
+        "path": "71.wav",
+        "volume": 128
+    },
+    {
+        "name": "L6-L6_4.wav",
+        "path": "72.wav",
+        "volume": 128
+    },
+    {
+        "name": "L6z1.wav",
+        "path": "73.wav",
+        "volume": 128
+    },
+    {
+        "name": "L6z2.wav",
+        "path": "74.wav",
+        "volume": 128
+    },
+    {
+        "name": "L6z3.wav",
+        "path": "75.wav",
+        "volume": 128
+    },
+    {
+        "name": "L6z4.wav",
+        "path": "76.wav",
+        "volume": 128
+    },
+    {
+        "name": "L7-L7_1.wav",
+        "path": "77.wav",
+        "volume": 128
+    },
+    {
+        "name": "L7-L7_2.wav",
+        "path": "78.wav",
+        "volume": 128
+    },
+    {
+        "name": "L7-L7_3.wav",
+        "path": "79.wav",
+        "volume": 128
+    },
+    {
+        "name": "L7-L7_4.wav",
+        "path": "80.wav",
+        "volume": 128
+    },
+    {
+        "name": "L7z1.wav",
+        "path": "81.wav",
+        "volume": 128
+    },
+    {
+        "name": "L7z2.wav",
+        "path": "82.wav",
+        "volume": 128
+    },
+    {
+        "name": "L7z3.wav",
+        "path": "83.wav",
+        "volume": 128
+    },
+    {
+        "name": "L7z4.wav",
+        "path": "84.wav",
+        "volume": 128
+    },
+    {
+        "name": "L8z1.wav",
+        "path": "85.wav",
+        "volume": 128
+    },
+    {
+        "name": "L8z2.wav",
+        "path": "86.wav",
+        "volume": 128
+    },
+    {
+        "name": "L8z3.wav",
+        "path": "87.wav",
+        "volume": 128
+    },
+    {
+        "name": "L8z4.wav",
+        "path": "88.wav",
+        "volume": 128
+    },
+    {
+        "name": "L8_1.wav",
+        "path": "89.wav",
+        "volume": 128
+    },
+    {
+        "name": "L8_2.wav",
+        "path": "90.wav",
+        "volume": 128
+    },
+    {
+        "name": "L8_3.wav",
+        "path": "91.wav",
+        "volume": 128
+    },
+    {
+        "name": "L8_4.wav",
+        "path": "92.wav",
+        "volume": 128
+    },
+    {
+        "name": "Coupling",
+        "path": "93.wav",
+        "volume": 128
+    }
+]

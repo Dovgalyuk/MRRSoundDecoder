@@ -1,0 +1,15 @@
+# Water
+def init():
+    while not F_FUNCTION:
+        pass
+    goto(playing)
+
+def exit():
+    goto(init)
+
+def playing():
+    await play("Water init", 128, 128)
+    while F_FUNCTION:
+        await play("Water", 128, 128)
+    await play("Water exit", 128, 128)
+    goto(exit)

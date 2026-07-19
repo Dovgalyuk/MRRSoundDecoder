@@ -1,0 +1,15 @@
+# Blower
+def init():
+    while not F_FUNCTION:
+        pass
+    goto(playing)
+
+def exit():
+    goto(init)
+
+def playing():
+    await play("Blower init", 128, 128)
+    while F_FUNCTION:
+        await play("Blower", 128, 128)
+    await play("Blower exit", 128, 128)
+    goto(exit)

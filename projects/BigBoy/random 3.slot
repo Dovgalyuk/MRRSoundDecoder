@@ -1,0 +1,19 @@
+# Safety valve
+def init():
+    goto(stopped)
+
+def stopped():
+    V_TIMER_1S = rand(40, 80)
+    while True:
+        if V_TIMER_1S == 0:
+            goto(playing)
+
+def playing():
+    V_TIMER_1S = 2
+    while True:
+        await play("Safety valve", 128, 128)
+        if V_TIMER_1S == 0:
+            goto(exit)
+
+def exit():
+    goto(init)

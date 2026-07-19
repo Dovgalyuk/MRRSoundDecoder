@@ -1,0 +1,19 @@
+# Air pump
+def init():
+    while not F_FUNCTION:
+        pass
+    goto(playing)
+
+def exit():
+    goto(init)
+
+def playing():
+    def _immediate():
+        if not F_FUNCTION:
+            goto(exit)
+
+    await play("Air pump init", 128, 128)
+    while F_FUNCTION:
+        await play("Air pump", 128, 128)
+    await play("Air pump exit", 128, 128)
+    goto(exit)

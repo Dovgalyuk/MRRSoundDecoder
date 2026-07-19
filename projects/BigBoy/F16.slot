@@ -1,0 +1,14 @@
+# Ventilation
+def init():
+    while not F_FUNCTION:
+        pass
+    goto(playing)
+
+def exit():
+    while F_FUNCTION:
+        pass
+    goto(init)
+
+def playing():
+    await play("Ventilation", 128, 128)
+    goto(exit)
