@@ -1,0 +1,16 @@
+# Brake squeal
+def init():
+    while True:
+        if F_FUNCTION:
+            goto(playing)
+
+def playing():
+    def _immediate():
+        if not F_FUNCTION:
+            goto(exit)
+
+    while True:
+        await play("Brake squeal", 128, 128)
+
+def exit():
+    goto(init)

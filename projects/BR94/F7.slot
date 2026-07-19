@@ -1,0 +1,15 @@
+# Bell
+def init():
+    while not F_FUNCTION:
+        pass
+    goto(playing)
+
+def exit():
+    goto(init)
+
+def playing():
+    await play("Bell init", 128, 128)
+    while F_FUNCTION:
+        await play("Bell", 128, 128)
+    await play("Bell exit", 128, 128)
+    goto(exit)

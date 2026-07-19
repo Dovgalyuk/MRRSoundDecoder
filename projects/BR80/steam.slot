@@ -14,9 +14,9 @@ def Stopped():
 
 def D1():
     def _exit():
-        if V_SPEED == 0:
+        if V_SPEED <= 0:
             return Stopped
-        if V_SPEED > 140:
+        if V_SPEED > 172:
             return D2
         return 0
 
@@ -46,7 +46,7 @@ def D1():
                 if F_TRIGGER == True:
                     switch()
                     goto(_2)
-            await play("chuff2_1.wav", 128, 128)
+            await play("chuff1_1.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -65,7 +65,7 @@ def D1():
                 if F_TRIGGER == True:
                     switch()
                     goto(_3)
-            await play("chuff2_2.wav", 128, 128)
+            await play("chuff1_2.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -84,7 +84,7 @@ def D1():
                 if F_TRIGGER == True:
                     switch()
                     goto(_4)
-            await play("chuff2_3.wav", 128, 128)
+            await play("chuff1_3.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -103,7 +103,7 @@ def D1():
                 if F_TRIGGER == True:
                     switch()
                     goto(_1)
-            await play("chuff2_4.wav", 128, 128)
+            await play("chuff1_4.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -136,7 +136,7 @@ def D1():
                 if F_TRIGGER == True:
                     switch()
                     goto(_2)
-            await play("chuff2_1.wav", 128, 128)
+            await play("chuff1_1.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -155,7 +155,7 @@ def D1():
                 if F_TRIGGER == True:
                     switch()
                     goto(_3)
-            await play("chuff2_2.wav", 128, 128)
+            await play("chuff1_2.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -174,7 +174,7 @@ def D1():
                 if F_TRIGGER == True:
                     switch()
                     goto(_4)
-            await play("chuff2_3.wav", 128, 128)
+            await play("chuff1_3.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -193,7 +193,7 @@ def D1():
                 if F_TRIGGER == True:
                     switch()
                     goto(_1)
-            await play("chuff2_4.wav", 128, 128)
+            await play("chuff1_4.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -226,7 +226,7 @@ def D1():
                 if F_TRIGGER == True:
                     switch()
                     goto(_2)
-            await play("chuff2_1.wav", 128, 128)
+            await play("chuff1_1.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -245,7 +245,7 @@ def D1():
                 if F_TRIGGER == True:
                     switch()
                     goto(_3)
-            await play("chuff2_2.wav", 128, 128)
+            await play("chuff1_2.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -264,7 +264,7 @@ def D1():
                 if F_TRIGGER == True:
                     switch()
                     goto(_4)
-            await play("chuff2_3.wav", 128, 128)
+            await play("chuff1_3.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -283,7 +283,7 @@ def D1():
                 if F_TRIGGER == True:
                     switch()
                     goto(_1)
-            await play("chuff2_4.wav", 128, 128)
+            await play("chuff1_4.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -299,7 +299,7 @@ def D1():
 
 def D2():
     def _exit():
-        if V_SPEED <= 140:
+        if V_SPEED <= 172:
             return D1
         return 0
 
@@ -329,7 +329,7 @@ def D2():
                 if F_TRIGGER == True:
                     switch()
                     goto(_2)
-            await play("chuff1_1.wav", 128, 128)
+            await play("chuff2_1.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -348,7 +348,7 @@ def D2():
                 if F_TRIGGER == True:
                     switch()
                     goto(_3)
-            await play("chuff1_2.wav", 128, 128)
+            await play("chuff2_2.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -367,7 +367,7 @@ def D2():
                 if F_TRIGGER == True:
                     switch()
                     goto(_4)
-            await play("chuff1_3.wav", 128, 128)
+            await play("chuff2_3.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -386,7 +386,7 @@ def D2():
                 if F_TRIGGER == True:
                     switch()
                     goto(_1)
-            await play("chuff1_4.wav", 128, 128)
+            await play("chuff2_4.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -419,7 +419,7 @@ def D2():
                 if F_TRIGGER == True:
                     switch()
                     goto(_2)
-            await play("chuff1_1.wav", 128, 128)
+            await play("chuff2_1.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -438,7 +438,7 @@ def D2():
                 if F_TRIGGER == True:
                     switch()
                     goto(_3)
-            await play("chuff1_2.wav", 128, 128)
+            await play("chuff2_2.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -457,7 +457,7 @@ def D2():
                 if F_TRIGGER == True:
                     switch()
                     goto(_4)
-            await play("chuff1_3.wav", 128, 128)
+            await play("chuff2_3.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -476,7 +476,7 @@ def D2():
                 if F_TRIGGER == True:
                     switch()
                     goto(_1)
-            await play("chuff1_4.wav", 128, 128)
+            await play("chuff2_4.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -509,7 +509,7 @@ def D2():
                 if F_TRIGGER == True:
                     switch()
                     goto(_2)
-            await play("chuff1_1.wav", 128, 128)
+            await play("chuff2_1.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -528,7 +528,7 @@ def D2():
                 if F_TRIGGER == True:
                     switch()
                     goto(_3)
-            await play("chuff1_2.wav", 128, 128)
+            await play("chuff2_2.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -547,7 +547,7 @@ def D2():
                 if F_TRIGGER == True:
                     switch()
                     goto(_4)
-            await play("chuff1_3.wav", 128, 128)
+            await play("chuff2_3.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -566,7 +566,7 @@ def D2():
                 if F_TRIGGER == True:
                     switch()
                     goto(_1)
-            await play("chuff1_4.wav", 128, 128)
+            await play("chuff2_4.wav", 128, 128)
             _next = _exit()
             if _next:
                 goto(_next)
@@ -579,3 +579,4 @@ def D2():
                 _next = _exit()
                 if _next:
                     goto(_next)
+

@@ -1,0 +1,27 @@
+# Air pump
+def init():
+    while True:
+        if not F_DRIVING:
+            goto(stopped)
+
+def stopped():
+    V_TIMER_1S = rand(60, 120)
+    await play("Air pump init", 128, 128)
+    while True:
+        if V_TIMER_1S == 0:
+            goto(playing)
+        if F_DRIVING:
+            goto(init)
+
+def playing():
+    V_TIMER_1S = 6
+    while True:
+        await play("Air pump", 128, 128)
+        if V_TIMER_1S == 0:
+            goto(exit)
+        if F_DRIVING:
+            goto(exit)
+
+def exit():
+    await play("Air pump exit", 128, 128)
+    goto(init)

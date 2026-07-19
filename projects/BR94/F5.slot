@@ -1,0 +1,15 @@
+# Coal shoveling
+def init():
+    while not F_FUNCTION:
+        pass
+    goto(playing)
+
+def exit():
+    goto(init)
+
+def playing():
+    await play("Coal shoveling init", 128, 128)
+    while F_FUNCTION:
+        await play("Coal shoveling", 128, 128)
+    await play("Coal shoveling exit", 128, 128)
+    goto(exit)

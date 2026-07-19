@@ -1,0 +1,217 @@
+[
+    {
+        "name": "Speed0a_1.wav",
+        "path": "0.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed0a_2.wav",
+        "path": "1.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed0a_3.wav",
+        "path": "2.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed0a_4.wav",
+        "path": "3.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed2g_1.wav",
+        "path": "4.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed2g_2.wav",
+        "path": "5.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed2g_3.wav",
+        "path": "6.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed2g_4.wav",
+        "path": "7.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed3g_1.wav",
+        "path": "8.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed3g_2.wav",
+        "path": "9.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed3g_3.wav",
+        "path": "10.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed3g_4.wav",
+        "path": "11.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed4g_1.wav",
+        "path": "12.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed4g_2.wav",
+        "path": "13.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed4g_3.wav",
+        "path": "14.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed4g_4.wav",
+        "path": "15.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed5g_1.wav",
+        "path": "16.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed5g_2.wav",
+        "path": "17.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed5g_3.wav",
+        "path": "18.wav",
+        "volume": 128
+    },
+    {
+        "name": "Speed5g_4.wav",
+        "path": "19.wav",
+        "volume": 128
+    },
+    {
+        "name": "Boiler hiss",
+        "path": "20.wav",
+        "volume": 128
+    },
+    {
+        "name": "Brake squeal",
+        "path": "21.wav",
+        "volume": 128
+    },
+    {
+        "name": "Water outlet",
+        "path": "22.wav",
+        "volume": 128
+    },
+    {
+        "name": "Air pump init",
+        "path": "23.wav",
+        "volume": 128
+    },
+    {
+        "name": "Air pump",
+        "path": "24.wav",
+        "volume": 128
+    },
+    {
+        "name": "Air pump exit",
+        "path": "25.wav",
+        "volume": 128
+    },
+    {
+        "name": "Bell init",
+        "path": "26.wav",
+        "volume": 128
+    },
+    {
+        "name": "Bell",
+        "path": "27.wav",
+        "volume": 128
+    },
+    {
+        "name": "Bell exit",
+        "path": "28.wav",
+        "volume": 128
+    },
+    {
+        "name": "Coal shoveling init",
+        "path": "29.wav",
+        "volume": 128
+    },
+    {
+        "name": "Coal shoveling",
+        "path": "30.wav",
+        "volume": 128
+    },
+    {
+        "name": "Coal shoveling exit",
+        "path": "31.wav",
+        "volume": 128
+    },
+    {
+        "name": "Generator init",
+        "path": "32.wav",
+        "volume": 128
+    },
+    {
+        "name": "Generator",
+        "path": "33.wav",
+        "volume": 128
+    },
+    {
+        "name": "Generator exit",
+        "path": "34.wav",
+        "volume": 128
+    },
+    {
+        "name": "Whistle 1",
+        "path": "35.wav",
+        "volume": 128
+    },
+    {
+        "name": "Whistle 2",
+        "path": "36.wav",
+        "volume": 128
+    },
+    {
+        "name": "Injector init",
+        "path": "37.wav",
+        "volume": 128
+    },
+    {
+        "name": "Injector",
+        "path": "38.wav",
+        "volume": 128
+    },
+    {
+        "name": "Injector exit",
+        "path": "39.wav",
+        "volume": 128
+    },
+    {
+        "name": "Whistle 3 init",
+        "path": "40.wav",
+        "volume": 128
+    },
+    {
+        "name": "Whistle 3",
+        "path": "41.wav",
+        "volume": 128
+    },
+    {
+        "name": "Whistle 3 exit",
+        "path": "42.wav",
+        "volume": 128
+    }
+]
