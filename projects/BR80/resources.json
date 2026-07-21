@@ -5,7 +5,7 @@
         "volume": 128
     },
     {
-        "name": "Water outlet",
+        "name": "Blow-off",
         "path": "1.wav",
         "volume": 128
     },

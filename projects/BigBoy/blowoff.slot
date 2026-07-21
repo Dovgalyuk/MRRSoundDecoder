@@ -1,4 +1,4 @@
-# Water outlet
+# Blow-off
 def init():
     while True:
         if F_FUNCTION:
@@ -10,7 +10,7 @@ def playing():
             goto(exit)
 
     while True:
-        await play("Water outlet", 128, 128)
+        await play("Blow-off", 128, 128)
 
 def exit():
     goto(init)
