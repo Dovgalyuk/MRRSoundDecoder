@@ -6,7 +6,6 @@ def init():
 
 def stopped():
     V_TIMER_1S = rand(50, 120)
-    await play("Injector init", 128, 128)
     while True:
         if V_TIMER_1S == 0:
             goto(playing)
@@ -15,6 +14,7 @@ def stopped():
 
 def playing():
     V_TIMER_1S = 5
+    await play("Injector init", 128, 128)
     while True:
         await play("Injector", 128, 128)
         if V_TIMER_1S == 0:

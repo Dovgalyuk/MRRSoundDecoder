@@ -6,7 +6,6 @@ def init():
 
 def stopped():
     V_TIMER_1S = rand(60, 120)
-    await play("Air pump init", 128, 128)
     while True:
         if V_TIMER_1S == 0:
             goto(playing)
@@ -15,6 +14,7 @@ def stopped():
 
 def playing():
     V_TIMER_1S = 6
+    await play("Air pump init", 128, 128)
     while True:
         await play("Air pump", 128, 128)
         if V_TIMER_1S == 0:
