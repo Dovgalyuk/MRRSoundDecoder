@@ -18,7 +18,7 @@ add_compile_options(-DCONFIG_MOUNT_POINT=".")
 add_library(SoundDecoderVMLib STATIC ../decodervm/slot.c ../decodervm/vm.c
     ../decodervm/engine.c ../decodervm/utils.c ../decodervm/project.c
     ../decodervm/cv.c ../decodervm/logger.c
-    ../audio/wave.c)
+    ../audio/wave.c ../audio/mixer.c)
 target_include_directories(SoundDecoderVMLib PUBLIC ../include)
 
 add_executable(sample sample.c player.c)

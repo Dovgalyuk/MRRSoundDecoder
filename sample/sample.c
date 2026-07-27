@@ -14,6 +14,9 @@
 #include "project.h"
 #include "cv.h"
 
+void player_tick(uint32_t delay);
+void player_clear_sample(void);
+
 void engine_hw_stop(void)
 {
 }
@@ -44,16 +47,19 @@ int main(int argc, char **argv)
     /* Start playing */
     //vm_set_slot_var(1, F_FUNCTION, 1);
     //vm_set_slot_var(32, F_FUNCTION, 1);
-    vm_set_var(C_KEY8, 1);
+    //vm_set_var(C_KEY8, 1);
+    vm_set_var(C_KEY1, 1);
     //vm_set_var(C_SLOT2, 1);
     //vm_set_var(C_SLOT22, 1);
 
-    for (int i = 0 ; i < 30000 ; ++i) {
+    for (int i = 0 ; i < 1000 ; ++i) {
         //printf("%d : %d\n", i, slot.pc);
         //slot_step(&slot);
         engine_tick(10);
         vm_tick(10);
-        //printf("speed %d accel %d\n", vm_get_var(V_SPEED), vm_get_var(V_ACCEL));
+        player_tick(10);
+        printf("speed %d accel %d\n", vm_get_var(V_SPEED), vm_get_var(V_ACCEL));
     }
     player_clear();
+    player_clear_sample();
 }

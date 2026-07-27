@@ -1,4 +1,4 @@
-set(srcs "player.c" "../../../audio/wave.c")
+set(srcs "player.c" "../../../audio/wave.c" "../../../audio/mixer.c")
 
 idf_component_register(SRCS ${srcs}
                        PRIV_REQUIRES decodervm esp_driver_i2s esp_driver_gpio

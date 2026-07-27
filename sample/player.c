@@ -16,15 +16,23 @@ static uint32_t fullsize;
 static const uint8_t header[44] = "RIFF\xff\xff\xff\x00WAVEfmt "
     "\x10\x00\x00\x00\x01\x00\x01\x00\x12\x7a\x00\x00\x24\xf4\x00\x00\x02\x00\x10\x00"
     "data\xff\xff\xff\x00";
+#define BUFFER_SIZE 2000
+static uint16_t buffer[BUFFER_SIZE];
 
 void player_init(void)
 {
     const char *filename = "tmp.wav";
     wav = fopen(filename, "wb");
     fwrite(header, sizeof(header), 1, wav);
+    fseek(wav, 0x18, SEEK_SET);
+    uint32_t samplerate = wave_get_samplerate();
+    fwrite((uint8_t*)&samplerate, sizeof(samplerate), 1, wav);
+    samplerate *= 2;
+    fwrite((uint8_t*)&samplerate, sizeof(samplerate), 1, wav);
+    fseek(wav, sizeof(header), SEEK_SET);
 }
 
-void player_clear(void)
+void player_clear_sample(void)
 {
     fseek(wav, 4, SEEK_SET);
     uint32_t t = fullsize + sizeof(header) - 8;
@@ -34,32 +42,16 @@ void player_clear(void)
     fclose(wav);
 }
 
-void player_abort_slot(Slot *slot, uint8_t subslot)
+void player_tick(uint32_t delay)
 {
-}
-
-void play_slot_delay(Slot *slot, uint8_t subslot, uint8_t delay)
-{
-    uint16_t sample = 0;
-    int samples = (delay * wave_get_samplerate()) / 1000;
-    while (samples--) {
-        fwrite(&sample, sizeof(sample), 1, wav);
+    uint16_t maxsize = wave_get_samplerate() * delay / 1000;
+    if (maxsize > BUFFER_SIZE) {
+        maxsize = BUFFER_SIZE;
     }
-}
-
-void play_slot_sound(Slot *slot, uint8_t subslot, uint16_t id,
-                     uint8_t volmin, uint8_t volmax)
-{
-    printf("%d: play %d speed %d\n", slot->id, id, engine_get_speed());
-    WaveFile *w = wave_open(id);
-    if (!w) {
-        printf("Can't open file %d\n", id);
-        exit(1);
+    uint16_t len = 0;
+    mixer_fill_buffer(buffer, maxsize, &len);
+    if (len) {
+        fullsize += len * 2;
+        fwrite(buffer, 2, len, wav);
     }
-    int16_t sample;
-    while (wave_next_sample(w, &sample)) {
-        fullsize += 2;
-        fwrite(&sample, sizeof(sample), 1, wav);
-    }
-    wave_close(w);
 }

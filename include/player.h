@@ -17,4 +17,6 @@ void play_slot_sound(Slot *slot, uint8_t subslot, uint16_t id,
 bool player_is_on(void);
 void player_set_onoff(bool onoff);
 
+void mixer_fill_buffer(uint16_t *buffer, uint16_t count, uint16_t *filled);
+
 #endif
