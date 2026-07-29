@@ -9,10 +9,10 @@ import os
 
 @dataclass
 class SlotInfo:
-    num: int
     name: str
     volume: int
     function: str
+    num: int = None
     enable: str = 'F_EXECUTING'
     file: str = None
 
@@ -90,6 +90,8 @@ class Optimizer(ast.NodeTransformer):
 
         return node
 
+slot_next = 1
+
 class Slot:
     _info: SlotInfo = None
     _used: bool = False
@@ -103,8 +105,13 @@ class Slot:
     _length: int
 
     def __init__(self, info):
+        global slot_next
         self._info = info
-        self._num = info.num
+        if info.num:
+            self._num = info.num
+        else:
+            self._num = slot_next
+        slot_next = max(slot_next + 1, self._num + 1)
         self._states = []
 
     def open_file(self, project_dir):
