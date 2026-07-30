@@ -28,3 +28,7 @@ jobs:
     - name: Test
       working-directory: ${{github.workspace}}/build
       run: ctest -C ${{env.BUILD_TYPE}}
+
+    - name: Test projects
+      working-directory: ${{github.workspace}}/projects
+      run: build.sh
