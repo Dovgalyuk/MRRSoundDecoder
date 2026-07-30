@@ -31,4 +31,4 @@ jobs:
 
     - name: Test projects
       working-directory: ${{github.workspace}}/projects
-      run: build.sh
+      run: ./build.sh
