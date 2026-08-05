@@ -217,16 +217,14 @@ class Slot:
     def _generate_cond(self, node, context, label_then, label_else):
         match node:
             case ast.Name(id='_next'):
-                # TODO: jump should work with stack?
-                accum = SlotVariable('R_ACCUM')
-                context.add_instruction(IrStore(accum))
-                context.add_instruction(IrLoad(accum))
+                # duplicate _next in stack to allow following goto or ret
+                context.add_instruction(IrDup())
                 context.add_instruction(IrLoadI(0))
                 context.add_instruction(IrCond('eq'))
-                context.add_instruction(IrJump(label_else, 't'))
-                # duplicate next to allow next goto or ret
-                context.add_instruction(IrLoad(accum))
-                context.add_instruction(IrJump(label_then))
+                context.add_instruction(IrJump(label_then, 'f'))
+                # pop unused _next which was duplicated
+                context.add_instruction(IrStore(SlotVariable('R_ACCUM')))
+                context.add_instruction(IrJump(label_else))
             case ast.Compare(ops=[ast.Eq() | ast.NotEq()], comparators=[ast.Constant(value=True) | ast.Constant(value=False)]):
                 match node.left:
                     case ast.Name(id=name):
@@ -314,7 +312,9 @@ class Slot:
         ret = IrLabel()
         st.add_instruction(retry)
         # remember the top value
+        # current level
         st.add_instruction(IrStore(accum))
+        # prev level
         st.add_instruction(IrStore(accum2))
         st.add_instruction(IrLoad(accum2))
         st.add_instruction(IrLoad(accum))
@@ -325,6 +325,7 @@ class Slot:
         st.add_instruction(IrCall())
         st.add_instruction(IrJump(retry))
         st.add_instruction(ret)
+        # put unused prev level back
         st.add_instruction(IrLoad(accum2))
         st.add_instruction(IrRet())
 

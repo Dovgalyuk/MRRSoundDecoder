@@ -313,6 +313,14 @@ void slot_step(Slot *slot)
             PUSH_DATA(v2);
         }
         break;
+    case I_DUP:
+        {
+            DPRINTF("DUP\n");
+            uint32_t v = POP_DATA();
+            PUSH_DATA(v);
+            PUSH_DATA(v);
+        }
+        break;
     case I_SET0...I_SET7:
         {
             oparg = op - I_SET0;

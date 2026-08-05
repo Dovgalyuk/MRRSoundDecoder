@@ -52,7 +52,7 @@ int main(int argc, char **argv)
     //vm_set_var(C_SLOT2, 1);
     //vm_set_var(C_SLOT22, 1);
 
-    for (int i = 0 ; i < 1000 ; ++i) {
+    for (int i = 0 ; i < 10000 ; ++i) {
         //printf("%d : %d\n", i, slot.pc);
         //slot_step(&slot);
         engine_tick(10);

@@ -187,6 +187,7 @@ bool wave_load_info(FILE *f)
     w->length = length;
     w->offset = offset;
     w->samplerate = samplerate;
+    //printf("Wave %d bits=%d samplerate=%d length=%x offset=%x\n", num, bits, samplerate, length, offset);
     return true;
 }
 

@@ -156,7 +156,7 @@ void play_slot_delay(Slot *slot, uint8_t subslot, uint8_t delay)
 void play_slot_sound(Slot *slot, uint8_t subslot, uint16_t id,
                      uint8_t volmin, uint8_t volmax)
 {
-    logger_printf(TAG " PLAY %d in %d/%d", id, slot->id, subslot);
+    logger_printf(TAG " PLAY %d in %d/%d vol=%d:%d", id, slot->id, subslot, volmin, volmax);
     SoundChannel *ch = player_acquire_channel(slot, subslot);
     if (!ch) {
         logger_printf(TAG " No available slots");

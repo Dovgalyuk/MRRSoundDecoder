@@ -29,7 +29,7 @@
 #define I_DEC               0x0f
 #define I_NEXT              0x10
 #define I_SWAP              0x18
-// 0x19
+#define I_DUP               0x19
 // 0x1a
 // 0x1b
 // 0x1c

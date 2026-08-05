@@ -347,6 +347,16 @@ class IrSwap(IrInstruction):
     def bytes(self):
         return b'\x18'
 
+class IrDup(IrInstruction):
+    def __str__(self):
+        return f'  dup'
+
+    def size(self):
+        return 1
+
+    def bytes(self):
+        return b'\x19'
+
 class IrSet(IrInstruction):
     _var = None
     _bit = None

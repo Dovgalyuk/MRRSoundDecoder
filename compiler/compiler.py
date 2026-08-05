@@ -98,13 +98,18 @@ def parse_config(tree):
 ###################################################
 
 if len(sys.argv) < 3:
-    print(f'Usage: {sys.argv[0]} <project directory> <output file>')
+    print(f'Usage: {sys.argv[0]} <project directory> <output file> [<asm directory>]')
     sys.exit(0)
 
 project_dir = sys.argv[1]
 output_name = sys.argv[2]
 #output_dir = sys.argv[2]
 #os.makedirs(output_dir, exist_ok=True)
+
+# process options
+output_asm = None
+if len(sys.argv) > 3:
+    output_asm = sys.argv[3]
 
 global_context.set_var('_prefix', '')
 
@@ -186,6 +191,8 @@ for r in resources:
     if r._used:
         r.num = rn
         rn += 1
+    else:
+        r.num = 0
 
 # substitute addresses and id's into bytecode
 for s in slots:
@@ -195,8 +202,9 @@ for s in slots:
 for s in slots:
     if not s._used:
         continue
-    # with open(os.path.join(output_dir, f'{s._num}.asm'), 'w') as f:
-    #     s.dump(f)
+    if output_asm:
+        with open(os.path.join(output_asm, f'{s._num}.asm'), 'w') as f:
+            s.dump(f)
 
 # find samplerate
 s = set()
@@ -214,6 +222,10 @@ if len(s) > 1 and min(s) * 2 != max(s):
     sys.exit(1)
 
 samplerate = max(s)
+
+output_log = None
+if output_asm:
+    output_log = open(f'{output_asm}/log.txt', 'w')
 
 # write compiled project
 output_file = open(output_name, 'wb')
@@ -233,6 +245,8 @@ for s in slots:
 
 for r in resources:
     r.save(output_file)
+    if output_log:
+        output_log.write(f'Resource {r.name} new id {r.num}\n')
 
 for p in outputs:
     p.save(output_file)
