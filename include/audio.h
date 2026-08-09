@@ -11,6 +11,7 @@ void wave_init(const char *name, uint32_t samplerate);
 bool wave_load_info(FILE *f);
 WaveFile *wave_open(uint16_t num);
 void wave_close(WaveFile *w);
+/* Returns false if it was the last sample */
 bool wave_next_sample(WaveFile *w, int16_t *sample);
 /* Length of the wave in samples */
 uint32_t wave_get_length(WaveFile *w);

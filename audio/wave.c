@@ -118,11 +118,11 @@ static void wave_fetch_sample(WaveFile *w)
 
 bool wave_next_sample(WaveFile *w, int16_t *sample)
 {
+    *sample = w->samples[w->first++];
     wave_fetch_sample(w);
     if (!w->info) {
         return false;
     }
-    *sample = w->samples[w->first++];
     return true;
 }
 

@@ -16,6 +16,7 @@ There are several ready-to-use sample sound projects.
 * hardware - several versions of PCBs for manufacturing the decoder
 * projects - ready-to-use sound projects for different locomotives
 * compiler - compiler for the sound projects
+* emulator - cab emulator for listening sounds with virtual locomotive control
 * sample - dummy player which generates wav file by interpreting the sound project
 * other directories include the source code of the firmware
 

@@ -73,11 +73,9 @@ void mixer_fill_buffer(uint16_t *buffer, uint16_t count, uint16_t *filled)
                     } else {
                         found = true;
                     }
-                /* TODO: next sample should report if it was the last one */
-                } else if (!wave_next_sample(channels[i].file, &v)) {
-                    clear = true;
                 } else {
                     found = true;
+                    clear = !wave_next_sample(channels[i].file, &v);
                     s += v * channels[i].volume_cur;
                     if (channels[i].volume_step) {
                         if (!--channels[i].volume_timer) {
@@ -143,7 +141,7 @@ static SoundChannel *player_acquire_channel(Slot *slot, uint8_t subslot)
 
 void play_slot_delay(Slot *slot, uint8_t subslot, uint8_t delay)
 {
-    logger_printf(TAG " DELAY %d in %d/%d", delay, slot->id, subslot);
+    // logger_printf(TAG " DELAY %d in %d/%d", delay, slot->id, subslot);
     SoundChannel *ch = player_acquire_channel(slot, subslot);
     if (!ch) {
         logger_printf(TAG " No available slots");
@@ -156,7 +154,7 @@ void play_slot_delay(Slot *slot, uint8_t subslot, uint8_t delay)
 void play_slot_sound(Slot *slot, uint8_t subslot, uint16_t id,
                      uint8_t volmin, uint8_t volmax)
 {
-    logger_printf(TAG " PLAY %d in %d/%d vol=%d:%d", id, slot->id, subslot, volmin, volmax);
+    // logger_printf(TAG " PLAY %d in %d/%d vol=%d:%d", id, slot->id, subslot, volmin, volmax);
     SoundChannel *ch = player_acquire_channel(slot, subslot);
     if (!ch) {
         logger_printf(TAG " No available slots");
