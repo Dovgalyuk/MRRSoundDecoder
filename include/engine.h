@@ -20,6 +20,7 @@ void engine_tick(uint32_t t);
 void engine_set_throttle(uint8_t v);
 uint8_t engine_get_speed(void);
 uint8_t engine_get_speed_step(void);
+/* Returns true for forward */
 bool engine_get_direction(void);
 void engine_set_direction(bool d);
 void engine_stop(void);

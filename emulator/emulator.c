@@ -37,14 +37,23 @@ static void *main_thread(void *arg)
         vm_tick(10);
         usleep(10 * 1000);
     }
-    player_clear();
     player_clear_emulator();
+    player_clear();
     return NULL;
 }
 
 static void command_loop(void)
 {
     while (true) {
+        usleep(50 * 1000);
+        printf("Active functions:");
+        for (int i = 0 ; i < VM_FUNCTION_KEYS ; ++i) {
+            if (vm_get_function_key(i)) {
+                printf(" F%d", i);
+            }
+        }
+        printf("\nSpeed: %d Direction: %s\n", engine_get_speed(),
+            engine_get_direction() ? "forward" : "backward");
         printf("cmd> ");
         char command[32];
         fgets(command, sizeof(command) - 1, stdin);
@@ -75,15 +84,20 @@ static void command_loop(void)
         case 'B':
             vm_queue_command(VM_CMD_BRAKE, 0, 0);
             break;
+        case 'd':
+        case 'D':
+            vm_queue_command(VM_CMD_SET_DIRECTION, !engine_get_direction(), 0);
+            break;
         case 'h':
         case 'H':
         case '?':
             printf("Available commands:\n");
-            printf("\th - display this help\n");
-            printf("\tq - quit\n");
-            printf("\tf<id> - switch function key on/off\n");
-            printf("\tt<throttle> - set throttle level\n");
-            printf("\tb - start braking\n");
+            printf("\tH - display this help\n");
+            printf("\tQ - quit\n");
+            printf("\tF<id> - switch function key on/off\n");
+            printf("\tT<throttle> - set throttle level\n");
+            printf("\tB - start braking\n");
+            printf("\tD - change direction\n");
             break;
         }
     }
@@ -104,8 +118,6 @@ int main(int argc, char **argv)
         }
     }
 
-    /* The pthread_create() call stores the thread ID into
-        corresponding element of tinfo[].  */
     pthread_t thread_id;
     int s = pthread_create(&thread_id, NULL, &main_thread, NULL);
     if (s != 0) {
@@ -113,12 +125,6 @@ int main(int argc, char **argv)
     }
 
     command_loop();
-    /* Start playing */
-    //vm_set_slot_var(1, F_FUNCTION, 1);
-    //vm_set_slot_var(32, F_FUNCTION, 1);
-    //vm_set_var(C_KEY8, 1);
-    //vm_set_var(C_SLOT2, 1);
-    //vm_set_var(C_SLOT22, 1);
 
     quit_program = true;
     pthread_join(thread_id, NULL);
