@@ -20,7 +20,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Install dependencies
-      run: apt install libpulse-dev
+      run: sudo apt-get install libpulse-dev
 
     - name: Build sample
       run: |
