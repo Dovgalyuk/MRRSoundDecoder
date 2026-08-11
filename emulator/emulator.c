@@ -56,7 +56,7 @@ static void command_loop(void)
             engine_get_direction() ? "forward" : "backward");
         printf("cmd> ");
         char command[32];
-        fgets(command, sizeof(command) - 1, stdin);
+        (void)fgets(command, sizeof(command) - 1, stdin);
         switch (command[0]) {
         case 'q':
         case 'Q':
