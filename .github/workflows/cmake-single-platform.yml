@@ -19,6 +19,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install dependencies
+      run: apt install libpulse-dev
+
     - name: Build sample
       run: |
         cmake -B ${{github.workspace}}/build_sample -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} sample
