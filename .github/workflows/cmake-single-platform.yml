@@ -26,7 +26,7 @@ jobs:
 
     - name: Build emulator
       run: |
-        cmake -B ${{github.workspace}}/build_emulator -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} sample
+        cmake -B ${{github.workspace}}/build_emulator -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} emulator
         cmake --build ${{github.workspace}}/build_emulator --config ${{env.BUILD_TYPE}}
 
     - name: Test projects
