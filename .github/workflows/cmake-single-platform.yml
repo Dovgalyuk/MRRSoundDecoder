@@ -20,12 +20,14 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Build sample
-      run: cmake -B ${{github.workspace}}/build_sample -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} sample
-      run: cmake --build ${{github.workspace}}/build_sample --config ${{env.BUILD_TYPE}}
+      run: |
+        cmake -B ${{github.workspace}}/build_sample -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} sample
+        cmake --build ${{github.workspace}}/build_sample --config ${{env.BUILD_TYPE}}
 
     - name: Build emulator
-      run: cmake -B ${{github.workspace}}/build_emulator -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} sample
-      run: cmake --build ${{github.workspace}}/build_emulator --config ${{env.BUILD_TYPE}}
+      run: |
+        cmake -B ${{github.workspace}}/build_emulator -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} sample
+        cmake --build ${{github.workspace}}/build_emulator --config ${{env.BUILD_TYPE}}
 
     - name: Test projects
       working-directory: ${{github.workspace}}/projects
