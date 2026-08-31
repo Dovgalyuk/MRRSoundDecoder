@@ -35,3 +35,11 @@ jobs:
     - name: Test projects
       working-directory: ${{github.workspace}}/projects
       run: ./build.sh
+
+    - name: decoder-esp build
+      uses: espressif/esp-idf-ci-action@v1
+      with:
+        esp_idf_version: v6.0
+        target: esp32s3
+        path: 'decoder-esp32'
+        command: './build32M.sh'
