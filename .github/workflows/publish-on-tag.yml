@@ -15,6 +15,9 @@ jobs:
     steps:
     - uses: actions/checkout@v7
 
+    - name: Refresh system packager mirrors and packages
+      run: sudo apt-get -y update
+
     - name: Install dependencies
       run: sudo apt-get install libpulse-dev
 
