@@ -4909,7 +4909,7 @@
 		(uuid "2672542d-8358-4f99-b318-bf9c945583b3")
 	)
 	(junction
-		(at 71.12 71.12)
+		(at 73.66 86.36)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "2bc955d8-50b0-44b7-adc8-7089b1520b44")
@@ -4933,7 +4933,7 @@
 		(uuid "39e5c5c9-457c-4240-b8f3-e2126422cfd0")
 	)
 	(junction
-		(at 50.8 66.04)
+		(at 53.34 81.28)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "45153a7b-a9aa-4a8a-840a-cd5e874f108f")
@@ -4945,7 +4945,7 @@
 		(uuid "48edb2ad-6d3f-4793-a1e7-07aecfe9bb67")
 	)
 	(junction
-		(at 71.12 78.74)
+		(at 73.66 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4eedce1a-5e87-4aeb-b062-29ec9335e4d9")
@@ -5017,13 +5017,13 @@
 		(uuid "8a242db4-a16d-47d8-86ea-c991abbb5c5e")
 	)
 	(junction
-		(at 50.8 76.2)
+		(at 53.34 91.44)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "8ab12ceb-5eee-41e7-850b-35123ffc9205")
 	)
 	(junction
-		(at 63.5 71.12)
+		(at 66.04 86.36)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "8ad320a2-7422-4826-ae68-31d002fd8c19")
@@ -5083,7 +5083,7 @@
 		(uuid "c6696e4a-5914-4347-ab1d-6fdc7c25fd54")
 	)
 	(junction
-		(at 38.1 71.12)
+		(at 40.64 86.36)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "eb879cc7-5901-4f37-a1bf-89dc0f659f3c")
@@ -5214,7 +5214,7 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 76.2) (xy 63.5 71.12)
+			(xy 66.04 91.44) (xy 66.04 86.36)
 		)
 		(stroke
 			(width 0)
@@ -5574,7 +5574,7 @@
 	)
 	(wire
 		(pts
-			(xy 71.12 78.74) (xy 80.01 78.74)
+			(xy 73.66 93.98) (xy 82.55 93.98)
 		)
 		(stroke
 			(width 0)
@@ -5874,7 +5874,7 @@
 	)
 	(wire
 		(pts
-			(xy 50.8 76.2) (xy 55.88 76.2)
+			(xy 53.34 91.44) (xy 58.42 91.44)
 		)
 		(stroke
 			(width 0)
@@ -5904,7 +5904,7 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 71.12) (xy 71.12 71.12)
+			(xy 66.04 86.36) (xy 73.66 86.36)
 		)
 		(stroke
 			(width 0)
@@ -5934,7 +5934,7 @@
 	)
 	(wire
 		(pts
-			(xy 50.8 66.04) (xy 55.88 66.04)
+			(xy 53.34 81.28) (xy 58.42 81.28)
 		)
 		(stroke
 			(width 0)
@@ -5964,7 +5964,7 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 71.12) (xy 63.5 66.04)
+			(xy 66.04 86.36) (xy 66.04 81.28)
 		)
 		(stroke
 			(width 0)
@@ -6294,7 +6294,7 @@
 	)
 	(wire
 		(pts
-			(xy 71.12 71.12) (xy 77.47 71.12)
+			(xy 73.66 86.36) (xy 80.01 86.36)
 		)
 		(stroke
 			(width 0)
@@ -6554,7 +6554,7 @@
 	)
 	(wire
 		(pts
-			(xy 45.72 66.04) (xy 50.8 66.04)
+			(xy 48.26 81.28) (xy 53.34 81.28)
 		)
 		(stroke
 			(width 0)
@@ -6714,7 +6714,7 @@
 	)
 	(wire
 		(pts
-			(xy 25.4 71.12) (xy 38.1 71.12)
+			(xy 27.94 86.36) (xy 40.64 86.36)
 		)
 		(stroke
 			(width 0)
@@ -6754,7 +6754,7 @@
 	)
 	(wire
 		(pts
-			(xy 45.72 76.2) (xy 50.8 76.2)
+			(xy 48.26 91.44) (xy 53.34 91.44)
 		)
 		(stroke
 			(width 0)
@@ -6814,7 +6814,7 @@
 	)
 	(wire
 		(pts
-			(xy 38.1 76.2) (xy 38.1 71.12)
+			(xy 40.64 91.44) (xy 40.64 86.36)
 		)
 		(stroke
 			(width 0)
@@ -6844,7 +6844,7 @@
 	)
 	(wire
 		(pts
-			(xy 38.1 71.12) (xy 38.1 66.04)
+			(xy 40.64 86.36) (xy 40.64 81.28)
 		)
 		(stroke
 			(width 0)
@@ -7173,7 +7173,7 @@
 		(uuid "827781f2-7e66-462b-8959-2a23c5ed234e")
 	)
 	(label "DCC"
-		(at 73.66 78.74 0)
+		(at 76.2 93.98 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7193,7 +7193,7 @@
 		(uuid "8f49b0dd-75bc-47d1-801b-8d017b1ca483")
 	)
 	(label "Track_Left"
-		(at 36.83 71.12 180)
+		(at 39.37 86.36 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -7273,7 +7273,7 @@
 		(uuid "b5dbdb98-fb93-44f6-84ef-3c6fa0efdf26")
 	)
 	(label "Track_Right"
-		(at 64.77 71.12 0)
+		(at 67.31 86.36 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -8593,7 +8593,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 71.12 86.36 0)
+		(at 73.66 101.6 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -8602,7 +8602,7 @@
 		(fields_autoplaced yes)
 		(uuid "232cc0ff-8958-41a3-8e77-552977b6b585")
 		(property "Reference" "#PWR052"
-			(at 71.12 92.71 0)
+			(at 73.66 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8611,7 +8611,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 73.025 87.63 0)
+			(at 75.565 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8620,7 +8620,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 71.12 86.36 0)
+			(at 73.66 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8629,7 +8629,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 71.12 86.36 0)
+			(at 73.66 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8638,7 +8638,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 71.12 86.36 0)
+			(at 73.66 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9063,7 +9063,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x01_Pin")
-		(at 20.32 71.12 0)
+		(at 22.86 86.36 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9071,7 +9071,7 @@
 		(dnp no)
 		(uuid "3e3f8b42-fb95-4e63-a888-35d674ca57ff")
 		(property "Reference" "J5"
-			(at 20.955 66.04 0)
+			(at 23.495 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9079,7 +9079,7 @@
 			)
 		)
 		(property "Value" "TrackLeft"
-			(at 20.955 68.58 0)
+			(at 23.495 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9087,7 +9087,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_THTPad_1.0x1.0mm_Drill0.5mm"
-			(at 20.32 71.12 0)
+			(at 22.86 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9096,7 +9096,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 20.32 71.12 0)
+			(at 22.86 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9105,7 +9105,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x01, script generated"
-			(at 20.32 71.12 0)
+			(at 22.86 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9265,7 +9265,7 @@
 	(symbol
 		(lib_name "0402,75kΩ_2")
 		(lib_id "PCM_JLCPCB-Resistors:0402,75kΩ")
-		(at 71.12 74.93 0)
+		(at 73.66 90.17 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9274,7 +9274,7 @@
 		(fields_autoplaced yes)
 		(uuid "47e23ee1-61d9-4270-ad60-c5dbff8920d8")
 		(property "Reference" "R4"
-			(at 72.898 74.93 0)
+			(at 75.438 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9283,7 +9283,7 @@
 			)
 		)
 		(property "Value" "75kΩ"
-			(at 71.12 74.93 90)
+			(at 73.66 90.17 90)
 			(do_not_autoplace yes)
 			(effects
 				(font
@@ -9292,7 +9292,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 69.342 74.93 90)
+			(at 71.882 90.17 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9301,7 +9301,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010045_UNI-ROYAL-Uniroyal-Elec-0402WGF7502TCE_C25798.pdf"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9310,7 +9310,7 @@
 			)
 		)
 		(property "Description" "62.5mW Thick Film Resistors 50V ±100ppm/°C ±1% 75kΩ 0402 Chip Resistor - Surface Mount ROHS"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9319,7 +9319,7 @@
 			)
 		)
 		(property "LCSC" "C25798"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9328,7 +9328,7 @@
 			)
 		)
 		(property "Stock" "297524"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9337,7 +9337,7 @@
 			)
 		)
 		(property "Price" "0.004USD"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9346,7 +9346,7 @@
 			)
 		)
 		(property "Process" "SMT"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9355,7 +9355,7 @@
 			)
 		)
 		(property "Minimum Qty" "20"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9364,7 +9364,7 @@
 			)
 		)
 		(property "Attrition Qty" "10"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9373,7 +9373,7 @@
 			)
 		)
 		(property "Class" "Preferred Component"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9382,7 +9382,7 @@
 			)
 		)
 		(property "Category" "Resistors,Chip Resistor - Surface Mount"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9391,7 +9391,7 @@
 			)
 		)
 		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9400,7 +9400,7 @@
 			)
 		)
 		(property "Part" "0402WGF7502TCE"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9409,7 +9409,7 @@
 			)
 		)
 		(property "Resistance" "75kΩ"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9418,7 +9418,7 @@
 			)
 		)
 		(property "Power(Watts)" "62.5mW"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9427,7 +9427,7 @@
 			)
 		)
 		(property "Type" "Thick Film Resistors"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9436,7 +9436,7 @@
 			)
 		)
 		(property "Overload Voltage (Max)" "50V"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9445,7 +9445,7 @@
 			)
 		)
 		(property "Operating Temperature Range" "-55°C~+155°C"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9454,7 +9454,7 @@
 			)
 		)
 		(property "Tolerance" "±1%"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9463,7 +9463,7 @@
 			)
 		)
 		(property "Temperature Coefficient" "±100ppm/°C"
-			(at 71.12 74.93 0)
+			(at 73.66 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9624,7 +9624,7 @@
 	)
 	(symbol
 		(lib_id "PCM_JLCPCB-Diodes:Schottky,B5817WS")
-		(at 59.69 66.04 270)
+		(at 62.23 81.28 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -9633,7 +9633,7 @@
 		(fields_autoplaced yes)
 		(uuid "56a99118-b92a-46b8-812e-6284e15705cc")
 		(property "Reference" "D2"
-			(at 59.3725 61.3819 90)
+			(at 61.9125 76.6219 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9641,7 +9641,7 @@
 			)
 		)
 		(property "Value" "PMEG2020EJ"
-			(at 59.3725 63.4281 90)
+			(at 61.9125 78.6681 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -9649,7 +9649,7 @@
 			)
 		)
 		(property "Footprint" "Diode_SMD:D_SOD-323"
-			(at 59.69 64.262 90)
+			(at 62.23 79.502 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9658,7 +9658,7 @@
 			)
 		)
 		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2308281514_hongjiacheng-B5817WS_C7420329.pdf"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9667,7 +9667,7 @@
 			)
 		)
 		(property "Description" "20V Independent Type 1A 450mV@1.0A SOD-323 Schottky Diodes ROHS"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9676,7 +9676,7 @@
 			)
 		)
 		(property "LCSC" "C7420329"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9685,7 +9685,7 @@
 			)
 		)
 		(property "Stock" "83795"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9694,7 +9694,7 @@
 			)
 		)
 		(property "Price" "0.017USD"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9703,7 +9703,7 @@
 			)
 		)
 		(property "Process" "SMT"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9712,7 +9712,7 @@
 			)
 		)
 		(property "Minimum Qty" "20"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9721,7 +9721,7 @@
 			)
 		)
 		(property "Attrition Qty" "6"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9730,7 +9730,7 @@
 			)
 		)
 		(property "Class" "Preferred Component"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9739,7 +9739,7 @@
 			)
 		)
 		(property "Category" "Diodes,Schottky Barrier Diodes (SBD)"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9748,7 +9748,7 @@
 			)
 		)
 		(property "Manufacturer" "hongjiacheng"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9757,7 +9757,7 @@
 			)
 		)
 		(property "Part" "B5817WS"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9766,7 +9766,7 @@
 			)
 		)
 		(property "Forward Voltage (Vf@If)" "450mV@1.0A"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9775,7 +9775,7 @@
 			)
 		)
 		(property "Reverse Voltage (Vr)" "20V"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9784,7 +9784,7 @@
 			)
 		)
 		(property "Average Rectified Current (Io)" "1A"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9793,7 +9793,7 @@
 			)
 		)
 		(property "Diode Configuration" "Single"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9802,7 +9802,7 @@
 			)
 		)
 		(property "Reverse Leakage Current (Ir)" "1mA@20V"
-			(at 59.69 66.04 0)
+			(at 62.23 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10226,7 +10226,7 @@
 	)
 	(symbol
 		(lib_id "power:VCC")
-		(at 50.8 66.04 0)
+		(at 53.34 81.28 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10235,7 +10235,7 @@
 		(fields_autoplaced yes)
 		(uuid "66fb3e38-47de-4831-8175-47572d7eaac8")
 		(property "Reference" "#PWR03"
-			(at 50.8 69.85 0)
+			(at 53.34 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10244,7 +10244,7 @@
 			)
 		)
 		(property "Value" "VCC"
-			(at 50.8 61.9069 0)
+			(at 53.34 77.1469 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10252,7 +10252,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 50.8 66.04 0)
+			(at 53.34 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10261,7 +10261,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 50.8 66.04 0)
+			(at 53.34 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10270,7 +10270,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"VCC\""
-			(at 50.8 66.04 0)
+			(at 53.34 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10637,7 +10637,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 50.8 76.2 0)
+		(at 53.34 91.44 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10646,7 +10646,7 @@
 		(fields_autoplaced yes)
 		(uuid "75811eba-70a0-4bc7-87ef-cf44f9f5acc1")
 		(property "Reference" "#PWR08"
-			(at 50.8 82.55 0)
+			(at 53.34 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10655,7 +10655,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 50.8 80.3331 0)
+			(at 53.34 95.5731 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10663,7 +10663,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 50.8 76.2 0)
+			(at 53.34 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10672,7 +10672,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 50.8 76.2 0)
+			(at 53.34 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10681,7 +10681,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 50.8 76.2 0)
+			(at 53.34 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10703,7 +10703,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x01_Pin")
-		(at 82.55 71.12 0)
+		(at 85.09 86.36 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -10712,7 +10712,7 @@
 		(dnp no)
 		(uuid "77fd09a9-4561-4004-9529-4f05c460255b")
 		(property "Reference" "J3"
-			(at 81.915 66.04 0)
+			(at 84.455 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10720,7 +10720,7 @@
 			)
 		)
 		(property "Value" "TrackRight"
-			(at 81.915 68.58 0)
+			(at 84.455 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10728,7 +10728,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_THTPad_1.0x1.0mm_Drill0.5mm"
-			(at 82.55 71.12 0)
+			(at 85.09 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10737,7 +10737,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 82.55 71.12 0)
+			(at 85.09 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10746,7 +10746,7 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x01, script generated"
-			(at 82.55 71.12 0)
+			(at 85.09 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10768,7 +10768,7 @@
 	)
 	(symbol
 		(lib_id "PCM_JLCPCB-Diodes:Schottky,B5817WS")
-		(at 41.91 66.04 90)
+		(at 44.45 81.28 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10777,7 +10777,7 @@
 		(fields_autoplaced yes)
 		(uuid "7a62928d-b73c-46d0-9bfd-e1d25898fd7c")
 		(property "Reference" "D1"
-			(at 42.2275 61.3819 90)
+			(at 44.7675 76.6219 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10785,7 +10785,7 @@
 			)
 		)
 		(property "Value" "PMEG2020EJ"
-			(at 42.2275 63.4281 90)
+			(at 44.7675 78.6681 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -10793,7 +10793,7 @@
 			)
 		)
 		(property "Footprint" "Diode_SMD:D_SOD-323"
-			(at 41.91 67.818 90)
+			(at 44.45 83.058 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10802,7 +10802,7 @@
 			)
 		)
 		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2308281514_hongjiacheng-B5817WS_C7420329.pdf"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10811,7 +10811,7 @@
 			)
 		)
 		(property "Description" "20V Independent Type 1A 450mV@1.0A SOD-323 Schottky Diodes ROHS"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10820,7 +10820,7 @@
 			)
 		)
 		(property "LCSC" "C7420329"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10829,7 +10829,7 @@
 			)
 		)
 		(property "Stock" "83795"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10838,7 +10838,7 @@
 			)
 		)
 		(property "Price" "0.017USD"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10847,7 +10847,7 @@
 			)
 		)
 		(property "Process" "SMT"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10856,7 +10856,7 @@
 			)
 		)
 		(property "Minimum Qty" "20"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10865,7 +10865,7 @@
 			)
 		)
 		(property "Attrition Qty" "6"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10874,7 +10874,7 @@
 			)
 		)
 		(property "Class" "Preferred Component"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10883,7 +10883,7 @@
 			)
 		)
 		(property "Category" "Diodes,Schottky Barrier Diodes (SBD)"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10892,7 +10892,7 @@
 			)
 		)
 		(property "Manufacturer" "hongjiacheng"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10901,7 +10901,7 @@
 			)
 		)
 		(property "Part" "B5817WS"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10910,7 +10910,7 @@
 			)
 		)
 		(property "Forward Voltage (Vf@If)" "450mV@1.0A"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10919,7 +10919,7 @@
 			)
 		)
 		(property "Reverse Voltage (Vr)" "20V"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10928,7 +10928,7 @@
 			)
 		)
 		(property "Average Rectified Current (Io)" "1A"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10937,7 +10937,7 @@
 			)
 		)
 		(property "Diode Configuration" "Single"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10946,7 +10946,7 @@
 			)
 		)
 		(property "Reverse Leakage Current (Ir)" "1mA@20V"
-			(at 41.91 66.04 0)
+			(at 44.45 81.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11527,7 +11527,7 @@
 	)
 	(symbol
 		(lib_id "PCM_JLCPCB-Resistors:0402,20kΩ")
-		(at 71.12 82.55 0)
+		(at 73.66 97.79 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11536,7 +11536,7 @@
 		(fields_autoplaced yes)
 		(uuid "956a7bc0-4d4c-4a8c-a8ff-272f869102a7")
 		(property "Reference" "R5"
-			(at 72.898 82.55 0)
+			(at 75.438 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11545,7 +11545,7 @@
 			)
 		)
 		(property "Value" "20kΩ"
-			(at 71.12 82.55 90)
+			(at 73.66 97.79 90)
 			(do_not_autoplace yes)
 			(effects
 				(font
@@ -11554,7 +11554,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 69.342 82.55 90)
+			(at 71.882 97.79 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11563,7 +11563,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2206010100_UNI-ROYAL-Uniroyal-Elec-0402WGF2002TCE_C25765.pdf"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11572,7 +11572,7 @@
 			)
 		)
 		(property "Description" "62.5mW Thick Film Resistors 50V ±100ppm/°C ±1% 20kΩ 0402 Chip Resistor - Surface Mount ROHS"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11581,7 +11581,7 @@
 			)
 		)
 		(property "LCSC" "C25765"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11590,7 +11590,7 @@
 			)
 		)
 		(property "Stock" "1639575"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11599,7 +11599,7 @@
 			)
 		)
 		(property "Price" "0.004USD"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11608,7 +11608,7 @@
 			)
 		)
 		(property "Process" "SMT"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11617,7 +11617,7 @@
 			)
 		)
 		(property "Minimum Qty" "20"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11626,7 +11626,7 @@
 			)
 		)
 		(property "Attrition Qty" "10"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11635,7 +11635,7 @@
 			)
 		)
 		(property "Class" "Basic Component"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11644,7 +11644,7 @@
 			)
 		)
 		(property "Category" "Resistors,Chip Resistor - Surface Mount"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11653,7 +11653,7 @@
 			)
 		)
 		(property "Manufacturer" "UNI-ROYAL(Uniroyal Elec)"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11662,7 +11662,7 @@
 			)
 		)
 		(property "Part" "0402WGF2002TCE"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11671,7 +11671,7 @@
 			)
 		)
 		(property "Resistance" "20kΩ"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11680,7 +11680,7 @@
 			)
 		)
 		(property "Power(Watts)" "62.5mW"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11689,7 +11689,7 @@
 			)
 		)
 		(property "Type" "Thick Film Resistors"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11698,7 +11698,7 @@
 			)
 		)
 		(property "Overload Voltage (Max)" "50V"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11707,7 +11707,7 @@
 			)
 		)
 		(property "Operating Temperature Range" "-55°C~+155°C"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11716,7 +11716,7 @@
 			)
 		)
 		(property "Tolerance" "±1%"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11725,7 +11725,7 @@
 			)
 		)
 		(property "Temperature Coefficient" "±100ppm/°C"
-			(at 71.12 82.55 0)
+			(at 73.66 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11862,7 +11862,7 @@
 	)
 	(symbol
 		(lib_id "PCM_JLCPCB-Diodes:Schottky,B5817WS")
-		(at 41.91 76.2 270)
+		(at 44.45 91.44 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11871,7 +11871,7 @@
 		(fields_autoplaced yes)
 		(uuid "9ed3b2e3-29a5-4bfc-b092-89687b3358ec")
 		(property "Reference" "D4"
-			(at 41.5925 71.5419 90)
+			(at 44.1325 86.7819 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11879,7 +11879,7 @@
 			)
 		)
 		(property "Value" "PMEG2020EJ"
-			(at 41.5925 73.5881 90)
+			(at 44.1325 88.8281 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -11887,7 +11887,7 @@
 			)
 		)
 		(property "Footprint" "Diode_SMD:D_SOD-323"
-			(at 41.91 74.422 90)
+			(at 44.45 89.662 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11896,7 +11896,7 @@
 			)
 		)
 		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2308281514_hongjiacheng-B5817WS_C7420329.pdf"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11905,7 +11905,7 @@
 			)
 		)
 		(property "Description" "20V Independent Type 1A 450mV@1.0A SOD-323 Schottky Diodes ROHS"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11914,7 +11914,7 @@
 			)
 		)
 		(property "LCSC" "C7420329"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11923,7 +11923,7 @@
 			)
 		)
 		(property "Stock" "83795"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11932,7 +11932,7 @@
 			)
 		)
 		(property "Price" "0.017USD"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11941,7 +11941,7 @@
 			)
 		)
 		(property "Process" "SMT"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11950,7 +11950,7 @@
 			)
 		)
 		(property "Minimum Qty" "20"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11959,7 +11959,7 @@
 			)
 		)
 		(property "Attrition Qty" "6"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11968,7 +11968,7 @@
 			)
 		)
 		(property "Class" "Preferred Component"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11977,7 +11977,7 @@
 			)
 		)
 		(property "Category" "Diodes,Schottky Barrier Diodes (SBD)"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11986,7 +11986,7 @@
 			)
 		)
 		(property "Manufacturer" "hongjiacheng"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11995,7 +11995,7 @@
 			)
 		)
 		(property "Part" "B5817WS"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12004,7 +12004,7 @@
 			)
 		)
 		(property "Forward Voltage (Vf@If)" "450mV@1.0A"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12013,7 +12013,7 @@
 			)
 		)
 		(property "Reverse Voltage (Vr)" "20V"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12022,7 +12022,7 @@
 			)
 		)
 		(property "Average Rectified Current (Io)" "1A"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12031,7 +12031,7 @@
 			)
 		)
 		(property "Diode Configuration" "Single"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12040,7 +12040,7 @@
 			)
 		)
 		(property "Reverse Leakage Current (Ir)" "1mA@20V"
-			(at 41.91 76.2 0)
+			(at 44.45 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12065,7 +12065,7 @@
 	)
 	(symbol
 		(lib_id "PCM_JLCPCB-Diodes:Schottky,B5817WS")
-		(at 59.69 76.2 90)
+		(at 62.23 91.44 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12074,7 +12074,7 @@
 		(fields_autoplaced yes)
 		(uuid "9ee4b603-b474-477c-8dac-b3da87ab88e9")
 		(property "Reference" "D3"
-			(at 60.0075 69.85 90)
+			(at 62.5475 85.09 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12082,7 +12082,7 @@
 			)
 		)
 		(property "Value" "PMEG2020EJ"
-			(at 60.0075 72.39 90)
+			(at 62.5475 87.63 90)
 			(effects
 				(font
 					(size 0.8 0.8)
@@ -12090,7 +12090,7 @@
 			)
 		)
 		(property "Footprint" "Diode_SMD:D_SOD-323"
-			(at 59.69 77.978 90)
+			(at 62.23 93.218 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12099,7 +12099,7 @@
 			)
 		)
 		(property "Datasheet" "https://wmsc.lcsc.com/wmsc/upload/file/pdf/v2/lcsc/2308281514_hongjiacheng-B5817WS_C7420329.pdf"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12108,7 +12108,7 @@
 			)
 		)
 		(property "Description" "20V Independent Type 1A 450mV@1.0A SOD-323 Schottky Diodes ROHS"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12117,7 +12117,7 @@
 			)
 		)
 		(property "LCSC" "C7420329"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12126,7 +12126,7 @@
 			)
 		)
 		(property "Stock" "83795"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12135,7 +12135,7 @@
 			)
 		)
 		(property "Price" "0.017USD"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12144,7 +12144,7 @@
 			)
 		)
 		(property "Process" "SMT"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12153,7 +12153,7 @@
 			)
 		)
 		(property "Minimum Qty" "20"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12162,7 +12162,7 @@
 			)
 		)
 		(property "Attrition Qty" "6"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12171,7 +12171,7 @@
 			)
 		)
 		(property "Class" "Preferred Component"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12180,7 +12180,7 @@
 			)
 		)
 		(property "Category" "Diodes,Schottky Barrier Diodes (SBD)"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12189,7 +12189,7 @@
 			)
 		)
 		(property "Manufacturer" "hongjiacheng"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12198,7 +12198,7 @@
 			)
 		)
 		(property "Part" "B5817WS"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12207,7 +12207,7 @@
 			)
 		)
 		(property "Forward Voltage (Vf@If)" "450mV@1.0A"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12216,7 +12216,7 @@
 			)
 		)
 		(property "Reverse Voltage (Vr)" "20V"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12225,7 +12225,7 @@
 			)
 		)
 		(property "Average Rectified Current (Io)" "1A"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12234,7 +12234,7 @@
 			)
 		)
 		(property "Diode Configuration" "Single"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12243,7 +12243,7 @@
 			)
 		)
 		(property "Reverse Leakage Current (Ir)" "1mA@20V"
-			(at 59.69 76.2 0)
+			(at 62.23 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)

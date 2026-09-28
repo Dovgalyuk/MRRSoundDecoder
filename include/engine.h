@@ -2,17 +2,9 @@
 #define ENGINE_H
 
 #include <stdint.h>
-#include <stdio.h>
 #include "vm.h"
 
 #define ENGINE_THROTTLE_STEPS 28
-#define PHYSICAL_OUTPUTS      7
-
-typedef struct OutputProps {
-    uint8_t flag_var;
-    uint8_t delay_on;
-    uint8_t delay_off;
-} OutputProps;
 
 void engine_init(void);
 void engine_tick(uint32_t t);
@@ -27,9 +19,6 @@ void engine_stop(void);
 void engine_hw_stop(void);
 void engine_brake(void);
 bool engine_can_accelerate(void);
-
-const OutputProps *engine_get_output_props(uint8_t id);
-bool engine_load_output_props(FILE *f);
 
 char *engine_get_status(void);
 

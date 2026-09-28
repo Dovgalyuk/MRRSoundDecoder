@@ -11,7 +11,6 @@ static uint8_t throttle_step;
 static uint8_t speed_step;
 /* True for forward */
 static bool direction = true;
-static OutputProps output_props[LOG_OUTPUTS];
 
 void engine_set_throttle(uint8_t v)
 {
@@ -53,35 +52,6 @@ void engine_stop(void)
 void engine_brake(void)
 {
     throttle_step = 0;
-}
-
-const OutputProps *engine_get_output_props(uint8_t id)
-{
-    if (id < LOG_OUTPUTS) {
-        return &output_props[id];
-    }
-    return NULL;
-}
-
-bool engine_load_output_props(FILE *f)
-{
-    uint8_t num;
-    if (!file_read_uint8(f, &num)) {
-        return false;
-    }
-    if (num >= LOG_OUTPUTS) {
-        return false;
-    }
-    if (!file_read_uint8(f, &output_props[num - 1].flag_var)) {
-        return false;
-    }
-    if (!file_read_uint8(f, &output_props[num - 1].delay_on)) {
-        return false;
-    }
-    if (!file_read_uint8(f, &output_props[num - 1].delay_off)) {
-        return false;
-    }
-    return true;
 }
 
 static uint16_t engine_check_load(uint16_t cv)

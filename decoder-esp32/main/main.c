@@ -20,6 +20,7 @@
 #include "player.h"
 #include "audio.h"
 #include "engine.h"
+#include "output.h"
 #include "project.h"
 #include "cv.h"
 #include "logger.h"
@@ -83,6 +84,7 @@ void app_main(void)
     /* Player uses parameters from the project */
     player_init();
     engine_init();
+    output_init();
 
     logger_printf("Free heap size after init: %" PRIu32 " bytes", esp_get_free_heap_size());
 

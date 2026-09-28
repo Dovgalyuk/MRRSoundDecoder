@@ -4,6 +4,7 @@
 #include "project.h"
 #include "vm.h"
 #include "engine.h"
+#include "output.h"
 #include "player.h"
 #include "audio.h"
 #include "utils.h"
@@ -166,7 +167,7 @@ void project_open(void)
                 goto ret;
             }
         } else if (section == SECTION_PHYSICAL_OUTPUT) {
-            if (!engine_load_output_props(f)) {
+            if (!output_load_props(f)) {
                 logger_printf("Error: can't load physical output");
                 goto ret;
             }

@@ -1,0 +1,32 @@
+name: Publish release on pushing the tag
+
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Install dependencies
+      run: sudo apt-get install libpulse-dev
+
+    - name: Build emulator
+      run: |
+        cmake -B ${{github.workspace}}/build_emulator -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} emulator
+        cmake --build ${{github.workspace}}/build_emulator --config ${{env.BUILD_TYPE}}
+
+    - name: Build test projects
+      working-directory: ${{github.workspace}}/projects
+      run: ./build.sh
+
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "./build_emulator/emulator,./projects/*.prj"

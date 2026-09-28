@@ -1,3 +1,5 @@
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include "driver/i2c_master.h"
 #include "driver/gpio.h"
 
@@ -8,17 +10,29 @@
 
 static i2c_master_bus_handle_t i2c_bus_handle;
 static i2c_master_dev_handle_t i2c_motor_handle;
+static uint8_t reg_cache[DRV8235_REG_COUNT];
 
 static void drv8235_write_reg(uint8_t reg, uint8_t val)
 {
     uint8_t data_wr[2] = {reg, val};
-    LOGGER_ERROR_CHECK(i2c_master_transmit(i2c_motor_handle, data_wr, 2, -1));
+    int err = i2c_master_transmit(i2c_motor_handle, data_wr, 2, 10);
+    if (err) {
+        logger_printf("drv8235 write error %d reg=0x%x val=0x%x", err, reg, val);
+    } else {
+        reg_cache[reg] = val;
+    }
 }
 
 uint8_t drv8235_read_reg(uint8_t reg)
 {
     uint8_t val = 0;
-    LOGGER_ERROR_CHECK(i2c_master_transmit_receive(i2c_motor_handle, &reg, 1, &val, 1, -1));
+    int err = i2c_master_transmit_receive(i2c_motor_handle, &reg, 1, &val, 1, 10);
+    if (err) {
+        /* Sometimes bus error occur for speed read operation */
+        val = reg_cache[reg];
+    } else {
+        reg_cache[reg] = val;
+    }
     return val;
 }
 
@@ -125,6 +139,10 @@ void drv8235_init(void)
     /* INV_R = INV_R_SCALE / MotorResistance */
     drv8235_write_reg(DRV8235_REG_RC_CTRL3, 1024 / 25);
 
+    /* KMC (RC_CTRL4) */
+    /* KMC = Kv * KMC_SCALE / Nr */
+    drv8235_write_reg(DRV8235_REG_RC_CTRL4, cv_read(CV_KMC));
+
     /* KP (RC_CTRL7) */
     // default 1/64
     drv8235_write_reg(DRV8235_REG_RC_CTRL7,
@@ -136,6 +154,10 @@ void drv8235_init(void)
     drv8235_write_reg(DRV8235_REG_RC_CTRL8,
         (DRV8235_KI_DIV_1 << DRV8235_RC_CTRL8_KI_DIV_POS)
         | 31); /* mult */
+
+    /* Read all */
+    //logger_printf("%lld", pdMS_TO_TICKS(1));
+    // 8589934593 = 0x200000001
 }
 
 void drv8235_set_speed(uint8_t speed)
@@ -143,17 +165,6 @@ void drv8235_set_speed(uint8_t speed)
     /* Configure Regulation & Scaling (REG_CTRL0) */
     drv8235_modify_reg(DRV8235_REG_REG_CTRL0, DRV8235_REG_CTRL0_W_SCALE_MASK,
         cv_read(CV_W_SCALE) << DRV8235_REG_CTRL0_W_SCALE_POS);
-
-    /* RC_CTRL2 */
-    // Default INV_R_SCALE = 64
-    // Default KMC_SCALE = 24x2^13
-    drv8235_write_reg(DRV8235_REG_RC_CTRL3,
-        (DRV8235_INV_R_SCALE_1024 << DRV8235_RC_CTRL2_INV_R_SCALE_POS)
-        | (cv_read(CV_KMC_SCALE) << DRV8235_RC_CTRL2_KMC_SCALE_POS));
-
-    /* KMC (RC_CTRL4) */
-    /* KMC = Kv * KMC_SCALE / Nr */
-    drv8235_write_reg(DRV8235_REG_RC_CTRL4, cv_read(CV_KMC));
 
     drv8235_write_reg(DRV8235_REG_REG_CTRL1, speed);
 }

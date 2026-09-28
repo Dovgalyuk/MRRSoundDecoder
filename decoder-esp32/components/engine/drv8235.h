@@ -35,6 +35,8 @@
 #define DRV8235_REG_RC_CTRL7         0x18  /*!< Speed Loop: PI Proportional Constant (KP / KP_DIV) (RW) */
 #define DRV8235_REG_RC_CTRL8         0x19  /*!< Speed Loop: PI Integral Constant (KI / KI_DIV) (RW) */
 
+#define DRV8235_REG_COUNT            0x20
+
 /* ========================================================================== */
 /*                             REGISTER BIT DEFINITIONS                       */
 /* ========================================================================== */
