@@ -1,0 +1,13 @@
+## IDF Component Manager Manifest File
+dependencies:
+  espressif/esp_codec_dev:
+    version: "~1.5"
+    public: true
+  espressif/usb:
+    version: "^1.4.1"
+  waveshare/esp32_s3_touch_amoled_2_06:
+    # v2 is the current board BSP line; review a future major with both IDF lines and hardware.
+    version: "^2.0.0"
+  lvgl/lvgl:
+    version: "9.5.0"
+    public: true

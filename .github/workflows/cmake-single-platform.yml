@@ -44,7 +44,7 @@ jobs:
       with:
         esp_idf_version: v6.0
         target: esp32s3
-        path: 'decoder-esp32'
+        path: 'esp32/decoder'
         command: './build32M.sh'
 
     - name: decoder-esp build v3
@@ -52,5 +52,13 @@ jobs:
       with:
         esp_idf_version: v6.0
         target: esp32s3
-        path: 'decoder-esp32'
+        path: 'esp32/decoder'
         command: './build32Mv3.sh'
+
+    - name: command station build
+      uses: espressif/esp-idf-ci-action@v1
+      with:
+        esp_idf_version: v6.0
+        target: esp32s3
+        path: 'esp32/commandStation'
+        command: 'idf.py build'

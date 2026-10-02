@@ -12,7 +12,7 @@ There are several ready-to-use sample sound projects.
 
 # Project structure
 
-* esp32 - directory where building of the firmware starts
+* esp32 - firmwares for decoder and command station
 * hardware - several versions of PCBs for manufacturing the decoder
 * projects - ready-to-use sound projects for different locomotives
 * compiler - compiler for the sound projects
@@ -25,8 +25,8 @@ There are several ready-to-use sample sound projects.
 * Get the hardware (order PCB, solder the components)
 * Build firmware
   * Install ESP32 toolkit (esp idf)
-  * Run esp32/build32M.sh (or other version)
-* Upload esp32/build32M/esp32sounddecoder.bin into the ESP32 module
+  * Run esp32/decoder/build32M.sh (or other version)
+* Upload esp32/decoder/build32M/esp32sounddecoder.bin into the ESP32 module
 * Build selected sound project with compiler/compiler.py
 * Upload built project through the web interface into the controller
 * Install the controller into the locomotive

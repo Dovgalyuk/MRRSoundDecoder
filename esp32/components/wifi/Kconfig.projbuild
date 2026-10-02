@@ -1,39 +1,60 @@
-menu "Locomotive AP Configuration"
+menu "WiFi AP/Client Configuration"
 
-    config ESP_WIFI_SSID
+    config WIFI_ON_DECODER
+        bool "Enables client connection"
+        default y
+        help
+            Flag to enable client connection to command station.
+
+    config WIFI_LOC_SSID
         string "WiFi SSID"
+        depends on WIFI_ON_DECODER
         default "train"
         help
             SSID (network name) for the example to connect to.
 
-    config ESP_WIFI_PASSWORD
+    config WIFI_LOC_PASSWORD
         string "WiFi Password"
+        depends on WIFI_ON_DECODER
         default "12345678"
         help
             WiFi password (WPA or WPA2) for the example to use.
 
-    config ESP_WIFI_CHANNEL
+    config WIFI_CS_SSID
+        string "WiFi SSID"
+        default "trains"
+        help
+            SSID (network name).
+
+    config WIFI_CS_PASSWORD
+        string "WiFi Password"
+        default "2204201425032020"
+        help
+            WiFi password (WPA or WPA2) to use.
+
+    config WIFI_CHANNEL
         int "WiFi Channel"
         range 1 13
         default 1
         help
             WiFi channel (network channel) for the example to use.
 
-    config ESP_MAX_STA_CONN
+    config MAX_STA_CONN
         int "Maximal STA connections"
         default 4
+        range 1 15
         help
             Max number of the STA connects to AP.
 
-    config ESP_GTK_REKEYING_ENABLE
+    config GTK_REKEYING_ENABLE
         bool "Enable GTK Rekeying"
         default y
         help
             Flag to enable GTK rekeying.
 
-    config ESP_GTK_REKEY_INTERVAL
+    config GTK_REKEY_INTERVAL
         int "GTK rekey interval"
-        depends on ESP_GTK_REKEYING_ENABLE
+        depends on GTK_REKEYING_ENABLE
         range 60 65535
         default 600
         help

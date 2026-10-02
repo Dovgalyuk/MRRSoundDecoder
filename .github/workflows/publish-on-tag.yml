@@ -25,6 +25,7 @@ jobs:
       run: |
         cmake -B ${{github.workspace}}/build_emulator -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} emulator
         cmake --build ${{github.workspace}}/build_emulator --config ${{env.BUILD_TYPE}}
+        cp ${{github.workspace}}/build_emulator/emulator ${{github.workspace}}/build_emulator/emulator-ubuntu
 
     - name: Build test projects
       working-directory: ${{github.workspace}}/projects
@@ -32,4 +33,5 @@ jobs:
 
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "./build_emulator/emulator,./projects/*.prj"
+        body: "Emulator executable for Ubuntu and compiled sample locomotive projects."
+        artifacts: "${{github.workspace}}/build_emulator/emulator-ubuntu,${{github.workspace}}/projects/*.prj"
